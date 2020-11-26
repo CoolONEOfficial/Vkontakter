@@ -4,19 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "Telegrammer",
+    name: "Vkontakter",
     platforms: [
         .macOS(.v10_14)
     ],
     products: [
-        .library(name: "Telegrammer", targets: ["Telegrammer"]),
-        .library(name: "TelegrammerMultipart", targets: ["TelegrammerMultipart"]),
-        .library(name: "TelegrammerCMultipartParser", targets: ["TelegrammerCMultipartParser"]),
-        .executable(name: "EchoBot", targets: ["DemoEchoBot"]),
-        .executable(name: "HelloBot", targets: ["DemoHelloBot"]),
-        .executable(name: "SchedulerBot", targets: ["DemoSchedulerBot"]),
-        .executable(name: "SpellCheckerBot", targets: ["DemoSpellCheckerBot"]),
-        .executable(name: "WebhooksLocally", targets: ["DemoWebhooksLocally"])
+        .library(name: "Vkontakter", targets: ["Vkontakter"]),
+//        .library(name: "TelegrammerMultipart", targets: ["TelegrammerMultipart"]),
+//        .library(name: "TelegrammerCMultipartParser", targets: ["TelegrammerCMultipartParser"]),
+//        .executable(name: "EchoBot", targets: ["DemoEchoBot"]),
+//        .executable(name: "HelloBot", targets: ["DemoHelloBot"]),
+//        .executable(name: "SchedulerBot", targets: ["DemoSchedulerBot"]),
+//        .executable(name: "SpellCheckerBot", targets: ["DemoSpellCheckerBot"]),
+//        .executable(name: "WebhooksLocally", targets: ["DemoWebhooksLocally"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.2.0"),
@@ -25,28 +25,28 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Telegrammer",
+            name: "Vkontakter",
             dependencies: [
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
-                .product(name: "Logging", package: "swift-log"),
-                .target(name: "TelegrammerMultipart")
+                .product(name: "Logging", package: "swift-log")
+                //.target(name: "TelegrammerMultipart")
             ]
         ),
-        .target(name: "TelegrammerCMultipartParser"),
-        .target(
-            name: "TelegrammerMultipart",
-            dependencies: [
-                .product(name: "NIO", package: "swift-nio"),
-                .product(name: "NIOHTTP1", package: "swift-nio"),
-                .target(name: "TelegrammerCMultipartParser")
-            ]
-        ),
-        .target(name: "DemoEchoBot", dependencies: ["Telegrammer"]),
-        .target(name: "DemoHelloBot", dependencies: ["Telegrammer"]),
-        .target(name: "DemoSchedulerBot", dependencies: ["Telegrammer"]),
-        .target(name: "DemoSpellCheckerBot", dependencies: ["Telegrammer"]),
-        .target(name: "DemoWebhooksLocally", dependencies: ["Telegrammer"]),
-        .testTarget(name: "TelegrammerTests", dependencies: ["Telegrammer"]),
-        .testTarget(name: "TelegrammerMultipartTests", dependencies: ["TelegrammerCMultipartParser"])
+        //.target(name: "TelegrammerCMultipartParser"),
+//        .target(
+//            name: "TelegrammerMultipart",
+//            dependencies: [
+//                .product(name: "NIO", package: "swift-nio"),
+//                .product(name: "NIOHTTP1", package: "swift-nio"),
+//                .target(name: "TelegrammerCMultipartParser")
+//            ]
+//        ),
+//        .target(name: "DemoEchoBot", dependencies: ["Vkontakter"]),
+//        .target(name: "DemoHelloBot", dependencies: ["Vkontakter"]),
+//        .target(name: "DemoSchedulerBot", dependencies: ["Vkontakter"]),
+//        .target(name: "DemoSpellCheckerBot", dependencies: ["Vkontakter"]),
+//        .target(name: "DemoWebhooksLocally", dependencies: ["Vkontakter"]),
+        //.testTarget(name: "VkontakterTests", dependencies: ["Vkontakter"])
+//        .testTarget(name: "TelegrammerMultipartTests", dependencies: ["TelegrammerCMultipartParser"])
     ]
 )
