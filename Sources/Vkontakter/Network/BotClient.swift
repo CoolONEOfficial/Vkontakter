@@ -66,7 +66,8 @@ public class BotClient {
         return client
             .execute(request: request)
             .flatMapThrowing({ (response) -> VkContainer<T> in
-                return try self.decode(response: response)
+                let test: VkContainer<T> = try self.decode(response: response)
+                return test
             })
     }
 
@@ -77,6 +78,7 @@ public class BotClient {
         guard let bytes = body.getBytes(at: 0, length: body.writerIndex) else {
             throw BotError()
         }
+        debugPrint("try to decode \(String.init(data: Data(bytes), encoding: .utf8))")
         return try JSONDecoder().decode(VkContainer<T>.self, from: Data(bytes))
     }
 

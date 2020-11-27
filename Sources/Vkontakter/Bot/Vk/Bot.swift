@@ -41,6 +41,9 @@ public final class Bot: BotProtocol {
     let boundary: String
     let clientWorker: MultiThreadedEventLoopGroup
 
+    // Vk Callback API server confirmationCode
+    public var confirmationCode: String?
+
     public convenience init(token: String) throws {
         try self.init(settings: Bot.Settings(token: token))
     }
@@ -74,7 +77,7 @@ public final class Bot: BotProtocol {
             throw error
         }
 
-        guard let result = container.result else {
+        guard let result = container.response else {
             let error = CoreError(
                 type: .server,
                 reason: "Response marked as `Ok`, but doesn't contain `result` field."
@@ -119,7 +122,8 @@ public final class Bot: BotProtocol {
         }
 
         if object is Encodable { // MultipartEncodable
-            return .typeFormData(boundary: boundary)
+            fatalError("you forgot JSONEncodable?")
+            //return .typeFormData(boundary: boundary)
         }
 
         return .empty

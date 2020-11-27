@@ -20,14 +20,14 @@ public struct VkContainer<T: Codable>: Codable {
         public var requestParams: [Dictionary<String, String>]?
     }
     
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        error = try values.decode(Error.self, forKey: .error)
-        if error == nil {
-           // let val = try decoder.container(keyedBy: CK.self)
-            result = try .init(from: decoder)
-        }
-    }
+//    public init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        error = try? values.decode(Error.self, forKey: .error)
+//        if error == nil {
+//           // let val = try decoder.container(keyedBy: CK.self)
+//            result = try .init(from: decoder)
+//        }
+//    }
     
     public var error: Error?
     
@@ -40,7 +40,7 @@ public struct VkContainer<T: Codable>: Codable {
 //    }
 //
 //    public var ok: Bool
-    public var result: T?
+    public var response: T?
     
     public var ok: Bool {
         error == nil

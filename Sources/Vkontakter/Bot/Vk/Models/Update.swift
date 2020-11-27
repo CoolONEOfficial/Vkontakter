@@ -28,6 +28,7 @@ public final class Update: Codable {
 
     public enum `Type`: String, Codable {
         case message_new
+        case confirmation
     }
     
     public var type: Type

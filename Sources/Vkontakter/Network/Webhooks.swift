@@ -13,26 +13,16 @@ import NIO
 public class Webhooks: Connection {
 
     public struct Config {
-        // swiftlint:disable:next nesting
-//        public enum Certificate {
-//            case file(url: String)
-//            case text(content: String)
-//        }
-
         public var ip: String
         public var url: String
         public var port: Int
-        //public var publicCert: Certificate?
+        public var groupId: UInt64?
 
-        public init(ip: String, url: String, port: Int//, publicCert: Certificate? = nil
-        ) {
+        public init(ip: String, url: String, port: Int, groupId: UInt64? = nil) {
             self.ip = ip
             self.url = url
-            if !Const.WebhooksSupportedPorts.contains(port) {
-                log.warning("Choosed port \(port) isn't supported by Telegram servers.")
-            }
             self.port = port
-            //self.publicCert = publicCert
+            self.groupId = groupId
         }
     }
 
