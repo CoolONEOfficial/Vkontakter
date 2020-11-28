@@ -43,6 +43,17 @@ public final class Bot: BotProtocol {
 
     // Vk Callback API server confirmationCode
     public var confirmationCode: String?
+    
+    // Vk Callback API secret key
+    private var secretKey: String?
+    
+    public func checkSecretKey(with key: String) -> Bool {
+        secretKey != nil ? key == secretKey : true
+    }
+    
+    public func setSecretKey(_ secretKey: String) {
+        self.secretKey = secretKey
+    }
 
     public convenience init(token: String) throws {
         try self.init(settings: Bot.Settings(token: token))

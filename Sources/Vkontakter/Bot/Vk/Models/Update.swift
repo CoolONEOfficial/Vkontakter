@@ -14,6 +14,7 @@ public final class Update: Codable {
     enum CodingKeys: String, CodingKey {
         case type = "type"
         case message = "object"
+        case secretKey = "secret"
 //        case editedMessage = "edited_message"
 //        case channelPost = "channel_post"
 //        case editedChannelPost = "edited_channel_post"
@@ -31,7 +32,9 @@ public final class Update: Codable {
         case confirmation
     }
     
-    public var type: Type
+    public let type: Type
+
+    public let secretKey: String
     
     public enum Object {
         public struct MessageWrapper: Codable {
