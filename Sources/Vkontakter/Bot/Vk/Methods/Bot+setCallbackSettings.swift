@@ -5,171 +5,170 @@ public extension Bot {
 
     /// Parameters container struct for `setCallbackSettings` method
     struct SetCallbackSettingsParams: JSONEncodable {
-        
+
         /// Идентификатор сообщества.
-        let groupId: UInt64
+        let groupId: Int64
         
         /// Идентификатор сервера.
-        let serverId: UInt64?
+        let serverId: Int64
         
         /// версия Callback API
-        let apiVersion: String?
+        let apiVersion: String
         
         /// Уведомления о новых сообщениях (0 — выключить, 1 — включить).
-        let messageNew: VkFlag?
+        let messageNew: VkFlag
         
         /// Уведомления об исходящем сообщении (0 — выключить, 1 — включить).
-        let messageReply: VkFlag?
+        let messageReply: VkFlag
         
         /// Уведомления о подписке на сообщения (0 — выключить, 1 — включить).
-        let messageAllow: VkFlag?
+        let messageAllow: VkFlag
         
         /// Уведомления о редактировании сообщения (0 — выключить, 1 — включить).
-        let messageEdit: VkFlag?
+        let messageEdit: VkFlag
         
         /// Уведомления о запрете на сообщения (0 — выключить, 1 — включить).
-        let messageDeny: VkFlag?
+        let messageDeny: VkFlag
         
         /// Уведомления о наборе текста сообщения ('0 — выключить, 1'' — включить).
-        let messageTypingState: VkFlag?
+        let messageTypingState: VkFlag
         
         /// Уведомления о добавлении новой фотографии (0 — выключить, 1 — включить).
-        let photoNew: VkFlag?
+        let photoNew: VkFlag
         
         /// Уведомления о добавлении новой аудиозаписи (0 — выключить, 1 — включить).
-        let audioNew: VkFlag?
+        let audioNew: VkFlag
         
         /// Уведомления о добавлении новой видеозаписи (0 — выключить, 1 — включить).
-        let videoNew: VkFlag?
+        let videoNew: VkFlag
         
         /// Уведомления о добавлении нового комментария на стене (0 — выключить, 1 — включить).
-        let wallReplyNew: VkFlag?
+        let wallReplyNew: VkFlag
         
         /// Уведомления о редактировании комментария на стене (0 — выключить, 1 — включить).
-        let wallReplyEdit: VkFlag?
+        let wallReplyEdit: VkFlag
         
         /// Уведомления об удалении комментария на стене (0 — выключить, 1 — включить).
-        let wallReplyDelete: VkFlag?
+        let wallReplyDelete: VkFlag
         
         /// Уведомления о восстановлении комментария на стене (0 — выключить, 1 — включить).
-        let wallReplyRestore: VkFlag?
+        let wallReplyRestore: VkFlag
         
         /// Уведомления о новой записи на стене (0 — выключить, 1 — включить).
-        let wallPostNew: VkFlag?
+        let wallPostNew: VkFlag
         
         /// Уведомления о репосте записи (0 — выключить, 1 — включить).
-        let wallRepost: VkFlag?
+        let wallRepost: VkFlag
         
         /// Уведомления о создании комментария в обсуждении (0 — выключить, 1 — включить).
-        let boardPostNew: VkFlag?
+        let boardPostNew: VkFlag
         
         /// Уведомления о редактировании комментария в обсуждении (0 — выключить, 1 — включить).
-        let boardPostEdit: VkFlag?
+        let boardPostEdit: VkFlag
         
         /// Уведомление о восстановлении комментария в обсуждении (0 — выключить, 1 — включить).
-        let boardPostRestore: VkFlag?
+        let boardPostRestore: VkFlag
         
         /// Уведомления об удалении комментария в обсуждении (0 — выключить, 1 — включить).
-        let boardPostDelete: VkFlag?
+        let boardPostDelete: VkFlag
         
         /// Уведомления о добавлении нового комментария к фото (0 — выключить, 1 — включить).
-        let photoCommentNew: VkFlag?
+        let photoCommentNew: VkFlag
         
         /// Уведомления о редактировании комментария к фото (0 — выключить, 1 — включить).
-        let photoCommentEdit: VkFlag?
+        let photoCommentEdit: VkFlag
         
         /// Уведомления об удалении комментария к фото (0 — выключить, 1 — включить).
-        let photoCommentDelete: VkFlag?
+        let photoCommentDelete: VkFlag
         
         /// Уведомления о восстановлении комментария к фото (0 — выключить, 1 — включить).
-        let photoCommentRestore: VkFlag?
+        let photoCommentRestore: VkFlag
         
         /// Уведомления о добавлении нового комментария к видео (0 — выключить, 1 — включить).
-        let videoCommentNew: VkFlag?
+        let videoCommentNew: VkFlag
         
         /// Уведомления о редактировании комментария к видео (0 — выключить, 1 — включить).
-        let videoCommentEdit: VkFlag?
+        let videoCommentEdit: VkFlag
         
         /// Уведомления об удалении комментария к видео (0 — выключить, 1 — включить).
-        let videoCommentDelete: VkFlag?
+        let videoCommentDelete: VkFlag
         
         /// Уведомления о восстановлении комментария к видео (0 — выключить, 1 — включить).
-        let videoCommentRestore: VkFlag?
+        let videoCommentRestore: VkFlag
         
         /// Уведомления о добавлении нового комментария к товару (0 — выключить, 1 — включить).
-        let marketCommentNew: VkFlag?
+        let marketCommentNew: VkFlag
         
         /// Уведомления о редактировании комментария к товару (0 — выключить, 1 — включить).
-        let marketCommentEdit: VkFlag?
+        let marketCommentEdit: VkFlag
         
         /// Уведомления об удалении комментария к товару (0 — выключить, 1 — включить).
-        let marketCommentDelete: VkFlag?
+        let marketCommentDelete: VkFlag
         
         /// Уведомления о восстановлении комментария к товару (0 — выключить, 1 — включить).
-        let marketCommentRestore: VkFlag?
+        let marketCommentRestore: VkFlag
         
-        let marketOrderNew: VkFlag?
+        let marketOrderNew: VkFlag
         
-        let marketOrderEdit: VkFlag?
+        let marketOrderEdit: VkFlag
         
         /// Уведомления о новом голосе в публичных опросах (0 — выключить, 1 — включить).
-        let pollVoteNew: VkFlag?
+        let pollVoteNew: VkFlag
         
         /// Уведомления о вступлении в сообщество (0 — выключить, 1 — включить).
-        let groupJoin: VkFlag?
+        let groupJoin: VkFlag
         
         /// Уведомления о выходе из сообщества (0 — выключить, 1 — включить).
-        let groupLeave: VkFlag?
+        let groupLeave: VkFlag
         
         /// Уведомления об изменении настроек (0 — выключить, 1 — включить).
-        let groupChangeSettings: VkFlag?
+        let groupChangeSettings: VkFlag
         
         /// Уведомления об изменении главной фотографии (0 — выключить, 1 — включить).
-        let groupChangePhoto: VkFlag?
+        let groupChangePhoto: VkFlag
         
         /// Уведомления об изменении руководства (0 — выключить, 1 — включить).
-        let groupOfficersEdit: VkFlag?
+        let groupOfficersEdit: VkFlag
         
         /// Уведомления об внесении пользователя в чёрный список (0 — выключить, 1 — включить).
-        let userBlock: VkFlag?
+        let userBlock: VkFlag
         
         /// Уведомления об исключении пользователя из чёрного списка (0 — выключить, 1 — включить).
-        let userUnblock: VkFlag?
+        let userUnblock: VkFlag
         
         /// уведомления о заполнении формы
-        let leadFormsNew: VkFlag?
+        let leadFormsNew: VkFlag
         
         /// Уведомления о новой отметке "Мне нравится" (0 — выключить, 1 — включить).
-        let likeAdd: VkFlag?
+        let likeAdd: VkFlag
         
         /// Уведомления о снятии отметки "Мне нравится" (0 — выключить, 1 — включить).
-        let likeRemove: VkFlag?
+        let likeRemove: VkFlag
         
-        let messageEvent: VkFlag?
+        let messageEvent: VkFlag
         
         /// Уведомление о создании подписки (0 — выключить, 1 — включить).
-        let donutSubscriptionCreate: VkFlag?
+        let donutSubscriptionCreate: VkFlag
         
         /// Уведомление о продлении подписки (0 — выключить, 1 — включить).
-        let donutSubscriptionProlonged: VkFlag?
+        let donutSubscriptionProlonged: VkFlag
         
         /// Уведомление об отмене подписки (0 — выключить, 1 — включить).
-        let donutSubscriptionCancelled: VkFlag?
+        let donutSubscriptionCancelled: VkFlag
         
         /// Уведомление об изменении стоимости подписки (0 — выключить, 1 — включить).
-        let donutSubscriptionPriceChanged: VkFlag?
+        let donutSubscriptionPriceChanged: VkFlag
         
         /// Уведомление о том, что подписка истекла (0 — выключить, 1 — включить).
-        let donutSubscriptionExpired: VkFlag?
+        let donutSubscriptionExpired: VkFlag
         
         /// Уведомление о выводе денег (0 — выключить, 1 — включить).
-        let donutMoneyWithdraw: VkFlag?
+        let donutMoneyWithdraw: VkFlag
         
         /// Уведомление об ошибке при выводе денег (0 — выключить, 1 — включить).
-        let donutMoneyWithdrawError: VkFlag?
+        let donutMoneyWithdrawError: VkFlag
         
-        
-        public init(groupId: UInt64, serverId: UInt64? = nil, apiVersion: String? = nil, messageNew: VkFlag? = nil, messageReply: VkFlag? = nil, messageAllow: VkFlag? = nil, messageEdit: VkFlag? = nil, messageDeny: VkFlag? = nil, messageTypingState: VkFlag? = nil, photoNew: VkFlag? = nil, audioNew: VkFlag? = nil, videoNew: VkFlag? = nil, wallReplyNew: VkFlag? = nil, wallReplyEdit: VkFlag? = nil, wallReplyDelete: VkFlag? = nil, wallReplyRestore: VkFlag? = nil, wallPostNew: VkFlag? = nil, wallRepost: VkFlag? = nil, boardPostNew: VkFlag? = nil, boardPostEdit: VkFlag? = nil, boardPostRestore: VkFlag? = nil, boardPostDelete: VkFlag? = nil, photoCommentNew: VkFlag? = nil, photoCommentEdit: VkFlag? = nil, photoCommentDelete: VkFlag? = nil, photoCommentRestore: VkFlag? = nil, videoCommentNew: VkFlag? = nil, videoCommentEdit: VkFlag? = nil, videoCommentDelete: VkFlag? = nil, videoCommentRestore: VkFlag? = nil, marketCommentNew: VkFlag? = nil, marketCommentEdit: VkFlag? = nil, marketCommentDelete: VkFlag? = nil, marketCommentRestore: VkFlag? = nil, marketOrderNew: VkFlag? = nil, marketOrderEdit: VkFlag? = nil, pollVoteNew: VkFlag? = nil, groupJoin: VkFlag? = nil, groupLeave: VkFlag? = nil, groupChangeSettings: VkFlag? = nil, groupChangePhoto: VkFlag? = nil, groupOfficersEdit: VkFlag? = nil, userBlock: VkFlag? = nil, userUnblock: VkFlag? = nil, leadFormsNew: VkFlag? = nil, likeAdd: VkFlag? = nil, likeRemove: VkFlag? = nil, messageEvent: VkFlag? = nil, donutSubscriptionCreate: VkFlag? = nil, donutSubscriptionProlonged: VkFlag? = nil, donutSubscriptionCancelled: VkFlag? = nil, donutSubscriptionPriceChanged: VkFlag? = nil, donutSubscriptionExpired: VkFlag? = nil, donutMoneyWithdraw: VkFlag? = nil, donutMoneyWithdrawError: VkFlag? = nil) {
+        public init(groupId: Int64, serverId: Int64, apiVersion: String, messageNew: VkFlag, messageReply: VkFlag, messageAllow: VkFlag, messageEdit: VkFlag, messageDeny: VkFlag, messageTypingState: VkFlag, photoNew: VkFlag, audioNew: VkFlag, videoNew: VkFlag, wallReplyNew: VkFlag, wallReplyEdit: VkFlag, wallReplyDelete: VkFlag, wallReplyRestore: VkFlag, wallPostNew: VkFlag, wallRepost: VkFlag, boardPostNew: VkFlag, boardPostEdit: VkFlag, boardPostRestore: VkFlag, boardPostDelete: VkFlag, photoCommentNew: VkFlag, photoCommentEdit: VkFlag, photoCommentDelete: VkFlag, photoCommentRestore: VkFlag, videoCommentNew: VkFlag, videoCommentEdit: VkFlag, videoCommentDelete: VkFlag, videoCommentRestore: VkFlag, marketCommentNew: VkFlag, marketCommentEdit: VkFlag, marketCommentDelete: VkFlag, marketCommentRestore: VkFlag, marketOrderNew: VkFlag, marketOrderEdit: VkFlag, pollVoteNew: VkFlag, groupJoin: VkFlag, groupLeave: VkFlag, groupChangeSettings: VkFlag, groupChangePhoto: VkFlag, groupOfficersEdit: VkFlag, userBlock: VkFlag, userUnblock: VkFlag, leadFormsNew: VkFlag, likeAdd: VkFlag, likeRemove: VkFlag, messageEvent: VkFlag, donutSubscriptionCreate: VkFlag, donutSubscriptionProlonged: VkFlag, donutSubscriptionCancelled: VkFlag, donutSubscriptionPriceChanged: VkFlag, donutSubscriptionExpired: VkFlag, donutMoneyWithdraw: VkFlag, donutMoneyWithdrawError: VkFlag) {
             self.groupId = groupId
             self.serverId = serverId
             self.apiVersion = apiVersion
@@ -226,10 +225,11 @@ public extension Bot {
             self.donutMoneyWithdraw = donutMoneyWithdraw
             self.donutMoneyWithdrawError = donutMoneyWithdrawError
         }
+    
     }
     
     /**
-     Позволяет задать настройки уведомлений о событиях в .
+     Позволяет задать настройки уведомлений о событиях в Callback API.
      После успешного выполнения возвращает 1.
 
      See also VK API Reference:

@@ -10,6 +10,36 @@ import Logging
 import NIO
 import NIOHTTP1
 import AsyncHTTPClient
+import SwiftyVK
+
+class VKDelegateExample: SwiftyVKDelegate {
+
+    func vkNeedsScopes(for sessionId: String) -> Scopes {
+      // Called when SwiftyVK attempts to get access to user account
+      // Should return a set of permission scopes
+        return []
+    }
+
+    func vkNeedToPresent(viewController: VKViewController) {
+      // Called when SwiftyVK wants to present UI (e.g. webView or captcha)
+      // Should display given view controller from current top view controller
+    }
+
+    func vkTokenCreated(for sessionId: String, info: [String : String]) {
+      // Called when user grants access and SwiftyVK gets new session token
+      // Can be used to run SwiftyVK requests and save session data
+    }
+
+    func vkTokenUpdated(for sessionId: String, info: [String : String]) {
+      // Called when existing session token has expired and successfully refreshed
+      // You don't need to do anything special here
+    }
+
+    func vkTokenRemoved(for sessionId: String) {
+      // Called when user was logged out
+      // Use this method to cancel all SwiftyVK requests and remove session data
+    }
+}
 
 //TODO: Implement our own LogHandler
 let log = Logger(label: "com.gp-apps.vkontakter")
@@ -71,14 +101,25 @@ public final class Bot: BotProtocol {
             proxy: proxy
         )
         self.boundary = String.random(ofLength: 20)
+        
+        VK.setUp()
+        try VK.sessions.default.logIn(rawToken: "23da22dc51175cd5e2d0e9b91ea3539579b71858caa97b0192480dc81801d48d6b981908457f765540334", expires: nil)
+        VK.API.Messages.send([ .peerId: "220373686" ])
+            .onSuccess { res in
+                debugPrint("SUCCESS \(res)")
+            }
+            .onError { err in
+                debugPrint("ERROR \(err)")
+            }
+            .send()
     }
 
     func processContainer<T: Codable>(_ container: VkContainer<T>) throws -> T {
         guard container.ok else {
             let desc = """
             Response marked as `not Ok`, it seems something wrong with request
-            Code: \(container.error?.code ?? -1)
-            \(container.error?.message ?? "Empty")
+            Code: \(container.error?.errorCode ?? -1)
+            \(container.error?.errorMessage ?? "Empty")
             """
             let error = CoreError(
                 type: .server,
@@ -100,30 +141,14 @@ public final class Bot: BotProtocol {
         let logString = """
 
         Response:
-        Code: \(container.error?.code ?? 0)
+        Code: \(container.error?.errorCode ?? 0)
         Status OK: \(container.ok)
-        Description: \(container.error?.message ?? "Empty")
+        Description: \(container.error?.errorMessage ?? "Empty")
 
         """
         log.info(logString.logMessage)
         return result
     }
-
-//    func httpBody(for object: Encodable?) throws -> HTTPClient.Body? {
-//        guard let object = object else {
-//            return nil
-//        }
-//
-//        if let object = object as? JSONEncodable {
-//            return .data(try object.encodeBody())
-//        }
-//
-////        if let object = object as? Encodable { // MultipartEncodable
-////            return .byteBuffer(try object.encodeBody(boundary: boundary))
-////        }
-//
-//        return nil
-//    }
 
     func httpHeaders(for object: Encodable?) -> HTTPHeaders {
         guard let object = object else { return HTTPHeaders() }
@@ -134,7 +159,6 @@ public final class Bot: BotProtocol {
 
         if object is Encodable { // MultipartEncodable
             fatalError("you forgot JSONEncodable?")
-            //return .typeFormData(boundary: boundary)
         }
 
         return .empty

@@ -15,9 +15,20 @@ extension String {
         return nil
     }
     
-    var beforeLastDot: Self? {
-        if let dotIndex = lastIndex(of: ".") {
+    var beforeLastDotOrComma: Self {
+        beforeLast(".") ?? beforeLast(",") ?? self
+    }
+    
+    func beforeLast(_ char: Character) -> Self? {
+        if let dotIndex = lastIndex(of: char) {
             return String(self[startIndex ... dotIndex])
+        }
+        return nil
+    }
+    
+    func afterLast(_ char: Character) -> Self? {
+        if let dotIndex = lastIndex(of: char) {
+            return String(self[dotIndex ..< endIndex])
         }
         return nil
     }

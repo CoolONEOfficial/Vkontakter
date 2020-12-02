@@ -14,6 +14,7 @@ extension String {
             .applyingTransform(.stripDiacritics, reverse: false)?
             .lowercased()
             .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "/", with: "_")
             .filter {okayChars.contains($0) } ?? self
     }
 }

@@ -5,41 +5,56 @@ public extension Bot {
 
     /// Parameters container struct for `getCallbackServers` method
     struct GetCallbackServersParams: JSONEncodable {
-        
+
         /// Идентификатор сообщества.
-        let groupId: UInt64
+        let groupId: Int64
         
         /// Идентификаторы серверов, данные о которых нужно получить. По умолчанию возвращаются все серверы.
-        let serverIds: [UInt64]?
+        let serverIds: [String]?
         
-        
-        public init(groupId: UInt64, serverIds: [UInt64]? = nil) {
+        public init(groupId: Int64, serverIds: [String]? = nil) {
             self.groupId = groupId
             self.serverIds = serverIds
         }
+    
     }
     
     struct GetCallbackServersResp: Codable {
     
         /// Идентификатор сервера.
-        let id: String?
+        let id: Int64
         
         /// Название сервера.
-        let title: String?
+        let title: String
         
         /// Идентификатор пользователя, который добавил сервер (может содержать 0).
-        let creatorId: String?
+        let creatorId: Int64
         
         /// URL сервера.
-        let url: String?
+        let url: String
         
         /// Секретный ключ.
-        let secretKey: String?
+        let secretKey: String
         
         /// Статус сервера. Возможные значения: unconfigured — адрес не задан. failed — подтвердить адрес не удалось. wait — адрес ожидает подтверждения. ok — сервер подключен.
-        let status: String?
+        public enum Status: String, Codable {
+            case adres_ozidaet_podtverzdenia = "wait"
+            case adres_ne_zadan = "unconfigured"
+            case podtverdit_adres_ne_udalos = "failed"
+            case server_podklucen = "ok"
+        }
         
+        let status: Status?
         
+        public init(id: Int64, title: String, creatorId: Int64, url: String, secretKey: String, status: Status? = nil) {
+            self.id = id
+            self.title = title
+            self.creatorId = creatorId
+            self.url = url
+            self.secretKey = secretKey
+            self.status = status
+        }
+    
     }
     
     /**

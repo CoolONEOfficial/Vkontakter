@@ -11,7 +11,7 @@ func loadHtml(_ url: URL) -> String? {
         do {
             return try String(contentsOf: url)
         } catch {
-            sleep(4)
+            sleep(1)
             continue
         }
     }
@@ -64,7 +64,7 @@ if parseMethods {
             
             let html = try SwiftSoup.parse(htmlStr!)
 
-            var desc = try html.select(".dev_method_desc").first()!.ownText()
+            var desc = try html.select(".dev_method_desc").first()!.text()
 
             let params = try html.select(".dev_params_table").first()!
                 .select(".dev_param_row").map { rowElement -> RespParameter in
@@ -98,7 +98,14 @@ if parseMethods {
     }
 }
 
+extension Element {
+    func headerText() throws -> String {
+        try select(".wk_header").text()
+    }
+}
+
 if parseTypes {
+
     let url = URL(string: "\(baseUrl)/dev/objects")!
     let htmlStr = loadHtml(url)
     let html = try SwiftSoup.parse(htmlStr!)
@@ -125,6 +132,10 @@ if parseTypes {
             blockEls.append(contentsOf: try addHtml.select(".dev_page_block"))
         }
         
+        let singleBlock = try blockEls.filter {
+            try !$0.headerText().lowercased().contains("api до")
+        }.count == 1
+
         for blockEl in blockEls {
             guard let tableEl = try blockEl.select(".wk_table").first() else { continue }
             
@@ -134,33 +145,40 @@ if parseTypes {
                 }
             }
 
-            let blockTitle = try blockEl.select(".wk_header").text().lowercased()
-            if blockTitle.contains("базовые") {
+            let blockTitle = try blockEl.headerText().lowercased()
+            if blockTitle.contains("api до") {
+                continue
+            } else if blockTitle.contains("базовые") {
                 params.append(contentsOf: try getParams(true))
-            } else if blockTitle.contains("опциональные") {
+            } else if blockTitle.contains("опциональные") || singleBlock || blockTitle.contains("api с") {
                 params.append(contentsOf: try getParams(false))
             }
         }
         
-        debugPrint("--- Write file ---")
-        
-        let name = url.absoluteString.components(separatedBy: "/").last!
-        let filename = "\(name.capitalizingFirstLetter()).swift"
-        
-        let fileURL = vkDir
-            .appendingPathComponent("Models")
-            .appendingPathComponent(filename)
-        
-        let desc = blockEls.first!.ownText()
-        
-        let swiftFile = TypeFile(description: desc, params: params, apiName: name)
-        
-        do {
-            try swiftFile.wrappedString.write(to: fileURL, atomically: false, encoding: .utf8)
-        } catch {
-            debugPrint("error \(error)")
+        if params.isEmpty {
+            debugPrint("--- Skipping file ---")
+        } else {
+            debugPrint("--- Write file ---")
+            
+            let name = url.absoluteString.components(separatedBy: "/").last!
+            let filename = "\(name.camelized.capitalizingFirstLetter()).swift"
+            
+            let fileURL = vkDir
+                .appendingPathComponent("Models")
+                .appendingPathComponent("Objects")
+                .appendingPathComponent(filename)
+            
+            let desc = singleBlock ? blockEls.first!.ownText().beforeLastDotOrComma : try blockEls.first!.text()
+            
+            let swiftFile = TypeFile(description: desc, params: params, apiName: name)
+            
+            do {
+                try swiftFile.wrappedString.write(to: fileURL, atomically: false, encoding: .utf8)
+            } catch {
+                debugPrint("error \(error)")
+            }
         }
-        break
     }
+
 }
 

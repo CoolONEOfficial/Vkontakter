@@ -5,18 +5,18 @@ public extension Bot {
 
     /// Parameters container struct for `deleteCallbackServer` method
     struct DeleteCallbackServerParams: JSONEncodable {
-        
+
         /// Идентификатор сообщества.
-        let groupId: UInt64
+        let groupId: Int64
         
         /// Идентификатор сервера, который нужно удалить.
-        let serverId: UInt64
+        let serverId: Int64
         
-        
-        public init(groupId: UInt64, serverId: UInt64) {
+        public init(groupId: Int64, serverId: Int64) {
             self.groupId = groupId
             self.serverId = serverId
         }
+    
     }
     
     /**

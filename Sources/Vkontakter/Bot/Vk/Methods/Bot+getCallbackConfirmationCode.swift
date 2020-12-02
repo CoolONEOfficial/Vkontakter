@@ -5,14 +5,14 @@ public extension Bot {
 
     /// Parameters container struct for `getCallbackConfirmationCode` method
     struct GetCallbackConfirmationCodeParams: JSONEncodable {
-        
+
         /// Идентификатор сообщества.
-        let groupId: UInt64
+        let groupId: Int64
         
-        
-        public init(groupId: UInt64) {
+        public init(groupId: Int64) {
             self.groupId = groupId
         }
+    
     }
     
     /**

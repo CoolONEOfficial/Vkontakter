@@ -30,7 +30,7 @@ extension Update {
         //TODO: Improve description algorithm, serialization/deserialization too heavy
         var resultString = "[]"
 
-        let encoder = JSONEncoder()
+        let encoder = JSONEncoder.snakeCased
         encoder.outputFormatting = .prettyPrinted
         do {
             let data = try encoder.encode(self)

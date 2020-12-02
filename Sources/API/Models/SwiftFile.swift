@@ -31,7 +31,7 @@ struct TypeFile: SwiftFile {
     let apiName: String
     
     var codeName: String {
-        apiName.capitalizingFirstLetter()
+        apiName.camelized.capitalizingFirstLetter()
     }
     
     var string: String {
@@ -43,10 +43,8 @@ struct TypeFile: SwiftFile {
          [\(codeName)](https://vk.com/dev/objects/\(apiName)
          */
         public final class \(codeName): Codable {
-            \(params.objectsContent.i(1))
-            \(params.enumsContent.i(1))
             \(params.generate.i(1))
-            \(params.generateInit().i(1))
+            \(params.generateInit)
         }
         """
     }
@@ -72,7 +70,7 @@ struct MethodExtensionFile: SwiftFile {
     }
     
     var respTypeContent: String {
-        respParams.isEmpty ? "" : "\nstruct \(respType): Codable {\n\("\n".i(1))\(respParams.generate.i(1))\n}\n".i(1)
+        respParams.isEmpty ? "" : "\nfinal class \(respType): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
     }
     
     var paramsType: String {
@@ -84,11 +82,10 @@ struct MethodExtensionFile: SwiftFile {
         public extension Bot {
 
             /// Parameters container struct for `\(method.codeName)` method
-            struct \(paramsType): JSONEncodable {
-                \(params.objectsContent.i(2))
-                \(params.enumsContent.i(2))
+            final class \(paramsType): JSONEncodable {
+
                 \(params.generate.i(2))
-                \(params.generateInit().i(2))
+                \(params.generateInit.i(1))
             }
             \(respTypeContent)
             /**
@@ -116,76 +113,65 @@ struct MethodExtensionFile: SwiftFile {
     }
 }
 
-extension Array where Element == RespParameter {
-    private var initParams: String {
-        String(map { param in "\(param.name): \(param.typeString)\(param.required ? "" : " = nil"), " }.joined().dropLast(2))
+extension String {
+    var safeNamed: String {
+        [ "class", "enum", "type" ].contains { caseInsensitiveCompare($0) == .orderedSame } ?  "`\(self)`" : self
     }
-    
-    private var initContent: String {
-        map { param in "self.\(param.name) = \(param.name)" }.joined(separator: "\n")
-    }
-    
-    func generateInit(_ publicInit: Bool = true) -> String {
-        isEmpty ? "" : """
-        \(publicInit ? "public " : "")init(\(initParams)) {
-            \(initContent.i(1))
-        }
-        """
-    }
-    
-    var generate: String {
-        map { param in
-            var str = "let \(param.name): \(param.typeString)\n\n"
-            if let desc = param.description, !desc.isEmpty {
-                str = "/// \(desc)\n" + str
-            }
-            return str
-        }.joined()
-    }
-    
-    var objects: [RespObject] {
-        filter { resp in !RespParameter.ParamType.hardcodedCases.contains(resp.type) }
-            .compactMap { param in
-            if case let .Object(obj) = param.type, let object = obj {
-                return object
-            }
-            return nil
-        }
-    }
-    
-    var objectsContent: String {
-        let objects = self.objects
-        guard !objects.isEmpty else { return "" }
-        return "\n" + objects.map { object in
-            "struct \(object.name): Codable {\((object.params.objectsContent + object.params.enumsContent).i(1))\n\("\n".i(1))\(object.params.generate.i(1))\(object.params.generateInit().i(1))\n}\n"
-        }.joined(separator: "\n")
-    }
-    
-    var enums: [RespEnum] {
-        filter { resp in !RespParameter.ParamType.hardcodedCases.contains(resp.type) }
-            .compactMap { param in
-            if case let .Enum(en) = param.type, let _enum = en {
-                return _enum
-            }
-            return nil
-        }
-    }
+}
 
-    var enumsContent: String {
-        let enums = self.enums
-        guard !enums.isEmpty else { return "" }
-        return "\n" + enums.map { _enum in
-            let casesContent: String = _enum.cases.map {
+extension RespParameter {
+    var generate: String {
+        var str = [String]()
+        if let desc = description, !desc.isEmpty {
+            str.append("/// \(desc)\n")
+        }
+        
+        let varPart = "let \(name.safeNamed): \(typeString)"
+
+        str.append("public ")
+        switch type {
+        case _ where ParamType.typedCases.contains(type), .Array: break
+        case let .Enum(data):
+            guard let data = data else { fatalError() }
+            let casesContent: String = data.cases.map {
                 let valueStr: String
-                switch _enum.casesType {
+                switch data.casesType {
                 case .String:
                     valueStr = "\"\($0.value)\""
                 default:
                     valueStr = String(describing: $0.value)
                 }
-                return "\ncase \($0.key) = \(valueStr)".i(1)
+                return "\ncase \($0.key != $0.value as? String ? $0.key + " = " + valueStr : $0.key)".i(1)
             }.joined()
-            return "enum \(_enum.name): \(_enum.casesType.string), Codable {\(casesContent)\n}\n"
-        }.joined(separator: "\n")
+            let name = data.name.safeNamed
+            str.append("enum \(name): \(data.casesType.string!), Codable {\(casesContent)\n}\n\n")
+        case let .Typealias(data):
+            guard let data = data else { fatalError() }
+            str.append("typealias \(name.capitalizingFirstLetter()) = \(data)\n\n")
+        case let .Object(data):
+            guard let data = data else { fatalError() }
+            let initStr = data.params.generateInit
+            str.append("final class \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
+        default:
+            fatalError()
+        }
+        
+        str.append(varPart)
+        str.append("\n")
+        return str.joined()
     }
+}
+
+extension Array where Element == RespParameter {
+
+    var generate: String {
+        map { $0.generate }.joined(separator: "\n")
+    }
+    
+    var generateInit: String {
+        let initContent = map { param in "\nself.\(param.name) = \(param.name.safeNamed)" }.joined().i(1)
+        let initParams = map { param in "\(param.name): \(param.typeString)\(param.required ? "" : " = nil")" }.joined(separator: ", ")
+        return "public init(\(initParams)) {\(initContent)\n".i(1) + "}\n"
+    }
+
 }

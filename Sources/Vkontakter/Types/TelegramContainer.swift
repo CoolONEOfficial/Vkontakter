@@ -9,14 +9,8 @@
 public struct VkContainer<T: Codable>: Codable {
 
     public struct Error: Codable {
-        enum CodingKeys: String, CodingKey {
-            case code = "error_code"
-            case message = "error_message"
-            case requestParams = "request_params"
-        }
-        
-        public var code: Int
-        public var message: String
+        public var errorCode: Int
+        public var errorMessage: String
         public var requestParams: [Dictionary<String, String>]?
     }
     

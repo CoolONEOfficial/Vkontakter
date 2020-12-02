@@ -68,7 +68,7 @@ public class Dispatcher {
             return
         }
         do {
-            let update = try JSONDecoder().decode(Update.self, from: Data(data))
+            let update = try JSONDecoder.snakeCased.decode(Update.self, from: Data(data))
             enqueue(updates: [update])
         } catch {
             log.error(error.logMessage)
