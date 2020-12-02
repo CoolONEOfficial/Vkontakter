@@ -10,7 +10,6 @@ import Logging
 import NIO
 import NIOHTTP1
 import AsyncHTTPClient
-import SwiftyVK
 
 class VKDelegateExample: SwiftyVKDelegate {
 
@@ -101,17 +100,6 @@ public final class Bot: BotProtocol {
             proxy: proxy
         )
         self.boundary = String.random(ofLength: 20)
-        
-        VK.setUp()
-        try VK.sessions.default.logIn(rawToken: "23da22dc51175cd5e2d0e9b91ea3539579b71858caa97b0192480dc81801d48d6b981908457f765540334", expires: nil)
-        VK.API.Messages.send([ .peerId: "220373686" ])
-            .onSuccess { res in
-                debugPrint("SUCCESS \(res)")
-            }
-            .onError { err in
-                debugPrint("ERROR \(err)")
-            }
-            .send()
     }
 
     func processContainer<T: Codable>(_ container: VkContainer<T>) throws -> T {

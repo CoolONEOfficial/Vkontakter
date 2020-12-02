@@ -17,6 +17,8 @@ let package = Package(
         .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.18.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.2"),
+        //.package(url: "https://github.com/CoolONEOfficial/SwiftyVK.git", .branch("master")),
+        .package(path: "../../SwiftyVK")
     ],
     targets: [
         .target(
@@ -24,6 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "Logging", package: "swift-log"),
+                .product(name: "SwiftyVK", package: "SwiftyVK"),
             ]
         ),
         .target(name: "API", dependencies: ["SwiftSoup"]),
