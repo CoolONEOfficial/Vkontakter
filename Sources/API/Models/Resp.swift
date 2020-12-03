@@ -68,7 +68,7 @@ struct RespParameter {
             case .String:
                 return [
                     "строк", "полезная нагрузка", "string",
-                    "внешние сервисы", "langs",
+                    "внешние сервисы", "langs", "сообщение об ошибке",
                     "список положительных чисел, разделенных запятыми"
                 ]
             case .Double:
@@ -88,7 +88,7 @@ struct RespParameter {
             case .ContentSource:
                 return [ "источник пользовательского контента для чат-ботов" ]
             case .Flag:
-                return [ "флаг", "integer, [0,1]", "известен ли", "есть ли" ]
+                return [ "флаг", "integer, [0,1]", "известен ли", "есть ли", "возвращает 1." ]
             case .Photo:
                 return [ "объект photo" ]
             case .PhotoSize:

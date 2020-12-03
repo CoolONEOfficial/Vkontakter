@@ -27,9 +27,27 @@ extension String {
     }
     
     func afterLast(_ char: Character) -> Self? {
-        if let dotIndex = lastIndex(of: char) {
-            return String(self[dotIndex ..< endIndex])
+        if let index = lastIndex(of: char) {
+            return String(self[index ..< endIndex])
         }
         return nil
+    }
+    
+    func afterLast(_ str: String) -> Self? {
+        if let index = lastIndex(of: str) {
+            return String(self[index ..< endIndex])
+        }
+        return nil
+    }
+}
+
+extension String {
+    func indexOf(_ input: String,
+                 options: String.CompareOptions = .literal) -> String.Index? {
+        return self.range(of: input, options: options)?.lowerBound
+    }
+
+    func lastIndex(of input: String) -> String.Index? {
+        return indexOf(input, options: .backwards)
     }
 }

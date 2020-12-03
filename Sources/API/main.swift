@@ -3,8 +3,8 @@ import Foundation
 
 let baseUrl = "https://vk.com"
 
-let parseMethods = false
-let parseTypes = true
+let parseMethods = true
+let parseTypes = false
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -72,11 +72,38 @@ if parseMethods {
                 }
             
             let resultEl = try html.select(".dev_method_result").first()!
-            let additionalDesc = try resultEl.text()
-            desc += "\n ".i(1) + (additionalDesc.firstSentence ?? additionalDesc)
-            let respParams = try resultEl.select("li").compactMap { inlineEl -> RespParameter? in
-                try .from(inlineEl: inlineEl)
+            let resultElText = try resultEl.text()
+            desc += "\n ".i(1) + (resultElText.firstSentence ?? resultElText)
+            
+            let respParams: [RespParameter]
+            if let inlineEls = try? resultEl.select("li"), !inlineEls.isEmpty() {
+                let params = try inlineEls.compactMap { inlineEl -> RespParameter? in
+                    try .from(inlineEl: inlineEl)
+                }
+                respParams = [ .init(
+                    name: "items",
+                    description: nil,
+                    type: .Array(.Object(.init(name: "Item", params: params))),
+                    required: true
+                ) ]
+            } else if resultElText.contains("После успешного выполнения возвращает 1.") {
+                respParams = []
+            } else {
+                let type = try RespParameter.ParamType.allCases.findType(el: resultEl, name: "", type: "", desc: try resultEl.text())
+
+                let name: String
+                debugPrint("resultEl.text() \( try resultEl.text() )")
+                let searchText = "в поле "
+                if let entryName = resultElText.afterLast(searchText)?.dropFirst(searchText.count)  {
+                    name = String(entryName[entryName.startIndex ..< entryName.firstIndex(of: " ")!]).camelized
+                } else {
+                    let apiName = method.apiName
+                    name = apiName[apiName.lastIndex { $0.isUppercase }! ..< apiName.endIndex].lowercased()
+                }
+                
+                respParams = [ .init(name: name, description: nil, type: type, required: true) ]
             }
+            
             
             debugPrint("--- Write file ---")
             
@@ -97,6 +124,37 @@ if parseMethods {
         }
     }
 }
+
+//extension NSRegularExpression {
+//    convenience init(_ pattern: String) {
+//        do {
+//            try self.init(pattern: pattern)
+//        } catch {
+//            preconditionFailure("Illegal regular expression: \(pattern).")
+//        }
+//    }
+//}
+//
+//extension NSRegularExpression {
+//    func matches(_ string: String) -> Bool {
+//        let range = NSRange(location: 0, length: string.utf16.count)
+//        return firstMatch(in: string, options: [], range: range) != nil
+//    }
+//}
+
+//extension String {
+//    static func ~= (lhs: String, rhs: String) -> String? {
+//        guard let regex = try? NSRegularExpression(pattern: rhs) else { return nil }
+//        let range = NSRange(location: 0, length: lhs.utf16.count)
+//        if let match = regex.firstMatch(in: lhs, options: [], range: range) {
+//            let range = match.range(at:1)
+//            if let swiftRange = Range(range, in: lhs) {
+//                return String(lhs[swiftRange])
+//            }
+//        }
+//        return nil
+//    }
+//}
 
 extension Element {
     func headerText() throws -> String {
