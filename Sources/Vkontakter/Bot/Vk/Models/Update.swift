@@ -12,13 +12,13 @@
 public final class Update: Codable {
 
     public enum `Type`: String, Codable {
-        //case message_new
+        case message_new
         case confirmation
     }
     
     public let type: Type
 
-    public let secretKey: String
+    public let secret: String?
     
     public enum Object: Codable {
         case message(_ wrapper: MessageWrapper)
@@ -29,6 +29,7 @@ public final class Update: Codable {
         
         private enum CodingKeys: String, CodingKey {
             case message
+            case clientInfoo
         }
 
         enum PostTypeCodingError: Error {
@@ -36,12 +37,12 @@ public final class Update: Codable {
         }
 
         public init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            if let value = try? values.decode(MessageWrapper.self, forKey: .message) {
-                self = .message(value)
-                return
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            if let value = try? container.decode(Message.self, forKey: .message) {
+                self = .message(.init(message: value))
+            } else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Data doesn't match"))
             }
-            throw PostTypeCodingError.decoding("Whoops! \(dump(values))")
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -57,7 +58,7 @@ public final class Update: Codable {
     
     public init(type: Type, secretKey: String, object: Object) {
         self.type = type
-        self.secretKey = secretKey
+        self.secret = secretKey
         self.object = object
     }
 }

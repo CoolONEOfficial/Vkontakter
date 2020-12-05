@@ -4,61 +4,70 @@
 public extension Bot {
 
     /// Parameters container struct for `getCallbackServers` method
-    struct GetCallbackServersParams: JSONEncodable {
+    final class GetCallbackServersParams: JSONEncodable {
 
         /// Идентификатор сообщества.
-        let groupId: Int64
+        public let groupId: UInt64
         
         /// Идентификаторы серверов, данные о которых нужно получить. По умолчанию возвращаются все серверы.
-        let serverIds: [String]?
+        public let serverIds: [String]?
         
-        public init(groupId: Int64, serverIds: [String]? = nil) {
+        public init(groupId: UInt64, serverIds: [String]? = nil) {
             self.groupId = groupId
             self.serverIds = serverIds
         }
     
     }
     
-    struct GetCallbackServersResp: Codable {
+    final class GetCallbackServersResp: Codable {
     
-        /// Идентификатор сервера.
-        let id: Int64
-        
-        /// Название сервера.
-        let title: String
-        
-        /// Идентификатор пользователя, который добавил сервер (может содержать 0).
-        let creatorId: Int64
-        
-        /// URL сервера.
-        let url: String
-        
-        /// Секретный ключ.
-        let secretKey: String
-        
-        /// Статус сервера. Возможные значения: unconfigured — адрес не задан. failed — подтвердить адрес не удалось. wait — адрес ожидает подтверждения. ok — сервер подключен.
-        public enum Status: String, Codable {
-            case adres_ozidaet_podtverzdenia = "wait"
-            case adres_ne_zadan = "unconfigured"
-            case podtverdit_adres_ne_udalos = "failed"
-            case server_podklucen = "ok"
+        public final class Item: Codable {
+            
+            /// Идентификатор сервера.
+            public let id: UInt64?
+            
+            /// Название сервера.
+            public let title: String?
+            
+            /// Идентификатор пользователя, который добавил сервер (может содержать 0).
+            public let creatorId: Int64?
+            
+            /// URL сервера.
+            public let url: String?
+            
+            /// Секретный ключ.
+            public let secretKey: String?
+            
+            /// Статус сервера. Возможные значения: unconfigured — адрес не задан. failed — подтвердить адрес не удалось. wait — адрес ожидает подтверждения. ok — сервер подключен.
+            public enum Status: String, Codable {
+                case unconfigured
+                case ok
+                case wait
+                case failed
+            }
+            
+            public let status: Status?
+            
+            public init(id: UInt64? = nil, title: String? = nil, creatorId: Int64? = nil, url: String? = nil, secretKey: String? = nil, status: Status? = nil) {
+                self.id = id
+                self.title = title
+                self.creatorId = creatorId
+                self.url = url
+                self.secretKey = secretKey
+                self.status = status
+            }
         }
         
-        let status: Status?
+        public let items: [Item]
         
-        public init(id: Int64, title: String, creatorId: Int64, url: String, secretKey: String, status: Status? = nil) {
-            self.id = id
-            self.title = title
-            self.creatorId = creatorId
-            self.url = url
-            self.secretKey = secretKey
-            self.status = status
+        public init(items: [Item]) {
+            self.items = items
         }
     
     }
     
     /**
-     Получает информацию о серверах для в сообществе.
+     Получает информацию о серверах для Callback API в сообществе.
      Возвращает число серверов в поле count (integer) и массив объектов items с данными о серверах.
 
      See also VK API Reference:

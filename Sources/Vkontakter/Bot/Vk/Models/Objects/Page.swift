@@ -12,7 +12,7 @@ public final class Page: Codable {
     public let id: Int64?
     
     /// Идентификатор сообщества.
-    public let groupId: Int64?
+    public let groupId: UInt64?
     
     /// Идентификатор создателя вики-страницы.
     public let creatorId: Int64?
@@ -59,7 +59,7 @@ public final class Page: Codable {
     /// Адрес страницы для отображения вики-страницы.
     public let viewUrl: String?
     
-    public init(id: Int64? = nil, groupId: Int64? = nil, creatorId: Int64? = nil, title: String? = nil, currentUserCanEdit: VkFlag? = nil, currentUserCanEditAccess: VkFlag? = nil, whoCanView: Int64? = nil, whoCanEdit: Int64? = nil, edited: UInt64? = nil, created: UInt64? = nil, editorId: Int64? = nil, views: Int64? = nil, parent: String? = nil, parent2: String? = nil, source: String? = nil, html: String? = nil, viewUrl: String? = nil) {
+    public init(id: Int64? = nil, groupId: UInt64? = nil, creatorId: Int64? = nil, title: String? = nil, currentUserCanEdit: VkFlag? = nil, currentUserCanEditAccess: VkFlag? = nil, whoCanView: Int64? = nil, whoCanEdit: Int64? = nil, edited: UInt64? = nil, created: UInt64? = nil, editorId: Int64? = nil, views: Int64? = nil, parent: String? = nil, parent2: String? = nil, source: String? = nil, html: String? = nil, viewUrl: String? = nil) {
         self.id = id
         self.groupId = groupId
         self.creatorId = creatorId

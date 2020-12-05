@@ -34,13 +34,13 @@ public final class App: Codable {
     
     /// Тип приложения.
     public enum `Type`: String, Codable {
-        case otdelnoe_prilozenie_dla_mobilnogo_ustrojstva = "standalone"
-        case podklucaemyj_sajt = "site"
-        case socialnoe_prilozenie = "app"
-        case igra = "game"
+        case standalone
+        case game
+        case app
+        case site
     }
     
-    let `type`: Type
+    public let `type`: Type
     
     /// Категория приложения.
     public let section: String
@@ -68,12 +68,12 @@ public final class App: Codable {
     
     /// Тип турнирной таблицы.
     public enum LeaderboardType: Int64, Codable {
-        case po_urovnu = 1
         case ne_podderzivaetsa = 0
+        case po_urovnu = 1
         case po_ockam = 2
     }
     
-    let leaderboardType: LeaderboardType
+    public let leaderboardType: LeaderboardType
     
     /// Идентификатор жанра
     public let genreId: Int64
@@ -103,7 +103,7 @@ public final class App: Codable {
         case tolko_albomnaa = 1
     }
     
-    let screenOrientation: ScreenOrientation
+    public let screenOrientation: ScreenOrientation
     
     /// Тип элементов управления игрой на мобильных устройствах.
     public let mobileControlsType: VkFlag
@@ -128,12 +128,12 @@ public final class App: Codable {
         }
     }
     
-    let screenshots: Screenshots?
+    public let screenshots: [Screenshots]?
     
     /// , если у пользователя включены уведомления из этого приложения.
     public let pushEnabled: VkFlag?
     
-    public init(id: Int64, title: String, icon278: String, icon139: String, icon150: String, icon75: String, banner560: String, banner1120: String, type: Type, section: String, authorUrl: String, authorId: Int64, authorGroup: Int64, membersCount: Int64, publishedDate: UInt64, catalogPosition: Int64, international: VkFlag, leaderboardType: LeaderboardType, genreId: Int64, genre: String, platformId: String, isInCatalog: VkFlag, friends: [Int64], installed: VkFlag, isHtml5App: Int64, screenOrientation: ScreenOrientation, mobileControlsType: VkFlag, mobileViewSupportType: VkFlag, description: String? = nil, screenName: String? = nil, icon16: String? = nil, screenshots: Screenshots? = nil, pushEnabled: VkFlag? = nil) {
+    public init(id: Int64, title: String, icon278: String, icon139: String, icon150: String, icon75: String, banner560: String, banner1120: String, type: Type, section: String, authorUrl: String, authorId: Int64, authorGroup: Int64, membersCount: Int64, publishedDate: UInt64, catalogPosition: Int64, international: VkFlag, leaderboardType: LeaderboardType, genreId: Int64, genre: String, platformId: String, isInCatalog: VkFlag, friends: [Int64], installed: VkFlag, isHtml5App: Int64, screenOrientation: ScreenOrientation, mobileControlsType: VkFlag, mobileViewSupportType: VkFlag, description: String? = nil, screenName: String? = nil, icon16: String? = nil, screenshots: [Screenshots]? = nil, pushEnabled: VkFlag? = nil) {
         self.id = id
         self.title = title
         self.icon278 = icon278

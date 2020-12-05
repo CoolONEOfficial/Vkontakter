@@ -63,7 +63,7 @@ public final class User: Codable {
     public final class Career: Codable {
         
         /// Идентификатор сообщества (если доступно, иначе company).
-        public let groupId: Int64?
+        public let groupId: UInt64?
         
         /// Название компании (если доступно, иначе group_id).
         public let company: String?
@@ -86,7 +86,7 @@ public final class User: Codable {
         /// Должность.
         public let position: String?
         
-        public init(groupId: Int64? = nil, company: String? = nil, countryId: Int64? = nil, cityId: Int64? = nil, cityName: String? = nil, from: Int64? = nil, until: Int64? = nil, position: String? = nil) {
+        public init(groupId: UInt64? = nil, company: String? = nil, countryId: Int64? = nil, cityId: Int64? = nil, cityName: String? = nil, from: Int64? = nil, until: Int64? = nil, position: String? = nil) {
             self.groupId = groupId
             self.company = company
             self.countryId = countryId
@@ -98,7 +98,7 @@ public final class User: Codable {
         }
     }
     
-    let career: Career?
+    public let career: Career?
     
     /// Информация о городе, указанном на странице пользователя в разделе «Контакты».
     public final class City: Codable {
@@ -115,7 +115,7 @@ public final class User: Codable {
         }
     }
     
-    let city: City?
+    public let city: City?
     
     /// Количество общих друзей с текущим пользователем.
     public let commonCount: Int64?
@@ -138,7 +138,7 @@ public final class User: Codable {
         }
     }
     
-    let contacts: Contacts?
+    public let contacts: Contacts?
     
     /// Количество различных объектов у пользователя. Поле возвращается только в методе при запросе информации об одном пользователе, с передачей пользовательского .
     public final class Counters: Codable {
@@ -184,7 +184,7 @@ public final class User: Codable {
             }
         }
         
-        let pages: Pages?
+        public let pages: Pages?
         
         public init(albums: Int64? = nil, videos: Int64? = nil, audios: Int64? = nil, photos: Int64? = nil, notes: Int64? = nil, friends: Int64? = nil, groups: Int64? = nil, onlineFriends: Int64? = nil, mutualFriends: Int64? = nil, userVideos: Int64? = nil, followers: Int64? = nil, pages: Pages? = nil) {
             self.albums = albums
@@ -202,7 +202,7 @@ public final class User: Codable {
         }
     }
     
-    let counters: Counters?
+    public let counters: Counters?
     
     /// Информация о стране, указанной на странице пользователя в разделе «Контакты».
     public final class Country: Codable {
@@ -219,7 +219,7 @@ public final class User: Codable {
         }
     }
     
-    let country: Country?
+    public let country: Country?
     
     /// Возвращает данные о точках, по которым вырезаны профильная и миниатюрная фотографии пользователя, при наличии.
     public final class CropPhoto: Codable {
@@ -250,12 +250,12 @@ public final class User: Codable {
             }
         }
         
-        let crop: Crop?
+        public let crop: Crop?
         
         /// Миниатюрная квадратная фотография, вырезанная из фотографии crop. Содержит набор полей, аналогичный объекту crop.
         public typealias Rect = Crop
         
-        let rect: Rect?
+        public let rect: Rect?
         
         public init(photo: VkPhoto? = nil, crop: Crop? = nil, rect: Rect? = nil) {
             self.photo = photo
@@ -264,7 +264,7 @@ public final class User: Codable {
         }
     }
     
-    let cropPhoto: CropPhoto?
+    public let cropPhoto: CropPhoto?
     
     /// Короткий адрес страницы. Возвращается строка, содержащая короткий адрес страницы (например, ). Если он не назначен, возвращается +, например, .
     public let domain: String?
@@ -296,35 +296,35 @@ public final class User: Codable {
         }
     }
     
-    let education: Education?
+    public let education: Education?
     
     /// Внешние сервисы, в которые настроен экспорт из ВК ().
     public let exports: String?
     
     /// Имя в заданном падеже.
     public enum FirstName: String, Codable {
-        case tvoritelnyj = "ins"
-        case roditelnyj = "gen"
-        case imenitelnyj = "nom"
-        case predloznyj = "abl"
-        case datelnyj = "dat"
-        case vinitelnyj = "acc"
+        case gen
+        case dat
+        case nom
+        case acc
+        case ins
+        case abl
     }
     
-    let firstNameCase: FirstName?
+    public let firstNameCase: FirstName?
     
     /// Количество подписчиков пользователя.
     public let followersCount: Int64?
     
     /// Статус дружбы с пользователем.
     public enum FriendStatus: Int64, Codable {
-        case imeetsa_vhodasaa_zaavka_podpiska_ot_polzovatela = 2
-        case avlaetsa_drugom = 3
         case ne_avlaetsa_drugom = 0
+        case imeetsa_vhodasaa_zaavka_podpiska_ot_polzovatela = 2
         case otpravlena_zaavka_podpiska_polzovatelu = 1
+        case avlaetsa_drugom = 3
     }
     
-    let friendStatus: FriendStatus?
+    public let friendStatus: FriendStatus?
     
     /// Содержимое поля «Любимые игры» из профиля.
     public let games: String?
@@ -352,15 +352,15 @@ public final class User: Codable {
     
     /// Фамилия в заданном падеже.
     public enum LastName: String, Codable {
-        case roditelnyj = "gen"
-        case tvoritelnyj = "ins"
-        case datelnyj = "dat"
-        case vinitelnyj = "acc"
-        case imenitelnyj = "nom"
-        case predloznyj = "abl"
+        case nom
+        case ins
+        case gen
+        case abl
+        case dat
+        case acc
     }
     
-    let lastNameCase: LastName?
+    public let lastNameCase: LastName?
     
     /// Время последнего посещения.
     public final class LastSeen: Codable {
@@ -370,16 +370,16 @@ public final class User: Codable {
         
         /// Тип платформы. Возможные значения: 1 — мобильная версия. 2 — приложение для iPhone. 3 — приложение для iPad. 4 — приложение для Android. 5 — приложение для Windows Phone. 6 — приложение для Windows 10. 7 — полная версия сайта.
         public enum Platform: Int64, Codable {
-            case prilozenie_dla_windows_10 = 6
-            case prilozenie_dla_ipad = 3
-            case mobilnaa_versia = 1
             case prilozenie_dla_iphone = 2
-            case prilozenie_dla_windows_phone = 5
+            case prilozenie_dla_ipad = 3
+            case prilozenie_dla_windows_10 = 6
             case prilozenie_dla_android = 4
+            case mobilnaa_versia = 1
             case polnaa_versia_sajta = 7
+            case prilozenie_dla_windows_phone = 5
         }
         
-        let platform: Platform?
+        public let platform: Platform?
         
         public init(time: UInt64? = nil, platform: Platform? = nil) {
             self.time = time
@@ -387,7 +387,7 @@ public final class User: Codable {
         }
     }
     
-    let lastSeen: LastSeen?
+    public let lastSeen: LastSeen?
     
     /// Разделенные запятой идентификаторы списков друзей, в которых состоит пользователь. Поле доступно только для метода .
     public let lists: String?
@@ -422,7 +422,7 @@ public final class User: Codable {
         }
     }
     
-    let military: Military?
+    public let military: Military?
     
     /// Содержимое поля «Любимые фильмы» из профиля пользователя.
     public let movies: String?
@@ -438,12 +438,12 @@ public final class User: Codable {
         
         /// Тип. Возможные значения: work — работа. school — среднее образование. university — высшее образование.
         public enum `Type`: String, Codable {
-            case srednee_obrazovanie = "school"
-            case vyssee_obrazovanie = "university"
-            case rabota = "work"
+            case school
+            case work
+            case university
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         /// Идентификатор школы, вуза, сообщества компании (в которой пользователь работает).
         public let id: Int64?
@@ -458,7 +458,7 @@ public final class User: Codable {
         }
     }
     
-    let occupation: Occupation?
+    public let occupation: Occupation?
     
     /// Информация о том, находится ли пользователь сейчас на сайте. Если пользователь использует мобильное приложение либо мобильную версию, возвращается дополнительное поле , содержащее . При этом, если используется именно приложение, дополнительно возвращается поле , содержащее его идентификатор.
     public let online: VkFlag?
@@ -468,18 +468,18 @@ public final class User: Codable {
         
         /// Политические предпочтения. Возможные значения: 1 — коммунистические. 2 — социалистические. 3 — умеренные. 4 — либеральные. 5 — консервативные. 6 — монархические. 7 — ультраконсервативные. 8 — индифферентные. 9 — либертарианские.
         public enum Political: Int64, Codable {
-            case liberalnye = 4
-            case umerennye = 3
-            case kommunisticeskie = 1
-            case konservativnye = 5
-            case monarhiceskie = 6
-            case socialisticeskie = 2
             case libertarianskie = 9
-            case ultrakonservativnye = 7
+            case socialisticeskie = 2
+            case monarhiceskie = 6
+            case konservativnye = 5
+            case liberalnye = 4
+            case kommunisticeskie = 1
+            case umerennye = 3
             case indifferentnye = 8
+            case ultrakonservativnye = 7
         }
         
-        let political: Political?
+        public let political: Political?
         
         /// Языки.
         public let langs: [String]?
@@ -492,51 +492,51 @@ public final class User: Codable {
         
         /// Главное в людях. Возможные значения: 1 — ум и креативность. 2 — доброта и честность. 3 — красота и здоровье. 4 — власть и богатство. 5 — смелость и упорство. 6 — юмор и жизнелюбие.
         public enum PeopleMain: Int64, Codable {
-            case dobrota_i_cestnost = 2
-            case vlast_i_bogatstvo = 4
-            case krasota_i_zdorove = 3
             case smelost_i_uporstvo = 5
-            case um_i_kreativnost = 1
             case umor_i_ziznelubie = 6
+            case dobrota_i_cestnost = 2
+            case krasota_i_zdorove = 3
+            case um_i_kreativnost = 1
+            case vlast_i_bogatstvo = 4
         }
         
-        let peopleMain: PeopleMain?
+        public let peopleMain: PeopleMain?
         
         /// Главное в жизни. Возможные значения: 1 — семья и дети. 2 — карьера и деньги. 3 — развлечения и отдых. 4 — наука и исследования. 5 — совершенствование мира. 6 — саморазвитие. 7 — красота и искусство. 8 — слава и влияние.
         public enum LifeMain: Int64, Codable {
-            case nauka_i_issledovania = 4
-            case samorazvitie = 6
-            case sema_i_deti = 1
+            case soversenstvovanie_mira = 5
+            case karera_i_dengi = 2
+            case krasota_i_iskusstvo = 7
             case slava_i_vlianie = 8
             case razvlecenia_i_otdyh = 3
-            case soversenstvovanie_mira = 5
-            case krasota_i_iskusstvo = 7
-            case karera_i_dengi = 2
+            case sema_i_deti = 1
+            case nauka_i_issledovania = 4
+            case samorazvitie = 6
         }
         
-        let lifeMain: LifeMain?
+        public let lifeMain: LifeMain?
         
         /// Отношение к курению. Возможные значения: 1 — резко негативное. 2 — негативное. 3 — компромиссное. 4 — нейтральное. 5 — положительное.
         public enum Smoking: Int64, Codable {
-            case nejtralnoe = 4
-            case negativnoe = 2
             case polozitelnoe = 5
-            case rezko_negativnoe = 1
             case kompromissnoe = 3
+            case nejtralnoe = 4
+            case rezko_negativnoe = 1
+            case negativnoe = 2
         }
         
-        let smoking: Smoking?
+        public let smoking: Smoking?
         
         /// Отношение к алкоголю. Возможные значения: 1 — резко негативное. 2 — негативное. 3 — компромиссное. 4 — нейтральное. 5 — положительное.
         public enum Alcohol: Int64, Codable {
-            case negativnoe = 2
             case nejtralnoe = 4
-            case kompromissnoe = 3
-            case rezko_negativnoe = 1
             case polozitelnoe = 5
+            case negativnoe = 2
+            case rezko_negativnoe = 1
+            case kompromissnoe = 3
         }
         
-        let alcohol: Alcohol?
+        public let alcohol: Alcohol?
         
         public init(political: Political? = nil, langs: [String]? = nil, religion: String? = nil, inspiredBy: String? = nil, peopleMain: PeopleMain? = nil, lifeMain: LifeMain? = nil, smoking: Smoking? = nil, alcohol: Alcohol? = nil) {
             self.political = political
@@ -550,7 +550,7 @@ public final class User: Codable {
         }
     }
     
-    let personal: Personal?
+    public let personal: Personal?
     
     /// Url фотографии пользователя, имеющей ширину 50 пикселей. В случае отсутствия у пользователя фотографии возвращается .
     public let photo50: String?
@@ -590,14 +590,14 @@ public final class User: Codable {
         
         /// Тип родственной связи. Возможные значения: child — сын/дочь. sibling — брат/сестра. parent — отец/мать. grandparent — дедушка/бабушка. grandchild — внук/внучка.
         public enum `Type`: String, Codable {
-            case vnuk_vnucka = "grandchild"
-            case syn_doc = "child"
-            case deduska_babuska = "grandparent"
-            case brat_sestra = "sibling"
-            case otec_mat = "parent"
+            case parent
+            case sibling
+            case grandparent
+            case child
+            case grandchild
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         public init(id: Int64? = nil, name: String? = nil, type: Type? = nil) {
             self.id = id
@@ -606,22 +606,22 @@ public final class User: Codable {
         }
     }
     
-    let relatives: Relatives?
+    public let relatives: [Relatives]?
     
     /// Семейное положение.
     public enum Relation: Int64, Codable {
-        case v_grazdanskom_brake = 8
-        case vlublen_vlublena = 7
-        case pomolvlen_pomolvlena = 3
         case ne_ukazano = 0
-        case zenat_zamuzem = 4
         case est_drug_est_podruga = 2
-        case v_aktivnom_poiske = 6
-        case ne_zenat_ne_zamuzem = 1
+        case pomolvlen_pomolvlena = 3
         case vse_slozno = 5
+        case v_aktivnom_poiske = 6
+        case zenat_zamuzem = 4
+        case v_grazdanskom_brake = 8
+        case ne_zenat_ne_zamuzem = 1
+        case vlublen_vlublena = 7
     }
     
-    let relation: Relation?
+    public let relation: Relation?
     
     /// Список школ, в которых учился пользователь. Массив объектов, описывающих школы.
     public final class Schools: Codable {
@@ -658,23 +658,23 @@ public final class User: Codable {
         
         /// Название типа. Возможные значения для пар type-typeStr: 0 — "школа". 1 — "гимназия". 2 —"лицей". 3 — "школа-интернат". 4 — "школа вечерняя". 5 — "школа музыкальная". 6 — "школа спортивная". 7 — "школа художественная". 8 — "колледж". 9 — "профессиональный лицей". 10 — "техникум". 11 — "ПТУ". 12 — "училище". 13 — "школа искусств".
         public enum TypeStr: String, Codable {
-            case licej = "2"
-            case tehnikum = "10"
-            case skola_sportivnaa = "6"
-            case ptu = "11"
-            case gimnazia = "1"
-            case skola_vecernaa = "4"
-            case kolledz = "8"
-            case skola_muzykalnaa = "5"
-            case ucilise = "12"
-            case professionalnyj_licej = "9"
-            case skola_hudozestvennaa = "7"
-            case skolainternat = "3"
             case skola_iskusstv = "13"
+            case ucilise = "12"
+            case skola_muzykalnaa = "5"
+            case tehnikum = "10"
             case skola = "0"
+            case skola_hudozestvennaa = "7"
+            case gimnazia = "1"
+            case professionalnyj_licej = "9"
+            case skolainternat = "3"
+            case skola_vecernaa = "4"
+            case ptu = "11"
+            case skola_sportivnaa = "6"
+            case licej = "2"
+            case kolledz = "8"
         }
         
-        let typeStr: TypeStr?
+        public let typeStr: TypeStr?
         
         public init(id: Int64? = nil, country: Int64? = nil, city: Int64? = nil, name: String? = nil, yearFrom: Int64? = nil, yearTo: Int64? = nil, yearGraduated: Int64? = nil, class: String? = nil, speciality: String? = nil, type: Int64? = nil, typeStr: TypeStr? = nil) {
             self.id = id
@@ -691,7 +691,7 @@ public final class User: Codable {
         }
     }
     
-    let schools: Schools?
+    public let schools: [Schools]?
     
     /// Короткое имя страницы.
     public let screenName: String?
@@ -699,11 +699,11 @@ public final class User: Codable {
     /// Пол.
     public enum Sex: Int64, Codable {
         case zenskij = 1
-        case pol_ne_ukazan = 0
         case muzskoj = 2
+        case pol_ne_ukazan = 0
     }
     
-    let sex: Sex?
+    public let sex: Sex?
     
     /// Адрес сайта, указанный в профиле.
     public let site: String?
@@ -771,20 +771,20 @@ public final class User: Codable {
         }
     }
     
-    let universities: Universities?
+    public let universities: [Universities]?
     
     /// Возвращается , если страница пользователя верифицирована, — если нет.
     public let verified: VkFlag?
     
     /// Режим стены по умолчанию. Возможные значения: , .
     public enum WallDefault: String, Codable {
-        case owner
         case all
+        case owner
     }
     
-    let wallDefault: WallDefault?
+    public let wallDefault: WallDefault?
     
-    public init(id: Int64, firstName: String, lastName: String, deactivated: String, isClosed: Bool, canAccessClosed: Bool, about: String? = nil, activities: String? = nil, bdate: String? = nil, blacklisted: VkFlag? = nil, blacklistedByMe: VkFlag? = nil, books: String? = nil, canPost: VkFlag? = nil, canSeeAllPosts: VkFlag? = nil, canSeeAudio: VkFlag? = nil, canSendFriendRequest: VkFlag? = nil, canWritePrivateMessage: VkFlag? = nil, career: Career? = nil, city: City? = nil, commonCount: Int64? = nil, connections: [String: String]? = nil, contacts: Contacts? = nil, counters: Counters? = nil, country: Country? = nil, cropPhoto: CropPhoto? = nil, domain: String? = nil, education: Education? = nil, exports: String? = nil, firstNameCase: FirstName? = nil, followersCount: Int64? = nil, friendStatus: FriendStatus? = nil, games: String? = nil, hasMobile: VkFlag? = nil, hasPhoto: VkFlag? = nil, homeTown: String? = nil, interests: String? = nil, isFavorite: VkFlag? = nil, isFriend: VkFlag? = nil, isHiddenFromFeed: VkFlag? = nil, lastNameCase: LastName? = nil, lastSeen: LastSeen? = nil, lists: String? = nil, maidenName: String? = nil, military: Military? = nil, movies: String? = nil, music: String? = nil, nickname: String? = nil, occupation: Occupation? = nil, online: VkFlag? = nil, personal: Personal? = nil, photo50: String? = nil, photo100: String? = nil, photo200Orig: String? = nil, photo200: String? = nil, photo400Orig: String? = nil, photoId: String? = nil, photoMax: String? = nil, photoMaxOrig: String? = nil, quotes: String? = nil, relatives: Relatives? = nil, relation: Relation? = nil, schools: Schools? = nil, screenName: String? = nil, sex: Sex? = nil, site: String? = nil, status: String? = nil, timezone: Int64? = nil, trending: VkFlag? = nil, tv: String? = nil, universities: Universities? = nil, verified: VkFlag? = nil, wallDefault: WallDefault? = nil) {
+    public init(id: Int64, firstName: String, lastName: String, deactivated: String, isClosed: Bool, canAccessClosed: Bool, about: String? = nil, activities: String? = nil, bdate: String? = nil, blacklisted: VkFlag? = nil, blacklistedByMe: VkFlag? = nil, books: String? = nil, canPost: VkFlag? = nil, canSeeAllPosts: VkFlag? = nil, canSeeAudio: VkFlag? = nil, canSendFriendRequest: VkFlag? = nil, canWritePrivateMessage: VkFlag? = nil, career: Career? = nil, city: City? = nil, commonCount: Int64? = nil, connections: [String: String]? = nil, contacts: Contacts? = nil, counters: Counters? = nil, country: Country? = nil, cropPhoto: CropPhoto? = nil, domain: String? = nil, education: Education? = nil, exports: String? = nil, firstNameCase: FirstName? = nil, followersCount: Int64? = nil, friendStatus: FriendStatus? = nil, games: String? = nil, hasMobile: VkFlag? = nil, hasPhoto: VkFlag? = nil, homeTown: String? = nil, interests: String? = nil, isFavorite: VkFlag? = nil, isFriend: VkFlag? = nil, isHiddenFromFeed: VkFlag? = nil, lastNameCase: LastName? = nil, lastSeen: LastSeen? = nil, lists: String? = nil, maidenName: String? = nil, military: Military? = nil, movies: String? = nil, music: String? = nil, nickname: String? = nil, occupation: Occupation? = nil, online: VkFlag? = nil, personal: Personal? = nil, photo50: String? = nil, photo100: String? = nil, photo200Orig: String? = nil, photo200: String? = nil, photo400Orig: String? = nil, photoId: String? = nil, photoMax: String? = nil, photoMaxOrig: String? = nil, quotes: String? = nil, relatives: [Relatives]? = nil, relation: Relation? = nil, schools: [Schools]? = nil, screenName: String? = nil, sex: Sex? = nil, site: String? = nil, status: String? = nil, timezone: Int64? = nil, trending: VkFlag? = nil, tv: String? = nil, universities: [Universities]? = nil, verified: VkFlag? = nil, wallDefault: WallDefault? = nil) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName

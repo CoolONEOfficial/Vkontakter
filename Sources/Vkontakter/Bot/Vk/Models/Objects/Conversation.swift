@@ -22,7 +22,7 @@ public final class Conversation: Codable {
             case email
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         /// Локальный идентификатор назначения. Для чатов — id - 2000000000, для сообществ — -id, для e-mail — -(id+2000000000).
         public let localId: Int64?
@@ -34,7 +34,7 @@ public final class Conversation: Codable {
         }
     }
     
-    let peer: Peer?
+    public let peer: Peer?
     
     /// Идентификатор последнего прочтенного входящего сообщения.
     public let inRead: Int64?
@@ -70,7 +70,7 @@ public final class Conversation: Codable {
         }
     }
     
-    let pushSettings: PushSettings?
+    public let pushSettings: PushSettings?
     
     /// Информация о том, может ли пользователь писать в диалог.
     public final class CanWrite: Codable {
@@ -80,18 +80,18 @@ public final class Conversation: Codable {
         
         /// Код ошибки для allowed = false. Возможные значения: 18 — пользователь заблокирован или удален. 900 — нельзя отправить сообщение пользователю, который в чёрном списке. 901 — пользователь запретил сообщения от сообщества. 902 — пользователь запретил присылать ему сообщения с помощью настроек приватности. 915 — в сообществе отключены сообщения. 916 — в сообществе заблокированы сообщения. 917 — нет доступа к чату. 918 — нет доступа к e-mail. 203 — нет доступа к сообществу.
         public enum Reason: Int64, Codable {
-            case net_dostupa_k_catu = 917
-            case net_dostupa_k_email = 918
-            case v_soobsestve_otkluceny_soobsenia = 915
+            case polzovatel_zapretil_prisylat_emu_soobsenia_s_pomosu_nastroek_privatnosti = 902
             case polzovatel_zapretil_soobsenia_ot_soobsestva = 901
             case v_soobsestve_zablokirovany_soobsenia = 916
-            case net_dostupa_k_soobsestvu = 203
-            case polzovatel_zapretil_prisylat_emu_soobsenia_s_pomosu_nastroek_privatnosti = 902
             case nelza_otpravit_soobsenie_polzovatelu_kotoryj_v_cernom_spiske = 900
+            case net_dostupa_k_catu = 917
+            case v_soobsestve_otkluceny_soobsenia = 915
+            case net_dostupa_k_soobsestvu = 203
+            case net_dostupa_k_email = 918
             case polzovatel_zablokirovan_ili_udalen = 18
         }
         
-        let reason: Reason?
+        public let reason: Reason?
         
         public init(allowed: Bool? = nil, reason: Reason? = nil) {
             self.allowed = allowed
@@ -99,7 +99,7 @@ public final class Conversation: Codable {
         }
     }
     
-    let canWrite: CanWrite?
+    public let canWrite: CanWrite?
     
     /// Настройки чата.
     public final class ChatSettings: Codable {
@@ -118,16 +118,16 @@ public final class Conversation: Codable {
             }
         }
         
-        let pinnedMessage: PinnedMessage?
+        public let pinnedMessage: PinnedMessage?
         
         /// (string) — статус текущего пользователя. Возможные значения: in — состоит в чате. kicked — исключён из чата. left — покинул чат.
         public enum State: String, Codable {
-            case isklucen_iz_cata = "kicked"
-            case sostoit_v_cate = "in"
-            case pokinul_cat = "left"
+            case kicked
+            case left
+            case `in`
         }
         
-        let state: State?
+        public let state: State?
         
         /// Изображение-обложка чата. Объект, который содержит поля: photo_50 (string) — URL изображения 50x50px. photo_100 (string) — URL изображения 100x100px. photo_200 (string) — URL изображения 200x200px.
         public final class Photo: Codable {
@@ -148,7 +148,7 @@ public final class Conversation: Codable {
             }
         }
         
-        let photo: Photo?
+        public let photo: Photo?
         
         /// Идентификаторы последних пользователей, писавших в чат.
         public let activeIds: [Int64]?
@@ -167,7 +167,7 @@ public final class Conversation: Codable {
         }
     }
     
-    let chatSettings: ChatSettings?
+    public let chatSettings: ChatSettings?
     
     public init(peer: Peer? = nil, inRead: Int64? = nil, outRead: Int64? = nil, unreadCount: Int64? = nil, important: Bool? = nil, unanswered: Bool? = nil, pushSettings: PushSettings? = nil, canWrite: CanWrite? = nil, chatSettings: ChatSettings? = nil) {
         self.peer = peer

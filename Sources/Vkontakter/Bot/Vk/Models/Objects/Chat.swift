@@ -38,7 +38,7 @@ public final class Chat: Codable {
         }
     }
     
-    let pushSettings: PushSettings?
+    public let pushSettings: PushSettings?
     
     /// URL изображения-обложки чата шириной 50 px (если доступно).
     public let photo50: String?

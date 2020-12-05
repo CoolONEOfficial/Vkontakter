@@ -4,19 +4,29 @@
 public extension Bot {
 
     /// Parameters container struct for `getCallbackConfirmationCode` method
-    struct GetCallbackConfirmationCodeParams: JSONEncodable {
+    final class GetCallbackConfirmationCodeParams: JSONEncodable {
 
         /// Идентификатор сообщества.
-        let groupId: Int64
+        public let groupId: UInt64
         
-        public init(groupId: Int64) {
+        public init(groupId: UInt64) {
             self.groupId = groupId
         }
     
     }
     
+    final class GetCallbackConfirmationCodeResp: Codable {
+    
+        public let code: String
+        
+        public init(code: String) {
+            self.code = code
+        }
+    
+    }
+    
     /**
-     Позволяет получить строку, необходимую для подтверждения адреса сервера в .
+     Позволяет получить строку, необходимую для подтверждения адреса сервера в Callback API.
      Возвращает строку, которую необходимо использовать в качестве ответа на уведомление с типом "confirmation" для подтверждения адреса сервера в Callback API.
 
      See also VK API Reference:
@@ -25,14 +35,14 @@ public extension Bot {
      - Parameters:
          - params: Parameters container, see `GetCallbackConfirmationCodeParams` struct
      - Throws: Throws on errors
-     - Returns: Future of `VkFlag` type
+     - Returns: Future of `GetCallbackConfirmationCodeResp` type
      */
     @discardableResult
-    func getCallbackConfirmationCode(params: GetCallbackConfirmationCodeParams) throws -> Future<VkFlag> {
+    func getCallbackConfirmationCode(params: GetCallbackConfirmationCodeParams) throws -> Future<GetCallbackConfirmationCodeResp> {
         let headers = httpHeaders(for: params)
         return try client
             .request(endpoint: "groups.getCallbackConfirmationCode", params: params, headers: headers)
-            .flatMapThrowing { (container) -> VkFlag in
+            .flatMapThrowing { (container) -> GetCallbackConfirmationCodeResp in
                 return try self.processContainer(container)
         }
     }

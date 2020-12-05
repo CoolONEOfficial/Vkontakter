@@ -10,7 +10,7 @@ public struct VkContainer<T: Codable>: Codable {
 
     public struct Error: Codable {
         public var errorCode: Int
-        public var errorMessage: String
+        public var errorMessage: String?
         public var requestParams: [Dictionary<String, String>]?
     }
     

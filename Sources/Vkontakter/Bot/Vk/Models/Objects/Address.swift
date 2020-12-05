@@ -46,14 +46,14 @@ public final class Address: Codable {
     
     /// Тип расписания.
     public enum WorkInfoStatus: String, Codable {
-        case zakryto_navsegda = "forever_closed"
-        case otkryto_kruglosutocno = "always_opened"
-        case otkryto_v_ukazannye_casy_raboty = "timetable"
-        case net_informacii_o_raspisanii = "no_information"
-        case vremenno_zakryto = "temporarily_closed"
+        case temporarily_closed
+        case always_opened
+        case timetable
+        case no_information
+        case forever_closed
     }
     
-    let workInfoStatus: WorkInfoStatus?
+    public let workInfoStatus: WorkInfoStatus?
     
     /// Для типа расписания можно передать расписание в формате json. Время передается в минутах от 0 часов. Ключ по дню означает, что день рабочий. open_time, close_time — начало и конец рабочего дня. break_open_time, break_close_time - время перерыва.
     public final class Timetable: Codable {
@@ -63,7 +63,7 @@ public final class Address: Codable {
         }
     }
     
-    let timetable: Timetable?
+    public let timetable: Timetable?
     
     public init(id: Int64? = nil, countryId: Int64? = nil, cityId: Int64? = nil, title: String? = nil, address: String? = nil, additionalAddress: String? = nil, latitude: Int64? = nil, longitude: Int64? = nil, distance: Int64? = nil, phone: String? = nil, timeOffset: Int64? = nil, metroStationId: Int64? = nil, workInfoStatus: WorkInfoStatus? = nil, timetable: Timetable? = nil) {
         self.id = id

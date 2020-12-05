@@ -9,7 +9,7 @@
  */
 public final class Group: Codable {
     /// Идентификатор сообщества.
-    public let id: Int64
+    public let id: UInt64
     
     /// Название сообщества.
     public let name: String
@@ -19,28 +19,28 @@ public final class Group: Codable {
     
     /// Является ли сообщество закрытым.
     public enum IsClosed: Int64, Codable {
-        case zakrytoe = 1
-        case castnoe = 2
         case otkrytoe = 0
+        case castnoe = 2
+        case zakrytoe = 1
     }
     
-    let isClosed: IsClosed
+    public let isClosed: IsClosed
     
     /// Возвращается в случае, если сообщество удалено или заблокировано.
     public enum Deactivated: String, Codable {
-        case soobsestvo_udaleno = "deleted"
-        case soobsestvo_zablokirovano = "banned"
+        case banned
+        case deleted
     }
     
-    let deactivated: Deactivated
+    public let deactivated: Deactivated
     
     /// Информация о том, является ли текущий пользователь руководителем.
     public enum IsAdmin: Int64, Codable {
-        case ne_avlaetsa = 0
         case avlaetsa = 1
+        case ne_avlaetsa = 0
     }
     
-    let isAdmin: IsAdmin
+    public let isAdmin: IsAdmin
     
     /// Уровень полномочий текущего пользователя (если = ):
     public let adminLevel: Int64
@@ -51,15 +51,15 @@ public final class Group: Codable {
         case ne_avlaetsa = 0
     }
     
-    let isMember: IsMember
+    public let isMember: IsMember
     
     /// Информация о том, является ли текущий пользователь рекламодателем.
     public enum IsAdvertiser: Int64, Codable {
-        case avlaetsa = 1
         case ne_avlaetsa = 0
+        case avlaetsa = 1
     }
     
-    let isAdvertiser: IsAdvertiser
+    public let isAdvertiser: IsAdvertiser
     
     /// Идентификатор пользователя, который отправил приглашение в сообщество. Поле возвращается только для метода .
     public let invitedBy: Int64
@@ -94,7 +94,7 @@ public final class Group: Codable {
         }
     }
     
-    let addresses: Addresses?
+    public let addresses: Addresses?
     
     /// Возрастное ограничение.
     public let ageLimits: Int64?
@@ -130,41 +130,41 @@ public final class Group: Codable {
         }
     }
     
-    let links: Links?
+    public let links: [Links]?
     
     /// Идентификатор основного фотоальбома.
     public let mainAlbumId: Int64?
     
     /// Информация о главной секции.
     public enum MainSection: Int64, Codable {
-        case tovary = 5
-        case videozapisi = 4
-        case fotografii = 1
-        case obsuzdenia = 2
         case otsutstvuet = 0
+        case fotografii = 1
+        case tovary = 5
         case audiozapisi = 3
+        case obsuzdenia = 2
+        case videozapisi = 4
     }
     
-    let mainSection: MainSection?
+    public let mainSection: MainSection?
     
     /// Информация о магазине.
     public final class Market: Codable {
         
         /// Информация о том, включен ли блок товаров в сообществе. Возможные значения: 1 — включен. 0 — выключен. Если enabled = 0, объект не содержит других полей.
         public enum Enabled: Int64, Codable {
-            case vklucen = 1
             case vyklucen = 0
+            case vklucen = 1
         }
         
-        let enabled: Enabled?
+        public let enabled: Enabled?
         
         /// Информация о типе магазина. Возвращается, если в группе включен раздел "Товары". Возможные значения: basic — базовые товары. advanced — расширенные товары.
         public enum `Type`: String, Codable {
-            case rassirennye_tovary = "advanced"
-            case bazovye_tovary = "basic"
+            case advanced
+            case basic
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         /// Минимальная цена товаров.
         public let priceMin: Int64?
@@ -193,7 +193,7 @@ public final class Group: Codable {
             }
         }
         
-        let currency: Currency?
+        public let currency: Currency?
         
         /// Строковое обозначение.
         public let currencyText: String?
@@ -210,19 +210,19 @@ public final class Group: Codable {
         }
     }
     
-    let market: Market?
+    public let market: Market?
     
     /// Статус участника текущего пользователя.
     public enum MemberStatus: Int64, Codable {
-        case avlaetsa_ucastnikom = 1
-        case zapros_na_vstuplenie_otpravlen = 4
         case priglasen = 5
-        case ne_avlaetsa_ucastnikom = 0
+        case zapros_na_vstuplenie_otpravlen = 4
         case ne_uveren_cto_posetit_meropriatie = 2
         case otklonil_priglasenie = 3
+        case avlaetsa_ucastnikom = 1
+        case ne_avlaetsa_ucastnikom = 0
     }
     
-    let memberStatus: MemberStatus?
+    public let memberStatus: MemberStatus?
     
     /// Количество участников в сообществе
     public let membersCount: Int64?
@@ -266,9 +266,9 @@ public final class Group: Codable {
         }
     }
     
-    let place: Place?
+    public let place: Place?
     
-    public init(id: Int64, name: String, screenName: String, isClosed: IsClosed, deactivated: Deactivated, isAdmin: IsAdmin, adminLevel: Int64, isMember: IsMember, isAdvertiser: IsAdvertiser, invitedBy: Int64, type: String, photo50: String, photo100: String, photo200: String, activity: String? = nil, addresses: Addresses? = nil, ageLimits: Int64? = nil, links: Links? = nil, mainAlbumId: Int64? = nil, mainSection: MainSection? = nil, market: Market? = nil, memberStatus: MemberStatus? = nil, membersCount: Int64? = nil, place: Place? = nil) {
+    public init(id: UInt64, name: String, screenName: String, isClosed: IsClosed, deactivated: Deactivated, isAdmin: IsAdmin, adminLevel: Int64, isMember: IsMember, isAdvertiser: IsAdvertiser, invitedBy: Int64, type: String, photo50: String, photo100: String, photo200: String, activity: String? = nil, addresses: Addresses? = nil, ageLimits: Int64? = nil, links: [Links]? = nil, mainAlbumId: Int64? = nil, mainSection: MainSection? = nil, market: Market? = nil, memberStatus: MemberStatus? = nil, membersCount: Int64? = nil, place: Place? = nil) {
         self.id = id
         self.name = name
         self.screenName = screenName

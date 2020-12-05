@@ -26,7 +26,7 @@ public final class Geo: Codable {
         }
     }
     
-    let coordinates: Coordinates?
+    public let coordinates: Coordinates?
     
     /// Описание места (если оно добавлено), объект с полями: Если место добавлено как чекин в сообщество,
     public final class Place: Codable {
@@ -67,7 +67,7 @@ public final class Geo: Codable {
         }
     }
     
-    let place: Place?
+    public let place: Place?
     
     public init(type: String? = nil, coordinates: Coordinates? = nil, place: Place? = nil) {
         self.type = `type`

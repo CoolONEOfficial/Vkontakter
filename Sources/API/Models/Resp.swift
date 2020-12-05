@@ -15,7 +15,7 @@ struct RespObject {
 
 struct RespEnum {
     let name: String
-    let cases: [String: Any]
+    let cases: [String: String]
     let casesType: RespParameter.ParamType
 }
 
@@ -23,6 +23,7 @@ struct RespParameter {
     public enum ParamType: CaseIterable, Equatable {
         case Int
         case UInt
+        case Int32
         case String
         case Double
         case Bool
@@ -42,18 +43,18 @@ struct RespParameter {
         
         static let allCases: [Self] = {
             var cases = [Self]()
+            cases.append(.Array(nil))
             cases.append(contentsOf: hardcodedCases)
             cases.append(.Enum(nil))
             cases.append(.Typealias(nil))
             cases.append(.Object(nil))
-            cases.append(.Array(nil))
             cases.append(contentsOf: primitiveCases)
             return cases
         }()
         
-        static var arrayCases: [Self] = primitiveCases + [ .Object(nil) ]
+        static var arrayCases: [Self] =  [ .Object(nil) ] + primitiveCases + hardcodedCases
         
-        static let primitiveCases: [Self] = [.String, .UInt, .Int, .Double, .Bool]
+        static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
         static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize]
         
@@ -64,7 +65,9 @@ struct RespParameter {
             case .Int:
                 return [ "целое число", "целых чисел", "integer", "number", "_id", "идентификатор" ]
             case .UInt:
-                return [ "положительное число", "положительных чисел", "unixtime" ]
+                return [ "положительное число", "положительных чисел", "unixtime", "идентификатор сообщества", "идентификатор сервера", "идентификатор добавленного сервера" ]
+            case .Int32:
+                return [ "int32" ]
             case .String:
                 return [
                     "строк", "полезная нагрузка", "string",
@@ -110,6 +113,8 @@ struct RespParameter {
                 return "Int64"
             case .UInt:
                 return "UInt64"
+            case .Int32:
+                return "Int32"
             case .String:
                 return "String"
             case .Double:
@@ -152,6 +157,15 @@ struct RespParameter {
         public static func == (lhs: RespParameter.ParamType, rhs: RespParameter.ParamType) -> Bool {
             lhs.matchWords == rhs.matchWords
         }
+        
+        var innerObject: Self {
+            switch self {
+            case let .Array(type):
+                return type?.innerObject ?? self
+            default:
+                return self
+            }
+        }
     }
 
     let name: String
@@ -179,6 +193,7 @@ struct RespParameter {
     static func from(inlineEl: Element) throws -> Self? {
         guard let nameEl = try inlineEl.select("b").first() else { return nil }
         let name = nameEl.ownText().camelized
+        let ownDesc = try inlineEl.select("span").first()!.ownText()
         let fullDesc = try inlineEl.select("span").first()!.text()
         let type = try inlineEl.select(".wk_gray").first()?.ownText() ?? ""
         
@@ -188,7 +203,7 @@ struct RespParameter {
         desc = String(desc[startIndex ..< desc.endIndex]).capitalizingFirstLetter()
         
         let subEl = try inlineEl.select(".listing").first() ?? inlineEl
-        let resultType: ParamType = try ParamType.allCases.findType(el: subEl, name: name, type: type, desc: fullDesc)
+        let resultType: ParamType = try ParamType.allCases.findType(el: subEl, name: name, type: type, desc: ownDesc, fullDesc: fullDesc)
         return .init(name: name, description: desc, type: resultType, required: checkRequired(fullDesc))
     }
     
@@ -226,18 +241,32 @@ struct RespParameter {
     }
 }
 
+extension Array where Element : Equatable {
+    var unique: [Element] {
+        var uniqueValues: [Element] = []
+        forEach { item in
+            if !uniqueValues.contains(item) {
+                uniqueValues += [item]
+            }
+        }
+        return uniqueValues
+    }
+}
+
 extension Array where Element == RespParameter.ParamType {
-    func findType(el: SwiftSoup.Element?, name: String, type: String, desc: String) throws -> RespParameter.ParamType {
+    func findType(el: SwiftSoup.Element?, name: String, type: String, desc: String, fullDesc: String? = nil) throws -> RespParameter.ParamType {
         for _case in self {
             for matchWord in _case.matchWords where
                 desc.lowercased().contains(matchWord)
+                || fullDesc?.lowercased().contains(matchWord) ?? false
                 || type.lowercased().contains(matchWord) {
                 
-                debugPrint("founded \(_case) by \(matchWord) for n(\(name)) type(\(type)) desc \(desc)")
+                debugPrint("founded \(_case) by \(matchWord) for n(\(name)) type(\(type)) desc \(desc) fullDesc \(fullDesc ?? "nil")")
                 
                 switch _case {
                 case .Typealias:
                     for word in RespParameter.ParamType.Typealias().matchWords {
+                        let desc = fullDesc ?? desc
                         if let index = desc.ranges(of: word).last?.upperBound {
                             let str = String(desc[index..<desc.endIndex])
                                 .trimmingCharacters(in: [" ", ".", ";"])
@@ -256,18 +285,22 @@ extension Array where Element == RespParameter.ParamType {
                     
                     return .Object(.init(name: name.capitalizingFirstLetter(), params: params))
                 case .Array:
-                    let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name, type: type, desc: desc)
+                    let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name, type: type, desc: desc, fullDesc: fullDesc)
                     
                     return .Array(arrayType)
                 case .Enum:
-                    let primitiveType = try RespParameter.ParamType.primitiveCases.findType(el: el, name: name, type: type, desc: desc)
+                    let primitiveType = try RespParameter.ParamType.primitiveCases.findType(el: el, name: name, type: type, desc: desc, fullDesc: fullDesc)
 
                     var cases = try el?.children()
                         .filter { $0.tagName() == "li" }
                         .map { try $0.text().firstSentence ?? $0.text() } ?? []
 
                     if cases.isEmpty, let el = el {
-                        cases = try el.select("i").map { try $0.text() }
+                        cases = try el.select("i")
+                            .map { try $0.text().trimmingCharacters(in: ["\""]) }
+                            .joined(separator: ", ")
+                            .components(separatedBy: ", ")
+                            .unique
                     }
                     
                     if cases.isEmpty {
@@ -280,10 +313,11 @@ extension Array where Element == RespParameter.ParamType {
                             var dict = dict
                             let comps = next.components(separatedBy: "—")
                                 .map { $0.trimmingCharacters(in: [" ", ";", "."]) }
-                            if comps.count > 1 {
-                                dict[comps[1].transliterate] = comps[0]
-                            } else {
+                            if comps.count == 1 && Int(comps[0]) != nil {
                                 dict[comps[0]] = comps[0]
+                            } else {
+                                let key = comps.count == 1 ? comps[0] : comps[1]
+                                dict[key.transliterate] = comps[0]
                             }
                             return dict
                         },

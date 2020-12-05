@@ -4,93 +4,85 @@
 public extension Bot {
 
     /// Parameters container struct for `sendMessage` method
-    struct SendMessageParams: JSONEncodable {
+    final class SendMessageParams: JSONEncodable {
 
         /// Идентификатор пользователя, которому отправляется сообщение.
-        let userId: String
+        public let userId: Int64?
         
         /// Уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений. Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.
-        let randomId: String
+        public let randomId: Int32?
         
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества. целое число, доступен начиная с версии 5.
-        let peerId: Int64
+        public let peerId: Int64?
         
         /// Идентификаторы получателей сообщения (при необходимости отправить сообщение сразу нескольким пользователям). Доступно только для ключа доступа сообщества. Максимальное количество идентификаторов: 100. список целых чисел, разделенных запятыми, доступен начиная с версии 5.
-        let peerIds: [String]
+        public let peerIds: [Int64]?
         
         /// Короткий адрес пользователя (например, illarionov).
-        let domain: String
+        public let domain: String?
         
         /// Идентификатор беседы, к которой будет относиться сообщение.
-        let chatId: String
+        public let chatId: UInt64?
         
         /// Текст личного сообщения. Обязательный параметр, если не задан параметр attachment.
-        let message: String
+        public let message: String
         
         /// Географическая широта (от -90 до 90).
-        let lat: Double
+        public let lat: Double?
         
         /// Географическая долгота (от -180 до 180).
-        let long: Double
+        public let long: Double?
         
         /// Медиавложения к личному сообщению, перечисленные через запятую. Каждое прикрепление представлено в формате: <type><owner_id>_<media_id> <type> — тип медиавложения: photo — фотография; video — видеозапись; audio — аудиозапись; doc — документ; wall — запись на стене; market — товар. poll — опрос. <owner_id> — идентификатор владельца медиавложения (обратите внимание, если объект находится в сообществе, этот параметр должен быть отрицательным). <media_id> — идентификатор медиавложения. Например: photo100172_166443618 Параметр является обязательным, если не задан параметр message.
-        public struct Attachment: Codable {
-            
-            
-        public init() {
-            }
-        }
-        
-        
-        let attachment: Attachment
+        public let attachment: [Attachment]?
         
         /// Идентификатор сообщения, на которое требуется ответить. целое число, доступен начиная с версии 5.
-        let replyTo: Int64
+        public let replyTo: Int64?
         
         /// Идентификаторы пересылаемых сообщений, перечисленные через запятую. Перечисленные сообщения отправителя будут отображаться в теле письма у получателя.
-        let forwardMessages: [Int64]
+        public let forwardMessages: [Int64]?
         
         /// JSON-объект со следующими полями: owner_id — владелец сообщений. Стоит передавать, если вы хотите переслать сообщения из сообщества в диалог; peer_id — идентификатор места, из которого необходимо переслать сообщения; conversation_message_ids — массив conversation_message_id сообщений, которые необходимо переслать. В массив conversation_message_ids можно передать сообщения: находящиеся в личном диалоге с ботом; являющиеся исходящими сообщениями бота; написанными после того, как бот вступил в беседу и появился доступ к сообщениям. message_ids — массив id сообщений; is_reply — ответ на сообщения. Стоит передавать, если вы хотите ответить на сообщения в том чате, в котором находятся сообщения. При этом в conversation_message_ids/message_ids должен находиться только один элемент.
-        public struct Forward: Codable {
+        public final class Forward: Codable {
+            
             
             public init() {
             }
         }
         
-        let forward: Forward
+        public let forward: [Forward]?
         
         /// Идентификатор стикера.
-        let stickerId: Int64
+        public let stickerId: UInt64?
         
         /// Идентификатор сообщества (для сообщений сообщества с ключом доступа пользователя).
-        let groupId: Int64
+        public let groupId: UInt64?
         
         /// Объект, описывающий клавиатуру бота.
-        let keyboard: VkKeyboard
+        public let keyboard: VkKeyboard?
         
         /// Объект, описывающий шаблон сообщения.
-        let template: VkTemplate
+        public let template: VkTemplate?
         
         /// Полезная нагрузка.
-        let payload: String
+        public let payload: String?
         
         /// Объект, описывающий источник пользовательского контента для чат-ботов.
-        let contentSource: VkContentSource
+        public let contentSource: VkContentSource?
         
         /// 1 — не создавать сниппет ссылки из сообщения.
-        let dontParseLinks: VkFlag
+        public let dontParseLinks: VkFlag?
         
         /// 1 - отключить уведомление об упоминании в сообщении.
-        let disableMentions: VkFlag
+        public let disableMentions: VkFlag?
         
         /// Строка, описывающая интенты.
-        let intent: String
+        public let intent: String?
         
         /// Число, которое в будущем будет предназначено для работы с интентами.
-        let subscribeId: UInt64
+        public let subscribeId: UInt64?
         
-        
-        public init(userId: String, randomId: String, peerId: Int64, peerIds: [String], domain: String, chatId: String, message: String, lat: Double, long: Double, attachment: Attachment, replyTo: Int64, forwardMessages: [Int64], forward: Forward, stickerId: Int64, groupId: Int64, keyboard: VkKeyboard, template: VkTemplate, payload: String, contentSource: VkContentSource, dontParseLinks: VkFlag, disableMentions: VkFlag, intent: String, subscribeId: UInt64) {
+        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String, lat: Double? = nil, long: Double? = nil, attachment: [Attachment]? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: VkKeyboard? = nil, template: VkTemplate? = nil, payload: String? = nil, contentSource: VkContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
             self.userId = userId
             self.randomId = randomId
             self.peerId = peerId
@@ -118,25 +110,34 @@ public extension Bot {
     
     }
     
-    struct SendMessageResp: Codable {
+    final class SendMessageResp: Codable {
     
-        /// Идентификатор назначения.
-        let peerId: Int64
+        public final class Item: Codable {
+            
+            /// Идентификатор назначения.
+            public let peerId: Int64?
+            
+            /// Идентификатор сообщения.
+            public let messageId: Int64?
+            
+            /// Идентификатор сообщения в диалоге.
+            public let conversationMessageId: Int64?
+            
+            /// Сообщение об ошибке, если сообщение не было доставлено получателю.
+            public let error: String?
+            
+            public init(peerId: Int64? = nil, messageId: Int64? = nil, conversationMessageId: Int64? = nil, error: String? = nil) {
+                self.peerId = peerId
+                self.messageId = messageId
+                self.conversationMessageId = conversationMessageId
+                self.error = error
+            }
+        }
         
-        /// Идентификатор сообщения.
-        let messageId: Int64
+        public let items: [Item]
         
-        /// Идентификатор сообщения в диалоге.
-        let conversationMessageId: Int64
-        
-        /// Сообщение об ошибке, если сообщение не было доставлено получателю.
-        let error: String
-        
-        public init(peerId: Int64, messageId: Int64, conversationMessageId: Int64, error: String) {
-            self.peerId = peerId
-            self.messageId = messageId
-            self.conversationMessageId = conversationMessageId
-            self.error = error
+        public init(items: [Item]) {
+            self.items = items
         }
     
     }

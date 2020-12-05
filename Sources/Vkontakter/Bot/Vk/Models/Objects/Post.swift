@@ -62,7 +62,7 @@ public final class Post: Codable {
         }
     }
     
-    let comments: Comments?
+    public let comments: Comments?
     
     /// Источник материала.
     public let copyright: String?
@@ -90,7 +90,7 @@ public final class Post: Codable {
         }
     }
     
-    let likes: Likes?
+    public let likes: Likes?
     
     /// Информация о репостах записи (),
     public final class Reposts: Codable {
@@ -107,7 +107,7 @@ public final class Post: Codable {
         }
     }
     
-    let reposts: Reposts?
+    public let reposts: Reposts?
     
     /// Информация о просмотрах записи.
     public final class Views: Codable {
@@ -120,7 +120,7 @@ public final class Post: Codable {
         }
     }
     
-    let views: Views?
+    public let views: Views?
     
     /// Тип записи, может принимать следующие значения: , , , , .
     public let postType: String?
@@ -133,10 +133,10 @@ public final class Post: Codable {
         }
     }
     
-    let postSource: PostSource?
+    public let postSource: PostSource?
     
     /// Медиавложения записи (фотографии, ссылки и т.п.). Описание массива находится .
-    public let attachments: [Attachment]?
+    public let attachments: [[Attachment]]?
     
     /// Информация о местоположении ,
     public final class Geo: Codable {
@@ -155,7 +155,7 @@ public final class Post: Codable {
             }
         }
         
-        let place: Place?
+        public let place: Place?
         
         public init(type: String? = nil, coordinates: String? = nil, place: Place? = nil) {
             self.type = `type`
@@ -164,7 +164,7 @@ public final class Post: Codable {
         }
     }
     
-    let geo: Geo?
+    public let geo: Geo?
     
     /// Идентификатор автора,
     public let signerId: Int64?
@@ -177,7 +177,7 @@ public final class Post: Codable {
         }
     }
     
-    let copyHistory: CopyHistory?
+    public let copyHistory: [CopyHistory]?
     
     /// Информация о том, может ли текущий пользователь закрепить запись ( — может, — не может).
     public let canPin: VkFlag?
@@ -202,7 +202,7 @@ public final class Post: Codable {
         }
     }
     
-    let isFavorite: IsFavorite?
+    public let isFavorite: IsFavorite?
     
     /// Информация о записи VK Donut:
     public final class Donut: Codable {
@@ -221,18 +221,18 @@ public final class Post: Codable {
             }
         }
         
-        let placeholder: Placeholder?
+        public let placeholder: Placeholder?
         
         /// Можно ли открыть запись для всех пользователей, а не только подписчиков VK Donut.
         public let canPublishFreeCopy: Bool?
         
         /// Информация о том, какие значения VK Donut можно изменить в записи. Возможные значения: all — всю информацию о VK Donut. duration — время, в течение которого запись будет доступна только платным подписчикам VK Donut.
         public enum EditMode: String, Codable {
-            case vsu_informaciu_o_vk_donut = "all"
-            case vrema_v_tecenie_kotorogo_zapis_budet_dostupna_tolko_platnym_podpiscikam_vk_donut = "duration"
+            case all
+            case duration
         }
         
-        let editMode: EditMode?
+        public let editMode: EditMode?
         
         public init(isDonut: Bool? = nil, paidDuration: Int64? = nil, placeholder: Placeholder? = nil, canPublishFreeCopy: Bool? = nil, editMode: EditMode? = nil) {
             self.isDonut = isDonut
@@ -243,12 +243,12 @@ public final class Post: Codable {
         }
     }
     
-    let donut: Donut?
+    public let donut: Donut?
     
     /// Идентификатор отложенной записи. Это поле возвращается тогда, когда запись стояла на таймере.
     public let postponedId: Int64?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, fromId: Int64? = nil, createdBy: Int64? = nil, date: Int64? = nil, text: String? = nil, replyOwnerId: Int64? = nil, replyPostId: Int64? = nil, friendsOnly: Int64? = nil, comments: Comments? = nil, copyright: String? = nil, likes: Likes? = nil, reposts: Reposts? = nil, views: Views? = nil, postType: String? = nil, postSource: PostSource? = nil, attachments: [Attachment]? = nil, geo: Geo? = nil, signerId: Int64? = nil, copyHistory: CopyHistory? = nil, canPin: VkFlag? = nil, canDelete: VkFlag? = nil, canEdit: VkFlag? = nil, isPinned: Int64? = nil, markedAsAds: VkFlag? = nil, isFavorite: IsFavorite? = nil, donut: Donut? = nil, postponedId: Int64? = nil) {
+    public init(id: Int64? = nil, ownerId: Int64? = nil, fromId: Int64? = nil, createdBy: Int64? = nil, date: Int64? = nil, text: String? = nil, replyOwnerId: Int64? = nil, replyPostId: Int64? = nil, friendsOnly: Int64? = nil, comments: Comments? = nil, copyright: String? = nil, likes: Likes? = nil, reposts: Reposts? = nil, views: Views? = nil, postType: String? = nil, postSource: PostSource? = nil, attachments: [[Attachment]]? = nil, geo: Geo? = nil, signerId: Int64? = nil, copyHistory: [CopyHistory]? = nil, canPin: VkFlag? = nil, canDelete: VkFlag? = nil, canEdit: VkFlag? = nil, isPinned: Int64? = nil, markedAsAds: VkFlag? = nil, isFavorite: IsFavorite? = nil, donut: Donut? = nil, postponedId: Int64? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.fromId = fromId

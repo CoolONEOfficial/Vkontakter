@@ -46,7 +46,7 @@ public final class Poll: Codable {
         }
     }
     
-    let answers: Answers?
+    public let answers: [Answers]?
     
     /// Является ли опрос анонимным.
     public let anonymous: Bool?
@@ -89,7 +89,7 @@ public final class Poll: Codable {
         }
     }
     
-    let photo: Photo?
+    public let photo: Photo?
     
     /// Фон сниппета опроса.
     public final class Background: Codable {
@@ -103,7 +103,7 @@ public final class Poll: Codable {
             case tile
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         /// (для type = gradient) угол градиента по оси X.
         public let angle: Int64?
@@ -125,7 +125,7 @@ public final class Poll: Codable {
             }
         }
         
-        let images: Images?
+        public let images: [Images]?
         
         /// (для type = gradient) точки градиента. Массив объектов, каждый из которых содержит поля position (number) — положение точки — и color (string) — HEX-код цвета точки.
         public final class Points: Codable {
@@ -135,9 +135,9 @@ public final class Poll: Codable {
             }
         }
         
-        let points: Points?
+        public let points: [Points]?
         
-        public init(id: Int64? = nil, type: Type? = nil, angle: Int64? = nil, color: String? = nil, width: Int64? = nil, height: Int64? = nil, images: Images? = nil, points: Points? = nil) {
+        public init(id: Int64? = nil, type: Type? = nil, angle: Int64? = nil, color: String? = nil, width: Int64? = nil, height: Int64? = nil, images: [Images]? = nil, points: [Points]? = nil) {
             self.id = id
             self.type = `type`
             self.angle = angle
@@ -149,12 +149,12 @@ public final class Poll: Codable {
         }
     }
     
-    let background: Background?
+    public let background: Background?
     
     /// Идентификаторы 3 друзей, которые проголосовали в опросе.
     public let friends: [Int64]?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, created: UInt64? = nil, question: String? = nil, votes: Int64? = nil, answers: Answers? = nil, anonymous: Bool? = nil, multiple: Bool? = nil, answerIds: [Int64]? = nil, endDate: UInt64? = nil, closed: Bool? = nil, isBoard: Bool? = nil, canEdit: Bool? = nil, canVote: Bool? = nil, canReport: Bool? = nil, canShare: Bool? = nil, authorId: Int64? = nil, photo: Photo? = nil, background: Background? = nil, friends: [Int64]? = nil) {
+    public init(id: Int64? = nil, ownerId: Int64? = nil, created: UInt64? = nil, question: String? = nil, votes: Int64? = nil, answers: [Answers]? = nil, anonymous: Bool? = nil, multiple: Bool? = nil, answerIds: [Int64]? = nil, endDate: UInt64? = nil, closed: Bool? = nil, isBoard: Bool? = nil, canEdit: Bool? = nil, canVote: Bool? = nil, canReport: Bool? = nil, canShare: Bool? = nil, authorId: Int64? = nil, photo: Photo? = nil, background: Background? = nil, friends: [Int64]? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.created = created

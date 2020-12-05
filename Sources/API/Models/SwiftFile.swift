@@ -115,8 +115,18 @@ struct MethodExtensionFile: SwiftFile {
 
 extension String {
     var safeNamed: String {
-        [ "class", "enum", "type" ].contains { caseInsensitiveCompare($0) == .orderedSame } ?  "`\(self)`" : self
+         containsSwiftKeywords ? "`\(self)`" : self
     }
+    
+    var safeVarNamed: String {
+        containsSwiftKeywords ? "_\(self)" : self
+    }
+    
+    var containsSwiftKeywords : Bool {
+        String.swiftKeywords.contains { caseInsensitiveCompare($0) == .orderedSame }
+    }
+    
+    fileprivate static var swiftKeywords = [ "class", "enum", "type", "in" ]
 }
 
 extension RespParameter {
@@ -126,32 +136,40 @@ extension RespParameter {
             str.append("/// \(desc)\n")
         }
         
-        let varPart = "let \(name.safeNamed): \(typeString)"
+        let varPart = "public let \(name.safeNamed): \(typeString)"
 
-        str.append("public ")
         switch type {
+        case let .Array(.Object(data)), let .Object(data):
+            guard let data = data else { fatalError() }
+            let initStr = data.params.generateInit
+            str.append("public final class \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
         case _ where ParamType.typedCases.contains(type), .Array: break
         case let .Enum(data):
             guard let data = data else { fatalError() }
             let casesContent: String = data.cases.map {
-                let valueStr: String
+                var str = "\ncase "
                 switch data.casesType {
                 case .String:
-                    valueStr = "\"\($0.value)\""
+                    let val = $0.value
+                    guard !(val.first?.isNumber ?? false) else { fallthrough }
+                    str += val.safeNamed
                 default:
-                    valueStr = String(describing: $0.value)
+                    let val: String
+                    switch data.casesType {
+                    case .String:
+                        val = "\"\($0.value)\""
+                    default:
+                        val = $0.value
+                    }
+                    str += $0.key.safeNamed + " = " + val
                 }
-                return "\ncase \($0.key != $0.value as? String ? $0.key + " = " + valueStr : $0.key)".i(1)
+                return str.i(1)
             }.joined()
             let name = data.name.safeNamed
-            str.append("enum \(name): \(data.casesType.string!), Codable {\(casesContent)\n}\n\n")
+            str.append("public enum \(name): \(data.casesType.string!), Codable {\(casesContent)\n}\n\n")
         case let .Typealias(data):
             guard let data = data else { fatalError() }
-            str.append("typealias \(name.capitalizingFirstLetter()) = \(data)\n\n")
-        case let .Object(data):
-            guard let data = data else { fatalError() }
-            let initStr = data.params.generateInit
-            str.append("final class \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
+            str.append("public typealias \(name.capitalizingFirstLetter()) = \(data)\n\n")
         default:
             fatalError()
         }

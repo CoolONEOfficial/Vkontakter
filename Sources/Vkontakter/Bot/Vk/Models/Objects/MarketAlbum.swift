@@ -25,7 +25,7 @@ public final class MarketAlbum: Codable {
         }
     }
     
-    let photo: Photo?
+    public let photo: Photo?
     
     /// Число товаров в подборке.
     public let count: Int64?

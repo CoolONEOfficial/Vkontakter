@@ -39,7 +39,7 @@ public final class StatsFormat: Codable {
         }
     }
     
-    let activity: Activity?
+    public let activity: Activity?
     
     /// Период начала отсчёта в формате Unixtime.
     public let periodFrom: UInt64?
@@ -62,7 +62,7 @@ public final class StatsFormat: Codable {
         }
     }
     
-    let visitors: Visitors?
+    public let visitors: Visitors?
     
     /// Данные об охвате.
     public final class Reach: Codable {
@@ -91,15 +91,35 @@ public final class StatsFormat: Codable {
             }
         }
         
-        let sex: Sex?
+        public let sex: [Sex]?
         
         /// Статистика по возрасту. Массив объектов, каждый из которых содержит поля: value (string) — возрастной интервал (например, "12-18"). Возможные значения: 12-18, 18-21, 21-24, 24-27, 27-30, 30-35, 35-45, 45-100. count (integer) — число посетителей.
-        public enum Age: String, Codable {
-            case vozrastnoj_interval_naprimer_1218 = "value (string)"
-            case cislo_posetitelej = "count (integer)"
+        public final class Age: Codable {
+            
+            /// Возрастной интервал (например, "12-18"). Возможные значения: 12-18, 18-21, 21-24, 24-27, 27-30, 30-35, 35-45, 45-100.
+            public enum Value: String, Codable {
+                case _2730 = "27-30"
+                case _2427 = "24-27"
+                case _1821 = "18-21"
+                case _3035 = "30-35"
+                case _3545 = "35-45"
+                case _45100 = "45-100"
+                case _1218 = "12-18"
+                case _2124 = "21-24"
+            }
+            
+            public let value: Value?
+            
+            /// Число посетителей.
+            public let count: Int64?
+            
+            public init(value: Value? = nil, count: Int64? = nil) {
+                self.value = value
+                self.count = count
+            }
         }
         
-        let age: Age?
+        public let age: [Age]?
         
         /// Статистика по полу и возрасту. Массив объектов, каждый из которых содержит поля: value (string) — пол и возрастной интервал (например, "f.12-18"). count (integer) — число посетителей.
         public final class SexAge: Codable {
@@ -116,7 +136,7 @@ public final class StatsFormat: Codable {
             }
         }
         
-        let sexAge: SexAge?
+        public let sexAge: [SexAge]?
         
         /// Статистика по городам. Массив объектов, каждый из которых содержит поля: name (string) — название города. city_id ([integer,string]) — идентификатор города или "other" для раздела «прочие города». count (integer) — число посетителей.
         public final class Cities: Codable {
@@ -137,7 +157,7 @@ public final class StatsFormat: Codable {
             }
         }
         
-        let cities: Cities?
+        public let cities: [Cities]?
         
         /// Статистика по странам. Массив объектов, каждый из которых содержит поля: name (string) — название страны. code (string) — двухбуквенный код страны (например, "RU"). country_id (integer) — идентификатор страны. count (integer) — число посетителей.
         public final class Countries: Codable {
@@ -162,9 +182,9 @@ public final class StatsFormat: Codable {
             }
         }
         
-        let countries: Countries?
+        public let countries: [Countries]?
         
-        public init(reach: Int64? = nil, reachSubscribers: Int64? = nil, mobileReach: Int64? = nil, sex: Sex? = nil, age: Age? = nil, sexAge: SexAge? = nil, cities: Cities? = nil, countries: Countries? = nil) {
+        public init(reach: Int64? = nil, reachSubscribers: Int64? = nil, mobileReach: Int64? = nil, sex: [Sex]? = nil, age: [Age]? = nil, sexAge: [SexAge]? = nil, cities: [Cities]? = nil, countries: [Countries]? = nil) {
             self.reach = reach
             self.reachSubscribers = reachSubscribers
             self.mobileReach = mobileReach
@@ -176,7 +196,7 @@ public final class StatsFormat: Codable {
         }
     }
     
-    let reach: Reach?
+    public let reach: Reach?
     
     public init(activity: Activity? = nil, periodFrom: UInt64? = nil, periodTo: UInt64? = nil, visitors: Visitors? = nil, reach: Reach? = nil) {
         self.activity = activity

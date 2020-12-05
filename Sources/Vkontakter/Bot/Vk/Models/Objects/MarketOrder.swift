@@ -12,7 +12,7 @@ public final class MarketOrder: Codable {
     public let id: Int64?
     
     /// Идентификатор сообщества.
-    public let groupId: Int64?
+    public let groupId: UInt64?
     
     /// Идентификатор покупателя.
     public let userId: Int64?
@@ -45,7 +45,7 @@ public final class MarketOrder: Codable {
         }
     }
     
-    let propertyValues: PropertyValues?
+    public let propertyValues: [PropertyValues]?
     
     /// Количество товара в корзине.
     public let cartQuantity: Int64?
@@ -77,7 +77,7 @@ public final class MarketOrder: Codable {
             }
         }
         
-        let currency: Currency?
+        public let currency: Currency?
         
         /// Строковое представление стоимости заказа.
         public let text: String?
@@ -89,7 +89,7 @@ public final class MarketOrder: Codable {
         }
     }
     
-    let totalPrice: TotalPrice?
+    public let totalPrice: TotalPrice?
     
     /// Номер заказа, состоящий из идентификатора покупателя и идентификатора заказа.
     public let displayOrderId: String?
@@ -105,7 +105,7 @@ public final class MarketOrder: Codable {
         }
     }
     
-    let previewOrderItems: PreviewOrderItems?
+    public let previewOrderItems: [PreviewOrderItems]?
     
     /// Информация о доставке.
     public final class Delivery: Codable {
@@ -130,7 +130,7 @@ public final class MarketOrder: Codable {
             }
         }
         
-        let deliveryPoint: DeliveryPoint?
+        public let deliveryPoint: DeliveryPoint?
         
         public init(address: String? = nil, type: String? = nil, trackNumber: String? = nil, trackLink: String? = nil, deliveryPoint: DeliveryPoint? = nil) {
             self.address = address
@@ -141,7 +141,7 @@ public final class MarketOrder: Codable {
         }
     }
     
-    let delivery: Delivery?
+    public let delivery: Delivery?
     
     /// Информация о покупателе.
     public final class Recipient: Codable {
@@ -162,9 +162,9 @@ public final class MarketOrder: Codable {
         }
     }
     
-    let recipient: Recipient?
+    public let recipient: Recipient?
     
-    public init(id: Int64? = nil, groupId: Int64? = nil, userId: Int64? = nil, date: UInt64? = nil, variantsGroupingId: Int64? = nil, isMainVariant: Bool? = nil, propertyValues: PropertyValues? = nil, cartQuantity: Int64? = nil, status: Int64? = nil, itemsCount: Int64? = nil, totalPrice: TotalPrice? = nil, displayOrderId: String? = nil, comment: String? = nil, previewOrderItems: PreviewOrderItems? = nil, delivery: Delivery? = nil, recipient: Recipient? = nil) {
+    public init(id: Int64? = nil, groupId: UInt64? = nil, userId: Int64? = nil, date: UInt64? = nil, variantsGroupingId: Int64? = nil, isMainVariant: Bool? = nil, propertyValues: [PropertyValues]? = nil, cartQuantity: Int64? = nil, status: Int64? = nil, itemsCount: Int64? = nil, totalPrice: TotalPrice? = nil, displayOrderId: String? = nil, comment: String? = nil, previewOrderItems: [PreviewOrderItems]? = nil, delivery: Delivery? = nil, recipient: Recipient? = nil) {
         self.id = id
         self.groupId = groupId
         self.userId = userId

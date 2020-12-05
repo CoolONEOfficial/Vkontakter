@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = false
+let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -124,37 +124,6 @@ if parseMethods {
         }
     }
 }
-
-//extension NSRegularExpression {
-//    convenience init(_ pattern: String) {
-//        do {
-//            try self.init(pattern: pattern)
-//        } catch {
-//            preconditionFailure("Illegal regular expression: \(pattern).")
-//        }
-//    }
-//}
-//
-//extension NSRegularExpression {
-//    func matches(_ string: String) -> Bool {
-//        let range = NSRange(location: 0, length: string.utf16.count)
-//        return firstMatch(in: string, options: [], range: range) != nil
-//    }
-//}
-
-//extension String {
-//    static func ~= (lhs: String, rhs: String) -> String? {
-//        guard let regex = try? NSRegularExpression(pattern: rhs) else { return nil }
-//        let range = NSRange(location: 0, length: lhs.utf16.count)
-//        if let match = regex.firstMatch(in: lhs, options: [], range: range) {
-//            let range = match.range(at:1)
-//            if let swiftRange = Range(range, in: lhs) {
-//                return String(lhs[swiftRange])
-//            }
-//        }
-//        return nil
-//    }
-//}
 
 extension Element {
     func headerText() throws -> String {

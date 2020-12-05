@@ -21,7 +21,7 @@ public final class CommentBoard: Codable {
     public let text: String?
     
     /// Медиавложения комментария (фотографии, ссылки и т.п.). Описание массива находится .
-    public let attachments: [Attachment]?
+    public let attachments: [[Attachment]]?
     
     /// Информация об отметках текущего комментария (если был задан параметр ),
     public final class Likes: Codable {
@@ -42,9 +42,9 @@ public final class CommentBoard: Codable {
         }
     }
     
-    let likes: Likes?
+    public let likes: Likes?
     
-    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, attachments: [Attachment]? = nil, likes: Likes? = nil) {
+    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, attachments: [[Attachment]]? = nil, likes: Likes? = nil) {
         self.id = id
         self.fromId = fromId
         self.date = date

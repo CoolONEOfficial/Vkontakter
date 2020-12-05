@@ -51,7 +51,10 @@ public class Dispatcher {
     public func enqueue(updates: [Update]) {
         updates.forEach { (update) in
             updateQueue.async {
-                guard self.bot.checkSecretKey(with: update.secretKey) else { return }
+                guard self.bot.checkSecretKey(with: update.secret) else {
+                    debugPrint("Wrong secret key, ignoring")
+                    return
+                }
                 self.submit(update: update)
             }
         }

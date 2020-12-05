@@ -10,14 +10,14 @@
 public final class PostSource: Codable {
     /// Тип источника.
     public enum `Type`: String, Codable {
-        case zapis_sozdana_posredstvom_otpravki_smssoobsenia_na_specialnyj_nomer = "sms"
-        case zapis_sozdana_cerez_osnovnoj_interfejs_sajta_http__vk = "vk"
-        case zapis_sozdana_cerez_vidzet_na_storonnem_sajte = "widget"
-        case zapis_sozdana_posredstvom_importa_rsslenty_so_storonnego_sajta = "rss"
-        case zapis_sozdana_prilozeniem_cerez_api = "api"
+        case rss
+        case vk
+        case api
+        case widget
+        case sms
     }
     
-    let `type`: Type?
+    public let `type`: Type?
     
     /// Название платформы, если оно доступно.
     public enum Platform: String, Codable {
@@ -26,18 +26,18 @@ public final class PostSource: Codable {
         case wphone
     }
     
-    let platform: Platform?
+    public let platform: Platform?
     
     /// Тип действия (только для = или ).
     public enum Data: String, Codable {
-        case vidzet_kommentariev_dla_type__widget = "comments"
-        case vidzet_oprosov_dla_type__widget = "poll"
-        case vidzet_mne_nravitsa_dla_type__widget = "like"
-        case izmenenie_profilnoj_fotografii_polzovatela_dla_type__vk = "profile_photo"
-        case izmenenie_statusa_pod_imenem_polzovatela_dla_type__vk = "profile_activity"
+        case poll
+        case profile_photo
+        case profile_activity
+        case comments
+        case like
     }
     
-    let data: Data?
+    public let data: Data?
     
     /// URL ресурса, с которого была опубликована запись.
     public let url: String?

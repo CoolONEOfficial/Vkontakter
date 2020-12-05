@@ -41,7 +41,7 @@ public final class MarketItem: Codable {
             }
         }
         
-        let currency: Currency?
+        public let currency: Currency?
         
         public init(amount: String? = nil, currency: Currency? = nil) {
             self.amount = amount
@@ -49,7 +49,7 @@ public final class MarketItem: Codable {
         }
     }
     
-    let price: Price?
+    public let price: Price?
     
     /// Габариты товара.
     public final class Dimensions: Codable {
@@ -70,7 +70,7 @@ public final class MarketItem: Codable {
         }
     }
     
-    let dimensions: Dimensions?
+    public let dimensions: Dimensions?
     
     /// Вес в граммах.
     public let weight: Int64?
@@ -99,7 +99,7 @@ public final class MarketItem: Codable {
             }
         }
         
-        let section: Section?
+        public let section: Section?
         
         public init(id: Int64? = nil, name: String? = nil, section: Section? = nil) {
             self.id = id
@@ -108,7 +108,7 @@ public final class MarketItem: Codable {
         }
     }
     
-    let category: Category?
+    public let category: Category?
     
     /// URL изображения-обложки товара.
     public let thumbPhoto: String?
@@ -118,12 +118,12 @@ public final class MarketItem: Codable {
     
     /// Статус доступности товара.
     public enum Availability: Int64, Codable {
-        case tovar_dostupen = 0
         case tovar_udalen = 1
+        case tovar_dostupen = 0
         case tovar_nedostupen = 2
     }
     
-    let availability: Availability?
+    public let availability: Availability?
     
     /// , если объект добавлен в закладки у текущего пользователя.
     public final class IsFavorite: Codable {
@@ -133,7 +133,7 @@ public final class MarketItem: Codable {
         }
     }
     
-    let isFavorite: IsFavorite?
+    public let isFavorite: IsFavorite?
     
     /// Артикул товара,
     public let sku: String?

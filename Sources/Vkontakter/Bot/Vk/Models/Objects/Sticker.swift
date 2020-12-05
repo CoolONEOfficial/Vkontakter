@@ -33,7 +33,7 @@ public final class Sticker: Codable {
         }
     }
     
-    let images: Images?
+    public let images: [Images]?
     
     /// Изображения для стикера (с непрозрачным фоном).
     public final class ImagesWithBackground: Codable {
@@ -54,9 +54,9 @@ public final class Sticker: Codable {
         }
     }
     
-    let imagesWithBackground: ImagesWithBackground?
+    public let imagesWithBackground: [ImagesWithBackground]?
     
-    public init(productId: Int64? = nil, stickerId: Int64? = nil, images: Images? = nil, imagesWithBackground: ImagesWithBackground? = nil) {
+    public init(productId: Int64? = nil, stickerId: Int64? = nil, images: [Images]? = nil, imagesWithBackground: [ImagesWithBackground]? = nil) {
         self.productId = productId
         self.stickerId = stickerId
         self.images = images

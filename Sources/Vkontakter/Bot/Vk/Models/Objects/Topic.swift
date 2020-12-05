@@ -32,7 +32,7 @@ public final class Topic: Codable {
         case ne_zakryto = 0
     }
     
-    let isClosed: IsClosed?
+    public let isClosed: IsClosed?
     
     /// Информация о том, закреплено ли обсуждение наверху списка.
     public enum IsFixed: Int64, Codable {
@@ -40,7 +40,7 @@ public final class Topic: Codable {
         case zakrepleno = 1
     }
     
-    let isFixed: IsFixed?
+    public let isFixed: IsFixed?
     
     /// Число комментариев в обсуждении.
     public let comments: Int64?

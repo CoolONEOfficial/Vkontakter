@@ -33,7 +33,7 @@ public final class Message: Codable {
     public let refSource: String?
     
     /// Медиавложения сообщения (фотографии, ссылки и т.п.). Описание массива находится .
-    public let attachments: [Attachment]?
+    public let attachments: [[Attachment]]?
     
     /// , если сообщение помечено как важное.
     public let important: Bool?
@@ -59,7 +59,7 @@ public final class Message: Codable {
             }
         }
         
-        let coordinates: Coordinates?
+        public let coordinates: [Coordinates]?
         
         /// Описание места (если оно добавлено), объект с полями: id (integer) — идентификатор места (если назначено). title (string) — название места (если назначено). latitude (number) — географическая широта. longitude (number) — географическая долгота. created (integer) — дата создания (если назначено). icon (string) — URL изображения-иконки. country (string) — название страны. city (string) — название города.
         public final class Place: Codable {
@@ -100,12 +100,12 @@ public final class Message: Codable {
             }
         }
         
-        let place: Place?
+        public let place: Place?
         
         /// Информация о том, отображается ли карта.
         public let showmap: Int64?
         
-        public init(type: String? = nil, coordinates: Coordinates? = nil, place: Place? = nil, showmap: Int64? = nil) {
+        public init(type: String? = nil, coordinates: [Coordinates]? = nil, place: Place? = nil, showmap: Int64? = nil) {
             self.type = `type`
             self.coordinates = coordinates
             self.place = place
@@ -113,7 +113,7 @@ public final class Message: Codable {
         }
     }
     
-    let geo: Geo?
+    public let geo: Geo?
     
     /// Сервисное поле для сообщений ботам (полезная нагрузка).
     public let payload: String?
@@ -126,10 +126,10 @@ public final class Message: Codable {
         }
     }
     
-    let keyboard: Keyboard?
+    public let keyboard: Keyboard?
     
     /// Массив пересланных сообщений (если есть). Максимальное количество элементов — . Максимальная глубина вложенности для пересланных сообщений — , общее максимальное количество в цепочке с учетом вложенности — .
-    public let fwdMessages: Message?
+    public let fwdMessages: [Message]?
     
     /// Сообщение, в ответ на которое отправлено текущее.
     public let replyMessage: Message?
@@ -139,18 +139,18 @@ public final class Message: Codable {
         
         /// Тип действия. Возможные значения: chat_photo_update — обновлена фотография беседы. chat_photo_remove — удалена фотография беседы. chat_create — создана беседа. chat_title_update — обновлено название беседы. chat_invite_user — приглашен пользователь. chat_kick_user — исключен пользователь. chat_pin_message — закреплено сообщение. chat_unpin_message — откреплено сообщение. chat_invite_user_by_link — пользователь присоединился к беседе по ссылке.
         public enum `Type`: String, Codable {
-            case priglasen_polzovatel = "chat_invite_user"
-            case polzovatel_prisoedinilsa_k_besede_po_ssylke = "chat_invite_user_by_link"
-            case isklucen_polzovatel = "chat_kick_user"
-            case otkrepleno_soobsenie = "chat_unpin_message"
-            case obnovlena_fotografia_besedy = "chat_photo_update"
-            case sozdana_beseda = "chat_create"
-            case udalena_fotografia_besedy = "chat_photo_remove"
-            case obnovleno_nazvanie_besedy = "chat_title_update"
-            case zakrepleno_soobsenie = "chat_pin_message"
+            case chat_invite_user_by_link
+            case chat_invite_user
+            case chat_photo_update
+            case chat_create
+            case chat_unpin_message
+            case chat_pin_message
+            case chat_kick_user
+            case chat_photo_remove
+            case chat_title_update
         }
         
-        let `type`: Type?
+        public let `type`: Type?
         
         /// Идентификатор пользователя (если > 0) или email (если < 0), которого пригласили или исключили (для служебных сообщений с type = chat_invite_user или chat_kick_user). Идентификатор пользователя, который закрепил/открепил сообщение для action = chat_pin_message или chat_unpin_message.
         public let memberId: Int64?
@@ -180,7 +180,7 @@ public final class Message: Codable {
             }
         }
         
-        let photo: Photo?
+        public let photo: Photo?
         
         public init(type: Type? = nil, memberId: Int64? = nil, text: String? = nil, email: String? = nil, photo: Photo? = nil) {
             self.type = `type`
@@ -191,7 +191,7 @@ public final class Message: Codable {
         }
     }
     
-    let action: Action?
+    public let action: Action?
     
     /// Только для сообщений сообщества. Содержит идентификатор пользователя (администратора сообщества), отправившего это сообщение.
     public let adminAuthorId: Int64?
@@ -214,7 +214,7 @@ public final class Message: Codable {
     /// Дата, когда сообщение было закреплено в Unixtime.
     public let pinnedAt: UInt64?
     
-    public init(id: Int64? = nil, date: UInt64? = nil, peerId: Int64? = nil, fromId: Int64? = nil, text: String? = nil, randomId: Int64? = nil, ref: String? = nil, refSource: String? = nil, attachments: [Attachment]? = nil, important: Bool? = nil, geo: Geo? = nil, payload: String? = nil, keyboard: Keyboard? = nil, fwdMessages: Message? = nil, replyMessage: Message? = nil, action: Action? = nil, adminAuthorId: Int64? = nil, conversationMessageId: Int64? = nil, isCropped: Bool? = nil, membersCount: Int64? = nil, updateTime: UInt64? = nil, wasListened: Bool? = nil, pinnedAt: UInt64? = nil) {
+    public init(id: Int64? = nil, date: UInt64? = nil, peerId: Int64? = nil, fromId: Int64? = nil, text: String? = nil, randomId: Int64? = nil, ref: String? = nil, refSource: String? = nil, attachments: [[Attachment]]? = nil, important: Bool? = nil, geo: Geo? = nil, payload: String? = nil, keyboard: Keyboard? = nil, fwdMessages: [Message]? = nil, replyMessage: Message? = nil, action: Action? = nil, adminAuthorId: Int64? = nil, conversationMessageId: Int64? = nil, isCropped: Bool? = nil, membersCount: Int64? = nil, updateTime: UInt64? = nil, wasListened: Bool? = nil, pinnedAt: UInt64? = nil) {
         self.id = id
         self.date = date
         self.peerId = peerId

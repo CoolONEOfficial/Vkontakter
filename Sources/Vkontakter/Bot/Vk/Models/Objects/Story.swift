@@ -28,7 +28,7 @@ public final class Story: Codable {
         }
     }
     
-    let isExpired: IsExpired?
+    public let isExpired: IsExpired?
     
     /// , если история удалена или не существует. В этом случае объект истории содержит только поля , , .
     public final class IsDeleted: Codable {
@@ -38,7 +38,7 @@ public final class Story: Codable {
         }
     }
     
-    let isDeleted: IsDeleted?
+    public let isDeleted: IsDeleted?
     
     /// Информация о том, может ли пользователь просмотреть историю ( — нет, — да). Если = , объект истории содержит только поля , , , , , .
     public let canSee: VkFlag?
@@ -48,11 +48,11 @@ public final class Story: Codable {
     
     /// Тип истории.
     public enum `Type`: String, Codable {
-        case fotografia = "photo"
-        case videozapis = "video"
+        case video
+        case photo
     }
     
-    let `type`: Type?
+    public let `type`: Type?
     
     /// (для = ). Фотография из истории. Поля объекта описаны .
     public final class Photo: Codable {
@@ -62,7 +62,7 @@ public final class Story: Codable {
         }
     }
     
-    let photo: Photo?
+    public let photo: Photo?
     
     /// (для = ). Видео из истории. Поля объекта описаны . Содержит дополнительные поля , , , , содержащие URL изображения-первого кадра видео с соответствующей шириной, и поле — информация о том, приватная ли история ( — нет, — да).
     public final class Video: Codable {
@@ -72,7 +72,7 @@ public final class Story: Codable {
         }
     }
     
-    let video: Video?
+    public let video: Video?
     
     /// Ссылка для перехода из истории.
     public final class Link: Codable {
@@ -89,7 +89,7 @@ public final class Story: Codable {
         }
     }
     
-    let link: Link?
+    public let link: Link?
     
     /// Идентификатор пользователя, загрузившего историю, ответом на которую является текущая.
     public let parentStoryOwnerId: Int64?
@@ -105,7 +105,7 @@ public final class Story: Codable {
         }
     }
     
-    let parentStory: ParentStory?
+    public let parentStory: ParentStory?
     
     /// Информация об ответах на текущую историю. Объект, который содержит поля: Получить истории-ответы можно методом .
     public final class Replies: Codable {
@@ -122,7 +122,7 @@ public final class Story: Codable {
         }
     }
     
-    let replies: Replies?
+    public let replies: Replies?
     
     /// Информация о том, может ли пользователь ответить на историю ( — нет, — да).
     public let canReply: VkFlag?
@@ -141,7 +141,7 @@ public final class Story: Codable {
         }
     }
     
-    let clickableStickers: ClickableStickers?
+    public let clickableStickers: ClickableStickers?
     
     /// Число просмотров.
     public let views: Int64?
@@ -154,7 +154,7 @@ public final class Story: Codable {
         }
     }
     
-    let accessKey: AccessKey?
+    public let accessKey: AccessKey?
     
     public init(id: Int64? = nil, ownerId: Int64? = nil, date: UInt64? = nil, expiresAt: UInt64? = nil, isExpired: IsExpired? = nil, isDeleted: IsDeleted? = nil, canSee: VkFlag? = nil, seen: Int64? = nil, type: Type? = nil, photo: Photo? = nil, video: Video? = nil, link: Link? = nil, parentStoryOwnerId: Int64? = nil, parentStoryId: Int64? = nil, parentStory: ParentStory? = nil, replies: Replies? = nil, canReply: VkFlag? = nil, canShare: VkFlag? = nil, canComment: VkFlag? = nil, clickableStickers: ClickableStickers? = nil, views: Int64? = nil, accessKey: AccessKey? = nil) {
         self.id = id

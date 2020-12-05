@@ -31,30 +31,98 @@ public final class Doc: Codable {
     
     /// Тип документа.
     public enum `Type`: Int64, Codable {
-        case video = 6
-        case gif = 3
-        case tekstovye_dokumenty = 1
         case audio = 5
-        case arhivy = 2
-        case elektronnye_knigi = 7
         case neizvestno = 8
         case izobrazenia = 4
+        case elektronnye_knigi = 7
+        case gif = 3
+        case tekstovye_dokumenty = 1
+        case arhivy = 2
+        case video = 6
     }
     
-    let `type`: Type?
+    public let `type`: Type?
     
     /// Информация для предварительного просмотра документа.
     public final class Preview: Codable {
         
         /// Изображения для предпросмотра. Содержит единственное поле: sizes (array) — массив копий изображения в разных размерах. Подробное описание структуры Вы найдете на этой странице. graffiti (object) — данные о граффити. Содержит следующие поля: src (string) — URL документа с граффити. width (integer) — ширина изображения в px. height (integer) — высота изображения в px. audio_message — данные об аудиосообщении. Объект, который содержит следующие поля: duration (integer) — длительность аудиосообщения в секундах. waveform (array) — массив значений (integer) для визуального отображения звука. link_ogg (string) — URL .ogg-файла. link_mp3 (string) — URL .mp3-файла.
-        public let photo: VkPhoto.Size?
+        public final class Photo: Codable {
+            
+            /// Изображения для предпросмотра. Содержит единственное поле: sizes (array) — массив копий изображения в разных размерах. Подробное описание структуры Вы найдете на этой странице.
+            public final class Photo: Codable {
+                
+                /// Массив копий изображения в разных размерах. Подробное описание структуры Вы найдете на этой странице.
+                public let sizes: [VkPhoto.Size]?
+                
+                public init(sizes: [VkPhoto.Size]? = nil) {
+                    self.sizes = sizes
+                }
+            }
+            
+            public let photo: [Photo]?
+            
+            /// Данные о граффити. Содержит следующие поля: src (string) — URL документа с граффити. width (integer) — ширина изображения в px. height (integer) — высота изображения в px.
+            public final class Graffiti: Codable {
+                
+                /// URL документа с граффити.
+                public let src: String?
+                
+                /// Ширина изображения в px.
+                public let width: Int64?
+                
+                /// Высота изображения в px.
+                public let height: Int64?
+                
+                public init(src: String? = nil, width: Int64? = nil, height: Int64? = nil) {
+                    self.src = src
+                    self.width = width
+                    self.height = height
+                }
+            }
+            
+            public let graffiti: Graffiti?
+            
+            /// Данные об аудиосообщении. Объект, который содержит следующие поля: duration (integer) — длительность аудиосообщения в секундах. waveform (array) — массив значений (integer) для визуального отображения звука. link_ogg (string) — URL .ogg-файла. link_mp3 (string) — URL .mp3-файла.
+            public final class AudioMessage: Codable {
+                
+                /// Длительность аудиосообщения в секундах.
+                public let duration: Int64?
+                
+                /// Массив значений (integer) для визуального отображения звука.
+                public let waveform: [Int64]?
+                
+                /// URL .ogg-файла.
+                public let linkOgg: String?
+                
+                /// URL .mp3-файла.
+                public let linkMp3: String?
+                
+                public init(duration: Int64? = nil, waveform: [Int64]? = nil, linkOgg: String? = nil, linkMp3: String? = nil) {
+                    self.duration = duration
+                    self.waveform = waveform
+                    self.linkOgg = linkOgg
+                    self.linkMp3 = linkMp3
+                }
+            }
+            
+            public let audioMessage: [AudioMessage]?
+            
+            public init(photo: [Photo]? = nil, graffiti: Graffiti? = nil, audioMessage: [AudioMessage]? = nil) {
+                self.photo = photo
+                self.graffiti = graffiti
+                self.audioMessage = audioMessage
+            }
+        }
         
-        public init(photo: VkPhoto.Size? = nil) {
+        public let photo: [Photo]?
+        
+        public init(photo: [Photo]? = nil) {
             self.photo = photo
         }
     }
     
-    let preview: Preview?
+    public let preview: Preview?
     
     public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, size: Int64? = nil, ext: String? = nil, url: String? = nil, date: UInt64? = nil, type: Type? = nil, preview: Preview? = nil) {
         self.id = id
