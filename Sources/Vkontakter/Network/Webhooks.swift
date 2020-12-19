@@ -9,19 +9,17 @@ import Foundation
 import AsyncHTTPClient
 import NIO
 
-/// Will take care of you Telegram webhooks updates
+/// Will take care of you VK webhooks updates
 public class Webhooks: Connection {
 
     public struct Config {
         public var ip: String
         public var url: String
-        public var port: Int
         public var groupId: UInt64?
 
-        public init(ip: String, url: String, port: Int, groupId: UInt64? = nil) {
+        public init(ip: String, url: String, groupId: UInt64? = nil) {
             self.ip = ip
             self.url = url
-            self.port = port
             self.groupId = groupId
         }
     }
@@ -89,7 +87,7 @@ public class Webhooks: Connection {
 //            allowedUpdates: nil
 //        )
 
-        return try listenWebhooks(on: config.ip, port: config.port)
+        return try listenWebhooks(on: config.ip, port: 80)
 //            .flatMapThrowing { _  -> Void in
 //                return try self.bot.setWebhook(params: params).whenComplete { (result) -> Void in
 //                    switch result {

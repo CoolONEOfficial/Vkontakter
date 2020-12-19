@@ -25,6 +25,10 @@ public final class Update: Codable {
         
         public struct MessageWrapper: Codable {
             public let message: Message
+            
+            public init(_ message: Message) {
+                self.message = message
+            }
         }
         
         private enum CodingKeys: String, CodingKey {
@@ -39,7 +43,7 @@ public final class Update: Codable {
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             if let value = try? container.decode(Message.self, forKey: .message) {
-                self = .message(.init(message: value))
+                self = .message(.init(value))
             } else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Data doesn't match"))
             }
