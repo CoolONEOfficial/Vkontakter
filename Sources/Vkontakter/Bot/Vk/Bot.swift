@@ -78,7 +78,7 @@ public final class Bot: BotProtocol {
             let desc = """
             Response marked as `not Ok`, it seems something wrong with request
             Code: \(container.error?.errorCode ?? -1)
-            \(container.error?.errorMessage ?? "Empty")
+            \(container.error?.errorMsg ?? "Empty")
             """
             let error = CoreError(
                 type: .server,
@@ -102,7 +102,7 @@ public final class Bot: BotProtocol {
         Response:
         Code: \(container.error?.errorCode ?? 0)
         Status OK: \(container.ok)
-        Description: \(container.error?.errorMessage ?? "Empty")
+        Description: \(container.error?.errorMsg ?? "Empty")
 
         """
         log.info(logString.logMessage)

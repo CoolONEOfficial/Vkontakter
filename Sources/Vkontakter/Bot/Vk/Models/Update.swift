@@ -36,10 +36,6 @@ public final class Update: Codable {
             case clientInfoo
         }
 
-        enum PostTypeCodingError: Error {
-            case decoding(String)
-        }
-
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             if let value = try? container.decode(Message.self, forKey: .message) {
@@ -58,7 +54,7 @@ public final class Update: Codable {
         }
     }
 
-    public var object: Object?
+    public let object: Object?
     
     public init(type: Type, secretKey: String, object: Object) {
         self.type = type

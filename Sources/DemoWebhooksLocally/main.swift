@@ -42,7 +42,7 @@ Working example:
  "text" : "dfd",
  "date" : 1574871485
  }
- }' "http://127.0.0.1:8080/"
+ }' "http://127.0.0.1:80/"
 
  */
 
@@ -52,7 +52,7 @@ var settings = Bot.Settings(token: "BOT_TOKEN")
 settings.webhooksConfig = Webhooks.Config(
     ip: "127.0.0.1",
     url: "",
-    port: 8080
+    port: 80
 )
 
 let bot = try! Bot(settings: settings)
