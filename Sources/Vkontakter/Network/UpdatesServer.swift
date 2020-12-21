@@ -109,7 +109,8 @@ private final class UpdatesHandler: ChannelInboundHandler {
                 status: HTTPResponseStatus.ok
             )
 
-            self.buffer.clear()
+            buffer.clear()
+            buffer.writeString("ok")
             responseHead.headers.add(name: "content-length", value: "\(self.buffer!.readableBytes)")
             let response = HTTPServerResponsePart.head(responseHead)
             context.write(self.wrapOutboundOut(response), promise: nil)

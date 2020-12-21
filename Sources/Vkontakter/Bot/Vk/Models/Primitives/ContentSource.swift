@@ -7,5 +7,5 @@
 
 import Foundation
 
-public struct VkContentSource: Codable {
+public struct ContentSource: Codable {
 }

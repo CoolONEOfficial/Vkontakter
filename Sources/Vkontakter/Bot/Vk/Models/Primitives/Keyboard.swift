@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct VkKeyboard: Codable {
+public struct Keyboard: Codable {
 
     ///
     public let oneTime: Bool
@@ -24,11 +24,11 @@ public struct VkKeyboard: Codable {
                 
                 let type = "text"
                 
-                let payload: String
+                let payload: String?
                 
                 let label: String
                 
-                public init(payload: String, label: String) {
+                public init(payload: String? = nil, label: String) {
                     self.payload = payload
                     self.label = label
                 }
@@ -87,8 +87,8 @@ public struct VkKeyboard: Codable {
             }
             
             public struct App: Codable {
-                enum CodingKeys: CodingKey {
-                    case type, payload, label
+                enum CodingKeys: String, CodingKey {
+                    case type, payload, label, appId = "app_id", ownerId = "owner_id", hash
                 }
                 
                 let type = "open_app"
@@ -96,10 +96,19 @@ public struct VkKeyboard: Codable {
                 public let payload: String?
                 
                 public let label: String
+                
+                public let appId: Int
+                
+                public let ownerId: Int?
+                
+                public let hash: String
 
-                public init(payload: String? = nil, label: String) {
+                public init(payload: String? = nil, label: String, appId: Int, ownerId: Int? = nil, hash: String) {
                     self.payload = payload
                     self.label = label
+                    self.appId = appId
+                    self.ownerId = ownerId
+                    self.hash = hash
                 }
             }
             
@@ -191,7 +200,7 @@ public struct VkKeyboard: Codable {
     ///
     public let inline: Bool
     
-    public init(oneTime: Bool, buttons: [[VkKeyboard.Button]], inline: Bool) {
+    public init(oneTime: Bool, buttons: [[Keyboard.Button]], inline: Bool) {
         self.oneTime = oneTime
         self.buttons = buttons
         self.inline = inline

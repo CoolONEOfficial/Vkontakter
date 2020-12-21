@@ -13,15 +13,17 @@ public final class Update: Codable {
 
     public enum `Type`: String, Codable {
         case message_new
+        case message_event
         case confirmation
     }
     
-    public let type: Type
+    let type: Type
 
     public let secret: String?
     
     public enum Object: Codable {
         case message(_ wrapper: MessageWrapper)
+        case event(_ event: MessageEvent)
         
         public struct MessageWrapper: Codable {
             public let message: Message
@@ -30,26 +32,25 @@ public final class Update: Codable {
                 self.message = message
             }
         }
-        
-        private enum CodingKeys: String, CodingKey {
-            case message
-            case clientInfoo
-        }
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            if let value = try? container.decode(Message.self, forKey: .message) {
-                self = .message(.init(value))
+            
+            if let messageWrapper = try? MessageWrapper(from: decoder) {
+                self = .message(messageWrapper)
+            } else if let messageEvent = try? MessageEvent(from: decoder) {
+                self = .event(messageEvent)
             } else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Data doesn't match"))
             }
         }
 
         public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
-            case .message(let messageWrapper):
-                try container.encode(messageWrapper, forKey: .message)
+            case let .message(messageWrapper):
+                try messageWrapper.encode(to: encoder)
+            case let .event(event):
+                try event.encode(to: encoder)
             }
         }
     }
