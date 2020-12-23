@@ -11,9 +11,7 @@ import Foundation
 public struct AllFilter: Filter {
     public var name: String = "all"
 
-    public func filter(message: Message) -> Bool {
-        return true
-    }
+    public func filter(message: Message) -> Bool { true }
 }
 
 public extension Filters {

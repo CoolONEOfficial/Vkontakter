@@ -22,11 +22,11 @@ public class MessageHandler: Handler {
         }
 
         ///Should “normal” message updates be handled?
-        public static let messageUpdates = Options(rawValue: 1)
-        ///Should channel posts updates be handled?
-        public static let channelPostUpdates = Options(rawValue: 2)
-        ///Should “edited” message updates be handled?
-        public static let editedUpdates = Options(rawValue: 4)
+        public static var messageUpdates: Options { .init(rawValue: 1) }
+//        ///Should channel posts updates be handled?
+//        public static let channelPostUpdates = Options(rawValue: 2)
+//        ///Should “edited” message updates be handled?
+//        public static let editedUpdates = Options(rawValue: 4)
     }
 
     let filters: Filters
@@ -36,7 +36,7 @@ public class MessageHandler: Handler {
     public init(
         name: String = String(describing: MessageHandler.self),
         filters: Filters = .all,
-        options: Options = [.messageUpdates, .channelPostUpdates],
+        options: Options = [.messageUpdates], //.channelPostUpdates],
         callback: @escaping HandlerCallback
         ) {
         self.filters = filters

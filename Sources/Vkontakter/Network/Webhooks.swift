@@ -50,55 +50,7 @@ public class Webhooks: Connection {
             )
         }
 
-//        var cert: InputFile?
-//
-//        if let publicCert = config.publicCert {
-//            switch publicCert {
-//            case .file(url: let url):
-//                guard let fileHandle = FileHandle(forReadingAtPath: url) else {
-//                    let errorDescription = "Public key '\(publicCert)' was specified for HTTPS server, but wasn't found"
-//                    log.error(errorDescription.logMessage)
-//                    throw CoreError(
-//                        type: .internal,
-//                        reason: errorDescription
-//                    )
-//                }
-//                cert = InputFile(data: fileHandle.readDataToEndOfFile(), filename: url)
-//            case .text(content: let textCert):
-//                guard let strData = textCert.data(using: .utf8) else {
-//                    let errorDescription = """
-//                    Public key body '\(textCert)' was specified for HTTPS server,\n
-//                    but it cannot be converted into Data type
-//                    """
-//                    log.error(errorDescription.logMessage)
-//                    throw CoreError(
-//                        type: .internal,
-//                        reason: errorDescription
-//                    )
-//                }
-//                cert = InputFile(data: strData, filename: "public.pem")
-//            }
-//        }
-
-//        let params = Bot.SetWebhookParams(
-//            url: config.url,
-//            //certificate: cert,
-//            maxConnections: maxConnections,
-//            allowedUpdates: nil
-//        )
-
         return try listenWebhooks(on: config.ip, port: 80)
-//            .flatMapThrowing { _  -> Void in
-//                return try self.bot.setWebhook(params: params).whenComplete { (result) -> Void in
-//                    switch result {
-//                    case .success(let res):
-//                        log.info("setWebhook request result: \(res)")
-//                        log.info("Started UpdatesServer, listening for incoming messages...")
-//                    case .failure(let error):
-//                        log.error(error.logMessage)
-//                    }
-//                }
-//        }
     }
 
     private func listenWebhooks(on host: String, port: Int) throws -> Future<Void> {

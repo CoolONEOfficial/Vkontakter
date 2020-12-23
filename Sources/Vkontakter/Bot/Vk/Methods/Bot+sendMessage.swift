@@ -59,7 +59,7 @@ public extension Bot {
         public let groupId: UInt64?
         
         /// Объект, описывающий клавиатуру бота.
-        public let keyboard: VkKeyboard?
+        public let keyboard: Keyboard?
         
         /// Объект, описывающий шаблон сообщения.
         public let template: VkTemplate?
@@ -68,7 +68,7 @@ public extension Bot {
         public let payload: String?
         
         /// Объект, описывающий источник пользовательского контента для чат-ботов.
-        public let contentSource: VkContentSource?
+        public let contentSource: ContentSource?
         
         /// 1 — не создавать сниппет ссылки из сообщения.
         public let dontParseLinks: VkFlag?
@@ -82,7 +82,7 @@ public extension Bot {
         /// Число, которое в будущем будет предназначено для работы с интентами.
         public let subscribeId: UInt64?
         
-        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String, lat: Double? = nil, long: Double? = nil, attachment: [Attachment]? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: VkKeyboard? = nil, template: VkTemplate? = nil, payload: String? = nil, contentSource: VkContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
+        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String, lat: Double? = nil, long: Double? = nil, attachment: [Attachment]? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: Keyboard? = nil, template: VkTemplate? = nil, payload: String? = nil, contentSource: ContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
             self.userId = userId
             self.randomId = randomId
             self.peerId = peerId

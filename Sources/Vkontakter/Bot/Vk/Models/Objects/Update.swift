@@ -6,8 +6,8 @@
  Например:
  {"type": "group_join", "object": {"user_id": 1, "join_type" : "approved"}, "group_id": 1}
  Структура объекта в поле object зависит от типа уведомления.
- SeeAlso Telegram Bot API Reference:
- [Update](https://core.telegram.org/bots/api#update)
+ SeeAlso VK Bot API Reference:
+ [Update](https://vk.com/dev/groups_events)
  */
 public final class Update: Codable {
 
@@ -61,5 +61,42 @@ public final class Update: Codable {
         self.type = type
         self.secret = secretKey
         self.object = object
+    }
+    
+    private enum CodingKeys: CodingKey {
+        case type, secret, object
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.type = try container.decode(Type.self, forKey: .type)
+        
+        switch type {
+        case .message_new:
+            object = .message(try container.decode(Object.MessageWrapper.self, forKey: .object))
+        case .message_event:
+            object = .event(try container.decode(MessageEvent.self, forKey: .object))
+        case .confirmation:
+            object = nil
+        }
+        
+        self.secret = try container.decode(String.self, forKey: .secret)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(type, forKey: .type)
+        try container.encode(secret, forKey: .secret)
+
+        switch object {
+        case let .message(message):
+            try container.encode(message, forKey: .object)
+        case let .event(event):
+            try container.encode(event, forKey: .object)
+        case .none:
+            try container.encodeNil(forKey: .object)
+        }
     }
 }
