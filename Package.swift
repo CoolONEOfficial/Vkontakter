@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Vkontakter",
     platforms: [
-        .macOS(.v10_14)
+        .macOS(.v10_15)
     ],
     products: [
         .library(name: "Vkontakter", targets: ["Vkontakter"]),
@@ -17,8 +17,7 @@ let package = Package(
         .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.18.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.2"),
-        //.package(url: "https://github.com/CoolONEOfficial/SwiftyVK.git", .branch("master")),
-        .package(path: "../../SwiftyVK")
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.4.0"),
     ],
     targets: [
         .target(
@@ -26,7 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "SwiftyVK", package: "SwiftyVK"),
+                .product(name: "AnyCodable", package: "AnyCodable"),
             ]
         ),
         .target(name: "API", dependencies: ["SwiftSoup"]),
