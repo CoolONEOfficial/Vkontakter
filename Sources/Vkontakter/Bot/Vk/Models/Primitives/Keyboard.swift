@@ -97,13 +97,13 @@ public struct Keyboard: Codable {
                 
                 public let label: String
                 
-                public let appId: Int
+                public let appId: Int64
                 
-                public let ownerId: Int?
+                public let ownerId: Int64?
                 
                 public let hash: String
 
-                public init(payload: String? = nil, label: String, appId: Int, ownerId: Int? = nil, hash: String) {
+                public init(payload: String? = nil, label: String, appId: Int64, ownerId: Int64? = nil, hash: String) {
                     self.payload = payload
                     self.label = label
                     self.appId = appId

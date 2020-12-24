@@ -40,6 +40,7 @@ struct RespParameter {
         case Attachment
         case Message
         case PhotoSize
+        case EventData
         
         static let allCases: [Self] = {
             var cases = [Self]()
@@ -56,7 +57,7 @@ struct RespParameter {
         
         static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
-        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize]
+        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize, .EventData]
         
         static let typedCases = primitiveCases + hardcodedCases
         
@@ -104,6 +105,8 @@ struct RespParameter {
                 return [ "медиавложения" ]
             case .Message:
                 return [ "пересланных сообщений", ", в ответ на которое отправлено" ]
+            case .EventData:
+                return [ "произойти после нажатия на кнопку" ]
             }
         }
 
@@ -134,11 +137,11 @@ struct RespParameter {
                 guard let params = params else { return nil }
                 return params.name
             case .Keyboard:
-                return "VkKeyboard"
+                return "Keyboard"
             case .Template:
-                return "VkTemplate"
+                return "Template"
             case .ContentSource:
-                return "VkContentSource"
+                return "ContentSource"
             case .Flag:
                 return "VkFlag"
             case .Photo:
@@ -151,6 +154,8 @@ struct RespParameter {
                 return "[Attachment]"
             case .Message:
                 return "Message"
+            case .EventData:
+                return "EventData"
             }
         }
         

@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = true
+let parseTypes = false
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -43,7 +43,10 @@ let vkDir = projectDir
 if parseMethods {
 
     let methodGroups: [ String: [ Method ] ] = [
-        "messages": [ .init("send", "sendMessage") ],
+        "messages": [
+            .init("send", "sendMessage"),
+            .init("sendMessageEventAnswer")
+        ],
         "groups": [
             .init("setCallbackSettings"),
             .init("deleteCallbackServer"),

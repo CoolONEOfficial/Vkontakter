@@ -9,7 +9,7 @@ public extension Bot {
         /// Идентификатор пользователя, которому отправляется сообщение.
         public let userId: Int64?
         
-        /// Уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений. Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.
+        /// Число в пределах int32 - уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений. Переданный в запросе random_id используется для проверки уникальности, проверяя в заданном диалоге сообщения за последний час (но не более 100 последних сообщений). целое число, доступен начиная с версии 5.
         public let randomId: Int32?
         
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества. целое число, доступен начиная с версии 5.
@@ -62,7 +62,7 @@ public extension Bot {
         public let keyboard: Keyboard?
         
         /// Объект, описывающий шаблон сообщения.
-        public let template: VkTemplate?
+        public let template: Template?
         
         /// Полезная нагрузка.
         public let payload: String?
@@ -82,7 +82,7 @@ public extension Bot {
         /// Число, которое в будущем будет предназначено для работы с интентами.
         public let subscribeId: UInt64?
         
-        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String, lat: Double? = nil, long: Double? = nil, attachment: [Attachment]? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: Keyboard? = nil, template: VkTemplate? = nil, payload: String? = nil, contentSource: ContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
+        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String, lat: Double? = nil, long: Double? = nil, attachment: [Attachment]? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: Keyboard? = nil, template: Template? = nil, payload: String? = nil, contentSource: ContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
             self.userId = userId
             self.randomId = randomId
             self.peerId = peerId
