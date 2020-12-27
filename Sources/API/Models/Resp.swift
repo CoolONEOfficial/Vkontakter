@@ -41,6 +41,7 @@ struct RespParameter {
         case Message
         case PhotoSize
         case EventData
+        case MessagePayload
         
         static let allCases: [Self] = {
             var cases = [Self]()
@@ -57,7 +58,7 @@ struct RespParameter {
         
         static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
-        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize, .EventData]
+        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize, .EventData, .MessagePayload]
         
         static let typedCases = primitiveCases + hardcodedCases
         
@@ -86,7 +87,7 @@ struct RespParameter {
             case .Object(_):
                 return [ "объект", "object", "информация о высшем учебном заведении" ]
             case .Keyboard:
-                return [ "клавиатуру бота" ]
+                return [ "клавиатуру бота", "объект клавиатуры для ботов." ]
             case .Template:
                 return [ "шаблон сообщения" ]
             case .ContentSource:
@@ -107,6 +108,8 @@ struct RespParameter {
                 return [ "пересланных сообщений", ", в ответ на которое отправлено" ]
             case .EventData:
                 return [ "произойти после нажатия на кнопку" ]
+            case .MessagePayload:
+                return [ "полезная нагрузка" ]
             }
         }
 
@@ -156,6 +159,8 @@ struct RespParameter {
                 return "Message"
             case .EventData:
                 return "EventData"
+            case .MessagePayload:
+                return "AnyCodable"
             }
         }
         
@@ -203,9 +208,10 @@ struct RespParameter {
         let type = try inlineEl.select(".wk_gray").first()?.ownText() ?? ""
         
         var desc = fullDesc.replacingOccurrences(of: ";", with: ".")
-        let ind = ["–", "—"].compactMap { desc.firstIndex(of: $0) }.first!
-        let startIndex = desc.index(ind, offsetBy: 2)
-        desc = String(desc[startIndex ..< desc.endIndex]).capitalizingFirstLetter()
+        if let ind = ["–", "—"].compactMap({ desc.firstIndex(of: $0) }).first {
+            let startIndex = desc.index(ind, offsetBy: 2)
+            desc = String(desc[startIndex ..< desc.endIndex]).capitalizingFirstLetter()
+        }
         
         let subEl = try inlineEl.select(".listing").first() ?? inlineEl
         let resultType: ParamType = try ParamType.allCases.findType(el: subEl, name: name, type: type, desc: ownDesc, fullDesc: fullDesc)
@@ -216,11 +222,17 @@ struct RespParameter {
         let cols = try typeEl.select("td").array()
         guard !cols.isEmpty, let name = try cols[0].select("b").first()?.ownText().camelized else { return nil }
         let type = try cols[0].select(".wk_gray").first()?.ownText() ?? ""
-        let fullDesc = cols[1].ownText().capitalizingFirstLetter()
+        let contentEl = cols[1]
+        
+        let fullDesc: String
+        if try contentEl.getElementsByClass("listing").isEmpty() {
+            fullDesc = try contentEl.text().capitalizingFirstLetter()
+        } else {
+            fullDesc = contentEl.ownText().capitalizingFirstLetter()
+        }
         let desc = fullDesc.beforeLastDotOrComma
         let listingEl = try typeEl.select(".listing").first()
-        let resultType: ParamType = try ParamType.allCases.findType(el: listingEl ?? typeEl, name: name, type: type, desc: fullDesc)
-
+        let resultType: ParamType = try ParamType.allCases.findType(el: listingEl ?? typeEl, name: name, type: type, desc: desc, fullDesc: fullDesc)
         return .init(name: name, description: desc, type: resultType, required: required)
     }
     

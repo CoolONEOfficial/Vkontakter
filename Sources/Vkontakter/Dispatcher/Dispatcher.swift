@@ -66,16 +66,19 @@ public class Dispatcher {
      - Parameters:
      - bytebuffer: Array of Telegram updates
      */
-    public func enqueue(bytebuffer: ByteBuffer) {
+    @discardableResult
+    public func enqueue(bytebuffer: ByteBuffer) -> Update? {
         guard let data = bytebuffer.getBytes(at: 0, length: bytebuffer.writerIndex) else {
-            return
+            return nil
         }
         do {
-            let update = try JSONDecoder.snakeCased.decode(Update.self, from: Data(data))
+            let update = try JSONDecoder.snakeCased.decode(Update.self, from: .init(data))
+            guard update.type != .confirmation else { return update }
             enqueue(updates: [update])
         } catch {
             log.error(error.logMessage)
         }
+        return nil
     }
 }
 

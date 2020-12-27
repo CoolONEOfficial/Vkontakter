@@ -43,9 +43,9 @@ public final class Updater {
      - Throws: Throws on errors
      - Returns: Future of `Void` type
      */
-    public func startWebhooks() throws -> Future<Void> {
+    public func startWebhooks(serverName: String?) throws -> Future<Void> {
         webhooksListener = Webhooks(bot: bot, dispatcher: dispatcher, worker: worker)
-        return try webhooksListener.start()
+        return try webhooksListener.start(serverName: serverName)
     }
 
 //    /**

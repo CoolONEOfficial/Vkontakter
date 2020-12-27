@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = false
+let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {

@@ -17,7 +17,7 @@ public final class Update: Codable {
         case confirmation
     }
     
-    let type: Type
+    public let type: Type
 
     public let secret: String?
     

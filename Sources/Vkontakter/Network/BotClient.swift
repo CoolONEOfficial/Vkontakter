@@ -78,7 +78,6 @@ public class BotClient {
         guard let bytes = body.getBytes(at: 0, length: body.writerIndex) else {
             throw BotError()
         }
-        //debugPrint("try to decode \(String.init(data: Data(bytes), encoding: .utf8))")
         return try JSONDecoder.snakeCased.decode(VkContainer<T>.self, from: Data(bytes))
     }
 

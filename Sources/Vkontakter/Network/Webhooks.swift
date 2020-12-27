@@ -42,7 +42,7 @@ public class Webhooks: Connection {
         self.running = false
     }
 
-    public func start() throws -> Future<Void> {
+    public func start(serverName: String?) throws -> Future<Void> {
         guard let config = bot.settings.webhooksConfig else {
             throw CoreError(
                 type: .internal,
@@ -51,11 +51,22 @@ public class Webhooks: Connection {
         }
 
         return try listenWebhooks(on: config.ip, port: 80)
+            .flatMapThrowing { _  -> Void in
+                return try self.bot.setWebhook(serverName: serverName).whenComplete { (result) -> Void in
+                    switch result {
+                    case .success(let res):
+                        log.info("setWebhook request result: \(res)")
+                        log.info("Started VK UpdatesServer, listening for incoming messages...")
+                    case .failure(let error):
+                        log.error(error.logMessage)
+                    }
+                }
+        }
     }
 
     private func listenWebhooks(on host: String, port: Int) throws -> Future<Void> {
         let promise = worker.next().makePromise(of: Void.self)
-        let server = UpdatesServer(host: host, port: port, handler: dispatcher)
+        let server = UpdatesServer(host: host, port: port, handler: dispatcher, bot: bot)
         try server.start()
             .whenComplete { (result) in
                 switch result {

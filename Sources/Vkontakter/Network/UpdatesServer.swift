@@ -36,6 +36,7 @@ private final class UpdatesHandler: ChannelInboundHandler {
 
     private var buffer: ByteBuffer! = nil
     private var keepAlive = false
+    private var responseHead: HTTPResponseHead!
     private var state = State.idle
 
     private var infoSavedRequestHead: HTTPRequestHead?
@@ -46,9 +47,11 @@ private final class UpdatesHandler: ChannelInboundHandler {
     private var handler: ((ChannelHandlerContext, HTTPServerRequestPart) -> Void)?
 
     private let dispatcher: Dispatcher
+    private let bot: Bot
 
-    init(dispatcher: Dispatcher) {
+    init(dispatcher: Dispatcher, bot: Bot) {
         self.dispatcher = dispatcher
+        self.bot = bot
     }
 
     private func completeResponse(
@@ -104,18 +107,29 @@ private final class UpdatesHandler: ChannelInboundHandler {
             self.keepAlive = request.isKeepAlive
             self.state.requestReceived()
 
-            var responseHead = httpResponseHead(
+            responseHead = httpResponseHead(
                 request: request,
-                status: HTTPResponseStatus.ok
+                status: .ok
             )
 
             buffer.clear()
-            buffer.writeString("ok")
+        case .body(let bytes):
+            let update = dispatcher.enqueue(bytebuffer: bytes)
+            
+            let content: String
+            if update?.type == .confirmation, let code = bot.confirmationCode {
+                bot.confirmationCode = nil
+                content = code
+            } else {
+                content = "ok"
+            }
+            buffer.writeString(content)
+
             responseHead.headers.add(name: "content-length", value: "\(self.buffer!.readableBytes)")
             let response = HTTPServerResponsePart.head(responseHead)
+            responseHead = nil
+
             context.write(self.wrapOutboundOut(response), promise: nil)
-        case .body(let bytes):
-            dispatcher.enqueue(bytebuffer: bytes)
         case .end:
             self.state.requestComplete()
             let content = HTTPServerResponsePart.body(.byteBuffer(buffer!.slice()))
@@ -156,14 +170,16 @@ final class UpdatesServer {
     let port: Int
     var channel: Channel?
     var handler: Dispatcher
+    let bot: Bot
 
     private var group: EventLoopGroup?
     private var socketBootstrap: ServerBootstrap?
 
-    init(host: String, port: Int, handler: Dispatcher) {
+    init(host: String, port: Int, handler: Dispatcher, bot: Bot) {
         self.host = host
         self.port = port
         self.handler = handler
+        self.bot = bot
     }
 
     func childChannelInitializer(channel: Channel) -> EventLoopFuture<Void> {
@@ -171,7 +187,7 @@ final class UpdatesServer {
             .configureHTTPServerPipeline(withErrorHandling: true)
             .flatMap {
                 channel.pipeline.addHandler(
-                    UpdatesHandler(dispatcher: self.handler)
+                    UpdatesHandler(dispatcher: self.handler, bot: self.bot)
                 )
         }
     }

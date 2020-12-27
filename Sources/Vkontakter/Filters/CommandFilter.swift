@@ -7,17 +7,17 @@
 
 import Foundation
 
-/// Messages which contains command entity
-//public struct CommandFilter: Filter {
-//
-//    public var name: String = "command"
-//
-//    public func filter(message: Message) -> Bool {
-//        guard let entity = message.entities else { return false }
-//        return entity.contains(where: { $0.type == .botCommand })
-//    }
-//}
-//
-//public extension Filters {
-//    static var command = Filters(filter: CommandFilter())
-//}
+/// Messages which contains command
+public struct CommandFilter: Filter {
+
+    public var name: String = "command"
+
+    public func filter(message: Message) -> Bool {
+        guard let payload = message.payload else { return false }
+        return payload.command != nil
+    }
+}
+
+public extension Filters {
+    static var command = Filters(filter: CommandFilter())
+}
