@@ -38,14 +38,16 @@ public extension Bot {
             self.hash = hash
         }
         
+        var saveParams: SaveMessagesPhotoParams {
+            .init(photo: photo, server: server, hash: hash)
+        }
     }
 
     @discardableResult
-    func uploadPhoto(url: URL, params: UploadPhotoParams) throws -> Future<UploadPhotoResp> {
+    func uploadPhoto(to url: URL, params: UploadPhotoParams) throws -> Future<UploadPhotoResp> {
         let body = try httpBody(for: params)
         let headers = httpHeaders(for: params)
         return try client
             .request(url: url, body: body, headers: headers)
     }
-
 }
