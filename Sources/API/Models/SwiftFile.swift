@@ -128,7 +128,7 @@ extension String {
         String.swiftKeywords.contains { caseInsensitiveCompare($0) == .orderedSame }
     }
     
-    fileprivate static var swiftKeywords = [ "class", "enum", "type", "in" ]
+    fileprivate static var swiftKeywords = [ "class", "enum", "type", "in", "repeat" ]
 }
 
 extension RespParameter {
@@ -148,7 +148,7 @@ extension RespParameter {
         case _ where ParamType.typedCases.contains(type), .Array: break
         case let .Enum(data):
             guard let data = data else { fatalError() }
-            let casesContent: String = data.cases.map {
+            let casesContent: String = data.cases.sorted( by: { $0.0 < $1.0 }).map {
                 var str = "\ncase "
                 switch data.casesType {
                 case .String:

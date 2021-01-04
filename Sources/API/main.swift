@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = true
+let parseTypes = false
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -45,7 +45,8 @@ if parseMethods {
     let methodGroups: [ String: [ Method ] ] = [
         "messages": [
             .init("send", "sendMessage"),
-            .init("sendMessageEventAnswer")
+            .init("sendMessageEventAnswer"),
+            .init("edit", "editMessage")
         ],
         "groups": [
             .init("setCallbackSettings"),
@@ -53,6 +54,10 @@ if parseMethods {
             .init("addCallbackServer"),
             .init("getCallbackServers"),
             .init("getCallbackConfirmationCode")
+        ],
+        "photos": [
+            .init("getMessagesUploadServer"),
+            .init("saveMessagesPhoto")
         ]
     ]
 
@@ -80,9 +85,9 @@ if parseMethods {
             
             let respParams: [RespParameter]
             if let inlineEls = try? resultEl.select("li"), !inlineEls.isEmpty() {
-                let params = try inlineEls.compactMap { inlineEl -> RespParameter? in
-                    try .from(inlineEl: inlineEl)
-                }
+                let params = try inlineEls.compactMap { inlineEl -> [RespParameter]? in
+                    try RespParameter.from(inlineEl: inlineEl)
+                }.flatMap { $0 }
                 respParams = [ .init(
                     name: "items",
                     description: nil,
@@ -92,21 +97,35 @@ if parseMethods {
             } else if resultElText.contains("После успешного выполнения возвращает 1.") {
                 respParams = []
             } else {
-                let type = try RespParameter.ParamType.allCases.findType(el: resultEl, name: "", type: "", desc: try resultEl.text())
-
                 let name: String
                 debugPrint("resultEl.text() \( try resultEl.text() )")
-                let searchText = "в поле "
-                if let entryName = resultElText.afterLast(searchText)?.dropFirst(searchText.count)  {
+                if let entryName = resultElText.afterLastText("в поле ")  {
                     name = String(entryName[entryName.startIndex ..< entryName.firstIndex(of: " ")!]).camelized
                 } else {
                     let apiName = method.apiName
                     name = apiName[apiName.lastIndex { $0.isUppercase }! ..< apiName.endIndex].lowercased()
                 }
                 
-                respParams = [ .init(name: name, description: nil, type: type, required: true) ]
+                let type = try RespParameter.ParamType.allCases.findType(el: resultEl, name: name, type: "", desc: try resultEl.text())
+
+                if let paramsText = resultElText.afterLastText(" возвращает объект с полями")?.split(separator: ",")
+                    .reduce(into: [Substring](), { arr, str in
+                        if let last = arr.last, last.contains("("), !last.contains(")") {
+                            arr[arr.count - 1] += str
+                        } else {
+                            arr.append(str)
+                        }
+                    }) {
+                    respParams = try paramsText.map { text in
+                        let name = text.components(separatedBy: " ").filter { !$0.isEmpty }.first!.camelized
+                        
+                        let type = try RespParameter.ParamType.allCases.findType(el: nil, name: "", type: "", desc: String(text))
+                        return .init(name: name, description: nil, type: type, required: true)
+                    }
+                } else {
+                    respParams = [ .init(name: name, description: nil, type: type, required: true) ]
+                }
             }
-            
             
             debugPrint("--- Write file ---")
             
@@ -176,14 +195,16 @@ if parseTypes {
             }
 
             let blockTitle = try blockEl.headerText().lowercased()
-            if blockTitle.contains("api до") {
+            if blockTitle.contains("api до") || blockTitle.contains("api ниже") {
                 continue
             } else if blockTitle.contains("базовые") {
                 params.append(contentsOf: try getParams(true))
-            } else if blockTitle.contains("опциональные") || singleBlock || blockTitle.contains("api с") {
+            } else if blockTitle.contains("опциональные") || singleBlock || blockTitle.contains("api с") || blockTitle.contains("список объектов ›") {
                 params.append(contentsOf: try getParams(false))
             }
         }
+        
+        params = params.unique
         
         if params.isEmpty {
             debugPrint("--- Skipping file ---")
@@ -211,4 +232,3 @@ if parseTypes {
     }
 
 }
-

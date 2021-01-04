@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 
 struct RespObject {
-    let name: String
+    var name: String
     let params: [RespParameter]
 }
 
@@ -37,7 +37,7 @@ struct RespParameter {
         case ContentSource
         case Photo
         case Flag
-        case Attachment
+        case Attachments
         case Message
         case PhotoSize
         case EventData
@@ -58,14 +58,14 @@ struct RespParameter {
         
         static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
-        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachment, .Message, .PhotoSize, .EventData, .MessagePayload]
+        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSize, .EventData, .MessagePayload]
         
         static let typedCases = primitiveCases + hardcodedCases
         
         var matchWords: [String] {
             switch self {
             case .Int:
-                return [ "целое число", "целых чисел", "integer", "number", "_id", "идентификатор" ]
+                return [ "целое число", "целых чисел", "integer", "number", "id", "идентификатор" ]
             case .UInt:
                 return [ "положительное число", "положительных чисел", "unixtime", "идентификатор сообщества", "идентификатор сервера", "идентификатор добавленного сервера" ]
             case .Int32:
@@ -74,7 +74,7 @@ struct RespParameter {
                 return [
                     "строк", "полезная нагрузка", "string",
                     "внешние сервисы", "langs", "сообщение об ошибке",
-                    "список положительных чисел, разделенных запятыми"
+                    "список положительных чисел, разделенных запятыми", "url", "src", "created"
                 ]
             case .Double:
                 return [ "дробное число", "дробных чисел", "float" ]
@@ -102,7 +102,7 @@ struct RespParameter {
                 return [ "{case}", "возможные значения" ]
             case .Typealias:
                 return [ "аналогичный объекту" ]
-            case .Attachment:
+            case .Attachments:
                 return [ "медиавложения" ]
             case .Message:
                 return [ "пересланных сообщений", ", в ответ на которое отправлено" ]
@@ -153,14 +153,14 @@ struct RespParameter {
                 return "VkPhoto.Size"
             case .Typealias:
                 return nil
-            case .Attachment:
-                return "[Attachment]"
+            case .Attachments:
+                return "Attachments"
             case .Message:
                 return "Message"
             case .EventData:
                 return "EventData"
             case .MessagePayload:
-                return "AnyCodable"
+                return "Message.Payload"
             }
         }
         
@@ -188,6 +188,7 @@ struct RespParameter {
     
     static func checkRequired(_ str: String) -> Bool {
         str.lowercased().contains("обязательный параметр")
+            && !str.lowercased().contains("обязательный параметр, если")
     }
     
     var typeString: String {
@@ -200,22 +201,27 @@ struct RespParameter {
         return str + (required ? "" : "?")
     }
     
-    static func from(inlineEl: Element) throws -> Self? {
-        guard let nameEl = try inlineEl.select("b").first() else { return nil }
-        let name = nameEl.ownText().camelized
-        let ownDesc = try inlineEl.select("span").first()!.ownText()
-        let fullDesc = try inlineEl.select("span").first()!.text()
+    static func from(inlineEl: Element) throws -> [Self]? {
+        guard let nameEl = try? inlineEl.select("b").first() else { return nil }
+        let ownDesc = try inlineEl.select("span").first()?.ownText() ?? ""
+        let fullDesc = try inlineEl.select("span").first()?.text() ?? ""
         let type = try inlineEl.select(".wk_gray").first()?.ownText() ?? ""
         
-        var desc = fullDesc.replacingOccurrences(of: ";", with: ".")
-        if let ind = ["–", "—"].compactMap({ desc.firstIndex(of: $0) }).first {
-            let startIndex = desc.index(ind, offsetBy: 2)
-            desc = String(desc[startIndex ..< desc.endIndex]).capitalizingFirstLetter()
+        var arr = [Self?]()
+        
+        for name in nameEl.ownText().components(separatedBy: ", ").map(\.camelized) {
+            var desc = fullDesc.replacingOccurrences(of: ";", with: ".")
+            if let ind = ["–", "—"].compactMap({ desc.firstIndex(of: $0) }).first {
+                let startIndex = desc.index(ind, offsetBy: 2)
+                desc = String(desc[startIndex ..< desc.endIndex]).capitalizingFirstLetter()
+            }
+            
+            let subEl = try inlineEl.select(".listing").first() ?? inlineEl
+            let resultType: ParamType = try ParamType.allCases.findType(el: subEl, name: name, type: type, desc: ownDesc, fullDesc: fullDesc)
+            arr.append(.init(name: name, description: desc, type: resultType, required: checkRequired(fullDesc)))
         }
         
-        let subEl = try inlineEl.select(".listing").first() ?? inlineEl
-        let resultType: ParamType = try ParamType.allCases.findType(el: subEl, name: name, type: type, desc: ownDesc, fullDesc: fullDesc)
-        return .init(name: name, description: desc, type: resultType, required: checkRequired(fullDesc))
+        return arr.compactMap { $0 }
     }
     
     static func from(typeEl: Element, required: Bool) throws -> Self? {
@@ -258,15 +264,9 @@ struct RespParameter {
     }
 }
 
-extension Array where Element : Equatable {
-    var unique: [Element] {
-        var uniqueValues: [Element] = []
-        forEach { item in
-            if !uniqueValues.contains(item) {
-                uniqueValues += [item]
-            }
-        }
-        return uniqueValues
+extension RespParameter: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.name == rhs.name
     }
 }
 
@@ -276,9 +276,10 @@ extension Array where Element == RespParameter.ParamType {
             for matchWord in _case.matchWords where
                 desc.lowercased().contains(matchWord)
                 || fullDesc?.lowercased().contains(matchWord) ?? false
-                || type.lowercased().contains(matchWord) {
+                || type.lowercased().contains(matchWord)
+                || name.lowercased().contains(matchWord) {
                 
-                debugPrint("founded \(_case) by \(matchWord) for n(\(name)) type(\(type)) desc \(desc) fullDesc \(fullDesc ?? "nil")")
+                //debugPrint("founded \(_case) by \(matchWord) for n(\(name)) type(\(type)) desc \(desc) fullDesc \(fullDesc ?? "nil")")
                 
                 switch _case {
                 case .Typealias:
@@ -294,15 +295,19 @@ extension Array where Element == RespParameter.ParamType {
                     
                     fatalError()
                 case .Object:
-                    let params = try el?.children()
+                    var params = try el?.children()
                         .filter { $0.tagName() == "li" }
-                        .compactMap { inlineEl -> RespParameter? in
-                        try .from(inlineEl: inlineEl)
-                    } ?? []
+                        .compactMap { inlineEl -> [RespParameter]? in
+                        try RespParameter.from(inlineEl: inlineEl)
+                    }.flatMap { $0 } ?? []
+                    
+                    if params.isEmpty, let el = el {
+                        params = try RespParameter.from(inlineEl: el) ?? []
+                    }
                     
                     return .Object(.init(name: name.capitalizingFirstLetter(), params: params))
                 case .Array:
-                    let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name, type: type, desc: desc, fullDesc: fullDesc)
+                    let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name.isEmpty ? "Item" : name, type: type, desc: desc, fullDesc: fullDesc)
                     
                     return .Array(arrayType)
                 case .Enum:
