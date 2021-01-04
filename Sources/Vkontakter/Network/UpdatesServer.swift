@@ -123,6 +123,7 @@ private final class UpdatesHandler: ChannelInboundHandler {
             } else {
                 content = "ok"
             }
+            debugPrint("Returning \(content) ...")
             buffer.writeString(content)
 
             responseHead.headers.add(name: "content-length", value: "\(self.buffer!.readableBytes)")

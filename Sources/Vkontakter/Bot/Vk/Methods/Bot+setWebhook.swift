@@ -54,36 +54,41 @@ public extension Bot {
             .flatMapThrowing { try self.handleCallbackServers($0, config, groupId, serverName) }
     }
 
-    func handleCallbackServers(_ serversResp: GetCallbackServersResp, _ config: Webhooks.Config, _ groupId: UInt64, _ serverName: String?) throws {
+    enum CallbackError: Error {
+        case setServerSettings
+    }
+    
+    private func handleCallbackServers(_ serversResp: GetCallbackServersResp, _ config: Webhooks.Config, _ groupId: UInt64, _ serverName: String?) throws -> EventLoopFuture<Bool>? {
         let servers = serversResp.items
         let serverUrl = config.url
+        
+        let allSteps: (() throws -> EventLoopFuture<Bool>) = {
+            try self.updateConfirmationCode(groupId)
+                .flatMap { resp -> EventLoopFuture<Bool> in
+                    let secretKey: String = .random(ofLength: 15)
 
-        let allSteps: (() throws -> Void) = {
-            try self.updateConfirmationCode(groupId).flatMapThrowing { resp in
-                let secretKey: String = .random(ofLength: 15)
-
-                try self.createServer(groupId, serverUrl, serverName: serverName, secretKey: secretKey).flatMapThrowing { resp in
-                    self.setSecretKey(secretKey)
-
-                    try self.setServerSettings(groupId, serverUrl, resp.serverId)
+                    return try! self.createServer(groupId, serverUrl, serverName: serverName, secretKey: secretKey)
+                        .flatMap { resp -> EventLoopFuture<Bool> in
+                            self.setSecretKey(secretKey)
+                            return try! self.setServerSettings(groupId, serverUrl, resp.serverId).map { $0.bool }
+                        }
                 }
-            }
         }
 
         if let matchServer = servers.first(where: { $0.url == serverUrl }) {
             if matchServer.status != .ok {
                 debugPrint("Server founded but status is \(matchServer.status!.rawValue) on Callback API")
-                try deleteCallbackServer(params: .init(groupId: groupId, serverId: matchServer.id!)).flatMapThrowing { flag in
-                    assert(flag.bool)
-                    try allSteps()
-                }
+                return try deleteCallbackServer(params: .init(groupId: groupId, serverId: matchServer.id!)).flatMap { _ in
+                        try! allSteps()
+                    }
             } else {
                 setSecretKey(matchServer.secretKey!)
                 debugPrint("Server already configured on Callback API")
+                return nil
             }
         } else {
             debugPrint("Server not found on Callback API")
-            try allSteps()
+            return try allSteps()
         }
     }
 
