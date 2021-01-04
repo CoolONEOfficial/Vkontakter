@@ -34,13 +34,13 @@ public final class Doc: Codable {
     /// Тип документа.
     public enum `Type`: Int64, Codable {
         case arhivy = 2
-        case video = 6
-        case neizvestno = 8
-        case gif = 3
-        case tekstovye_dokumenty = 1
-        case elektronnye_knigi = 7
         case audio = 5
+        case elektronnye_knigi = 7
+        case gif = 3
         case izobrazenia = 4
+        case neizvestno = 8
+        case tekstovye_dokumenty = 1
+        case video = 6
     }
     
     public let `type`: Type?

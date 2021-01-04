@@ -8,7 +8,7 @@
 // swiftlint:disable all
 
 import Foundation
-import Telegrammer
+import Vkontakter
 import Logging
 import NIO
 

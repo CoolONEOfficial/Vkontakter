@@ -2,7 +2,7 @@
 
 import Foundation
 import NIO
-import Telegrammer
+import Vkontakter
 
 ///Getting token from enviroment variable (most safe, recommended)
 guard let token = Enviroment.get("TELEGRAM_BOT_TOKEN") else {

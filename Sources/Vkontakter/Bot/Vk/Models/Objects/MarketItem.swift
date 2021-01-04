@@ -120,8 +120,8 @@ public final class MarketItem: Codable {
     
     /// Статус доступности товара.
     public enum Availability: Int64, Codable {
-        case tovar_nedostupen = 2
         case tovar_dostupen = 0
+        case tovar_nedostupen = 2
         case tovar_udalen = 1
     }
     

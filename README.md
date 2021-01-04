@@ -1,7 +1,7 @@
 <p align="center"><img src="https://gp-apps.com/github/telegrammer_logo.png" alt="SwiftyBot Banner"></p>
 
-# Telegrammer
-Telegram Bot Framework written in Swift 5.1 with SwiftNIO network framework
+# Vkontakter
+VK Bot Framework written in Swift 5.1 with SwiftNIO network framework (forked from Telegrammer)
 
 [![Build](https://circleci.com/gh/givip/Telegrammer/tree/master.svg?style=shield&circle-token=04a84114573c1c6b3039ef82b88e54f1f6b8c512)](https://circleci.com/gh/givip/Telegrammer)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/givip/Telegrammer/releases)
@@ -13,11 +13,8 @@ Telegram Bot Framework written in Swift 5.1 with SwiftNIO network framework
 What does it do
 ---------------
 
-Telegrammer is open-source framework for Telegram Bots developers.
+Vkontakter is open-source framework for Telegram Bots developers.
 It was built on top of [Apple/SwiftNIO](https://github.com/apple/swift-nio)
-
-Join to our [Telegram developers chat](https://t.me/joinchat/AzGW3kkUjLoK2dr3CZFrFQ)
-Join to our [Telegrammer channel](https://discord.gg/yjspy8b) on [Vapor Discord server](https://discord.gg/3jG8QFV) 
 
 The simplest code of Echo Bot looks like this:
 
@@ -25,7 +22,7 @@ The simplest code of Echo Bot looks like this:
 _main.swift_
 ```swift
 import Foundation
-import Telegrammer
+import Vkontakter
 
 do {
     let bot = try Bot(token: "BOT_TOKEN_HERE")

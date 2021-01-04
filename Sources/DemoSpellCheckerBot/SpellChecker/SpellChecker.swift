@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Telegrammer
+import Vkontakter
 import AsyncHTTPClient
 
 enum Lang: String {

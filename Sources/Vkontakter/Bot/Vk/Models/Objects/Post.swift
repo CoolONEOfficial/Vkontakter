@@ -252,8 +252,8 @@ public final class Post: Codable {
         
         /// Информация о том, какие значения VK Donut можно изменить в записи. Возможные значения: all — всю информацию о VK Donut. duration — время, в течение которого запись будет доступна только платным подписчикам VK Donut.
         public enum EditMode: String, Codable {
-            case all
             case duration
+            case all
         }
         
         public let editMode: EditMode?

@@ -38,6 +38,17 @@ public class BotClient {
         )
         self.client = HTTPClient(eventLoopGroupProvider: worker, configuration: config)
     }
+    
+    func request<T: Codable>(
+        endpoint: String,
+        params: Encodable? = nil,
+        body: HTTPClient.Body? = nil,
+        headers: HTTPHeaders = .empty
+    ) throws -> Future<VkContainer<T>> {
+        let url = apiUrl(endpoint: endpoint, params: params)
+
+        return try request(url: url, params: params, body: body, headers: headers)
+    }
 
     /// Sends request to api.telegram.org, and receive TelegramContainer object
     ///
@@ -49,36 +60,37 @@ public class BotClient {
     /// - Returns: Container with response
     /// - Throws: Errors
     func request<T: Codable>(
-        endpoint: String,
+        url: URL,
         params: Encodable? = nil,
+        body: HTTPClient.Body? = nil,
         headers: HTTPHeaders = .empty
-    ) throws -> Future<VkContainer<T>> {
-        let url = apiUrl(endpoint: endpoint, params: params)
+    ) throws -> Future<T> {
+        
         let request = try HTTPClient.Request(
             url: url,
             method: .POST,
             headers: headers,
-            body: nil
+            body: body
         )
 
         log.info("Sending request:\n\(request.description)")
 
         return client
             .execute(request: request)
-            .flatMapThrowing({ (response) -> VkContainer<T> in
-                let test: VkContainer<T> = try self.decode(response: response)
+            .flatMapThrowing({ (response) -> T in
+                let test: T = try self.decode(response: response)
                 return test
             })
     }
 
-    func decode<T: Encodable>(response: HTTPClient.Response) throws -> VkContainer<T> {
+    func decode<T: Decodable>(response: HTTPClient.Response) throws -> T {
         guard let body = response.body else {
             throw BotError()
         }
         guard let bytes = body.getBytes(at: 0, length: body.writerIndex) else {
             throw BotError()
         }
-        return try JSONDecoder.snakeCased.decode(VkContainer<T>.self, from: Data(bytes))
+        return try JSONDecoder.snakeCased.decode(T.self, from: Data(bytes))
     }
 
     func apiUrl(endpoint: String, params: Encodable?) -> URL {

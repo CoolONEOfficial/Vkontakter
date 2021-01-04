@@ -134,15 +134,15 @@ public final class Message: Codable {
         
         /// Тип действия. Возможные значения: chat_photo_update — обновлена фотография беседы. chat_photo_remove — удалена фотография беседы. chat_create — создана беседа. chat_title_update — обновлено название беседы. chat_invite_user — приглашен пользователь. chat_kick_user — исключен пользователь. chat_pin_message — закреплено сообщение. chat_unpin_message — откреплено сообщение. chat_invite_user_by_link — пользователь присоединился к беседе по ссылке.
         public enum `Type`: String, Codable {
-            case chat_invite_user_by_link
+            case chat_kick_user
             case chat_photo_update
             case chat_title_update
-            case chat_kick_user
-            case chat_invite_user
-            case chat_pin_message
             case chat_unpin_message
+            case chat_invite_user_by_link
+            case chat_invite_user
             case chat_create
             case chat_photo_remove
+            case chat_pin_message
         }
         
         public let `type`: Type?

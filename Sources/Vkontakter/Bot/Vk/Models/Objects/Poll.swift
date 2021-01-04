@@ -101,8 +101,8 @@ public final class Poll: Codable {
         
         /// Тип фона. Возможные значения: gradient, tile.
         public enum `Type`: String, Codable {
-            case tile
             case gradient
+            case tile
         }
         
         public let `type`: Type?

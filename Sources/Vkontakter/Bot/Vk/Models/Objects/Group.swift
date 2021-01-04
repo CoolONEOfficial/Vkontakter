@@ -21,25 +21,25 @@ public final class Group: Codable {
     
     /// Является ли сообщество закрытым.
     public enum IsClosed: Int64, Codable {
+        case castnoe = 2
         case otkrytoe = 0
         case zakrytoe = 1
-        case castnoe = 2
     }
     
     public let isClosed: IsClosed
     
     /// Возвращается в случае, если сообщество удалено или заблокировано.
     public enum Deactivated: String, Codable {
-        case banned
         case deleted
+        case banned
     }
     
     public let deactivated: Deactivated
     
     /// Информация о том, является ли текущий пользователь руководителем.
     public enum IsAdmin: Int64, Codable {
-        case ne_avlaetsa = 0
         case avlaetsa = 1
+        case ne_avlaetsa = 0
     }
     
     public let isAdmin: IsAdmin
@@ -57,8 +57,8 @@ public final class Group: Codable {
     
     /// Информация о том, является ли текущий пользователь рекламодателем.
     public enum IsAdvertiser: Int64, Codable {
-        case ne_avlaetsa = 0
         case avlaetsa = 1
+        case ne_avlaetsa = 0
     }
     
     public let isAdvertiser: IsAdvertiser
@@ -139,11 +139,11 @@ public final class Group: Codable {
     
     /// Информация о главной секции.
     public enum MainSection: Int64, Codable {
-        case fotografii = 1
-        case tovary = 5
-        case obsuzdenia = 2
         case audiozapisi = 3
+        case fotografii = 1
+        case obsuzdenia = 2
         case otsutstvuet = 0
+        case tovary = 5
         case videozapisi = 4
     }
     
@@ -154,8 +154,8 @@ public final class Group: Codable {
         
         /// Информация о том, включен ли блок товаров в сообществе. Возможные значения: 1 — включен. 0 — выключен. Если enabled = 0, объект не содержит других полей.
         public enum Enabled: Int64, Codable {
-            case vyklucen = 0
             case vklucen = 1
+            case vyklucen = 0
         }
         
         public let enabled: Enabled?
@@ -216,12 +216,12 @@ public final class Group: Codable {
     
     /// Статус участника текущего пользователя.
     public enum MemberStatus: Int64, Codable {
-        case zapros_na_vstuplenie_otpravlen = 4
-        case priglasen = 5
+        case avlaetsa_ucastnikom = 1
+        case ne_avlaetsa_ucastnikom = 0
         case ne_uveren_cto_posetit_meropriatie = 2
         case otklonil_priglasenie = 3
-        case ne_avlaetsa_ucastnikom = 0
-        case avlaetsa_ucastnikom = 1
+        case priglasen = 5
+        case zapros_na_vstuplenie_otpravlen = 4
     }
     
     public let memberStatus: MemberStatus?

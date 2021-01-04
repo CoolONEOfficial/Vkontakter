@@ -12,11 +12,11 @@ import AnyCodable
 public final class PostSource: Codable {
     /// Тип источника.
     public enum `Type`: String, Codable {
-        case api
-        case rss
-        case widget
         case vk
+        case widget
+        case rss
         case sms
+        case api
     }
     
     public let `type`: Type?
@@ -24,8 +24,8 @@ public final class PostSource: Codable {
     /// Название платформы, если оно доступно.
     public enum Platform: String, Codable {
         case android
-        case wphone
         case iphone
+        case wphone
     }
     
     public let platform: Platform?
@@ -34,8 +34,8 @@ public final class PostSource: Codable {
     public enum Data: String, Codable {
         case profile_photo
         case profile_activity
-        case like
         case comments
+        case like
         case poll
     }
     

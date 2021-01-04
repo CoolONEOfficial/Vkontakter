@@ -19,9 +19,9 @@ public final class Conversation: Codable {
         /// Тип. Возможные значения: user, chat, group, email
         public enum `Type`: String, Codable {
             case chat
-            case user
-            case group
             case email
+            case group
+            case user
         }
         
         public let `type`: Type?
@@ -82,15 +82,15 @@ public final class Conversation: Codable {
         
         /// Код ошибки для allowed = false. Возможные значения: 18 — пользователь заблокирован или удален. 900 — нельзя отправить сообщение пользователю, который в чёрном списке. 901 — пользователь запретил сообщения от сообщества. 902 — пользователь запретил присылать ему сообщения с помощью настроек приватности. 915 — в сообществе отключены сообщения. 916 — в сообществе заблокированы сообщения. 917 — нет доступа к чату. 918 — нет доступа к e-mail. 203 — нет доступа к сообществу.
         public enum Reason: Int64, Codable {
-            case polzovatel_zapretil_soobsenia_ot_soobsestva = 901
-            case v_soobsestve_zablokirovany_soobsenia = 916
-            case net_dostupa_k_email = 918
-            case net_dostupa_k_catu = 917
-            case v_soobsestve_otkluceny_soobsenia = 915
             case nelza_otpravit_soobsenie_polzovatelu_kotoryj_v_cernom_spiske = 900
+            case net_dostupa_k_catu = 917
+            case net_dostupa_k_email = 918
+            case net_dostupa_k_soobsestvu = 203
             case polzovatel_zablokirovan_ili_udalen = 18
             case polzovatel_zapretil_prisylat_emu_soobsenia_s_pomosu_nastroek_privatnosti = 902
-            case net_dostupa_k_soobsestvu = 203
+            case polzovatel_zapretil_soobsenia_ot_soobsestva = 901
+            case v_soobsestve_otkluceny_soobsenia = 915
+            case v_soobsestve_zablokirovany_soobsenia = 916
         }
         
         public let reason: Reason?
@@ -124,9 +124,9 @@ public final class Conversation: Codable {
         
         /// (string) — статус текущего пользователя. Возможные значения: in — состоит в чате. kicked — исключён из чата. left — покинул чат.
         public enum State: String, Codable {
-            case `in`
             case kicked
             case left
+            case `in`
         }
         
         public let state: State?

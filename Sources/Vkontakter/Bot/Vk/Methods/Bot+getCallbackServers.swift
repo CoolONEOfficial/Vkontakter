@@ -43,9 +43,9 @@ public extension Bot {
             /// Статус сервера. Возможные значения: unconfigured — адрес не задан. failed — подтвердить адрес не удалось. wait — адрес ожидает подтверждения. ok — сервер подключен.
             public enum Status: String, Codable {
                 case unconfigured
-                case ok
-                case failed
                 case wait
+                case failed
+                case ok
             }
             
             public let status: Status?

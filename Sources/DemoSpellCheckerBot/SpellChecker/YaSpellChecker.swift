@@ -7,7 +7,7 @@
 
 import Foundation
 import AsyncHTTPClient
-import Telegrammer
+import Vkontakter
 
 final class YaSpellChecker: SpellChecker {
 

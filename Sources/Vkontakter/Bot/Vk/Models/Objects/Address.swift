@@ -49,10 +49,10 @@ public final class Address: Codable {
     /// Тип расписания.
     public enum WorkInfoStatus: String, Codable {
         case no_information
-        case timetable
-        case forever_closed
-        case temporarily_closed
         case always_opened
+        case timetable
+        case temporarily_closed
+        case forever_closed
     }
     
     public let workInfoStatus: WorkInfoStatus?

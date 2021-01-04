@@ -30,8 +30,8 @@ public final class Topic: Codable {
     
     /// Информация о том, закрыто ли обсуждение.
     public enum IsClosed: Int64, Codable {
-        case zakryto = 1
         case ne_zakryto = 0
+        case zakryto = 1
     }
     
     public let isClosed: IsClosed?

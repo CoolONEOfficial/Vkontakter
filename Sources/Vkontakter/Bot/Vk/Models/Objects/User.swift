@@ -306,9 +306,9 @@ public final class User: Codable {
     /// Имя в заданном падеже.
     public enum FirstName: String, Codable {
         case dat
-        case gen
-        case abl
         case nom
+        case abl
+        case gen
         case ins
         case acc
     }
@@ -321,8 +321,8 @@ public final class User: Codable {
     /// Статус дружбы с пользователем.
     public enum FriendStatus: Int64, Codable {
         case avlaetsa_drugom = 3
-        case ne_avlaetsa_drugom = 0
         case imeetsa_vhodasaa_zaavka_podpiska_ot_polzovatela = 2
+        case ne_avlaetsa_drugom = 0
         case otpravlena_zaavka_podpiska_polzovatelu = 1
     }
     
@@ -354,12 +354,12 @@ public final class User: Codable {
     
     /// Фамилия в заданном падеже.
     public enum LastName: String, Codable {
-        case nom
-        case acc
-        case ins
         case dat
-        case gen
+        case nom
         case abl
+        case gen
+        case ins
+        case acc
     }
     
     public let lastNameCase: LastName?
@@ -372,13 +372,13 @@ public final class User: Codable {
         
         /// Тип платформы. Возможные значения: 1 — мобильная версия. 2 — приложение для iPhone. 3 — приложение для iPad. 4 — приложение для Android. 5 — приложение для Windows Phone. 6 — приложение для Windows 10. 7 — полная версия сайта.
         public enum Platform: Int64, Codable {
-            case prilozenie_dla_ipad = 3
-            case prilozenie_dla_android = 4
-            case polnaa_versia_sajta = 7
-            case prilozenie_dla_windows_10 = 6
             case mobilnaa_versia = 1
-            case prilozenie_dla_windows_phone = 5
+            case polnaa_versia_sajta = 7
+            case prilozenie_dla_android = 4
+            case prilozenie_dla_ipad = 3
             case prilozenie_dla_iphone = 2
+            case prilozenie_dla_windows_10 = 6
+            case prilozenie_dla_windows_phone = 5
         }
         
         public let platform: Platform?
@@ -440,9 +440,9 @@ public final class User: Codable {
         
         /// Тип. Возможные значения: work — работа. school — среднее образование. university — высшее образование.
         public enum `Type`: String, Codable {
-            case university
             case work
             case school
+            case university
         }
         
         public let `type`: Type?
@@ -470,15 +470,15 @@ public final class User: Codable {
         
         /// Политические предпочтения. Возможные значения: 1 — коммунистические. 2 — социалистические. 3 — умеренные. 4 — либеральные. 5 — консервативные. 6 — монархические. 7 — ультраконсервативные. 8 — индифферентные. 9 — либертарианские.
         public enum Political: Int64, Codable {
-            case monarhiceskie = 6
-            case ultrakonservativnye = 7
             case indifferentnye = 8
-            case libertarianskie = 9
-            case liberalnye = 4
-            case umerennye = 3
             case kommunisticeskie = 1
-            case socialisticeskie = 2
             case konservativnye = 5
+            case liberalnye = 4
+            case libertarianskie = 9
+            case monarhiceskie = 6
+            case socialisticeskie = 2
+            case ultrakonservativnye = 7
+            case umerennye = 3
         }
         
         public let political: Political?
@@ -494,37 +494,37 @@ public final class User: Codable {
         
         /// Главное в людях. Возможные значения: 1 — ум и креативность. 2 — доброта и честность. 3 — красота и здоровье. 4 — власть и богатство. 5 — смелость и упорство. 6 — юмор и жизнелюбие.
         public enum PeopleMain: Int64, Codable {
+            case dobrota_i_cestnost = 2
             case krasota_i_zdorove = 3
             case smelost_i_uporstvo = 5
             case um_i_kreativnost = 1
-            case dobrota_i_cestnost = 2
-            case vlast_i_bogatstvo = 4
             case umor_i_ziznelubie = 6
+            case vlast_i_bogatstvo = 4
         }
         
         public let peopleMain: PeopleMain?
         
         /// Главное в жизни. Возможные значения: 1 — семья и дети. 2 — карьера и деньги. 3 — развлечения и отдых. 4 — наука и исследования. 5 — совершенствование мира. 6 — саморазвитие. 7 — красота и искусство. 8 — слава и влияние.
         public enum LifeMain: Int64, Codable {
-            case slava_i_vlianie = 8
             case karera_i_dengi = 2
             case krasota_i_iskusstvo = 7
             case nauka_i_issledovania = 4
-            case sema_i_deti = 1
-            case samorazvitie = 6
-            case soversenstvovanie_mira = 5
             case razvlecenia_i_otdyh = 3
+            case samorazvitie = 6
+            case sema_i_deti = 1
+            case slava_i_vlianie = 8
+            case soversenstvovanie_mira = 5
         }
         
         public let lifeMain: LifeMain?
         
         /// Отношение к курению. Возможные значения: 1 — резко негативное. 2 — негативное. 3 — компромиссное. 4 — нейтральное. 5 — положительное.
         public enum Smoking: Int64, Codable {
-            case polozitelnoe = 5
-            case negativnoe = 2
             case kompromissnoe = 3
-            case rezko_negativnoe = 1
+            case negativnoe = 2
             case nejtralnoe = 4
+            case polozitelnoe = 5
+            case rezko_negativnoe = 1
         }
         
         public let smoking: Smoking?
@@ -532,10 +532,10 @@ public final class User: Codable {
         /// Отношение к алкоголю. Возможные значения: 1 — резко негативное. 2 — негативное. 3 — компромиссное. 4 — нейтральное. 5 — положительное.
         public enum Alcohol: Int64, Codable {
             case kompromissnoe = 3
+            case negativnoe = 2
             case nejtralnoe = 4
             case polozitelnoe = 5
             case rezko_negativnoe = 1
-            case negativnoe = 2
         }
         
         public let alcohol: Alcohol?
@@ -593,10 +593,10 @@ public final class User: Codable {
         /// Тип родственной связи. Возможные значения: child — сын/дочь. sibling — брат/сестра. parent — отец/мать. grandparent — дедушка/бабушка. grandchild — внук/внучка.
         public enum `Type`: String, Codable {
             case sibling
-            case grandchild
-            case child
             case grandparent
             case parent
+            case child
+            case grandchild
         }
         
         public let `type`: Type?
@@ -612,15 +612,15 @@ public final class User: Codable {
     
     /// Семейное положение.
     public enum Relation: Int64, Codable {
-        case pomolvlen_pomolvlena = 3
-        case ne_ukazano = 0
-        case v_aktivnom_poiske = 6
         case est_drug_est_podruga = 2
+        case ne_ukazano = 0
         case ne_zenat_ne_zamuzem = 1
-        case vlublen_vlublena = 7
-        case zenat_zamuzem = 4
+        case pomolvlen_pomolvlena = 3
+        case v_aktivnom_poiske = 6
         case v_grazdanskom_brake = 8
+        case vlublen_vlublena = 7
         case vse_slozno = 5
+        case zenat_zamuzem = 4
     }
     
     public let relation: Relation?
@@ -660,20 +660,20 @@ public final class User: Codable {
         
         /// Название типа. Возможные значения для пар type-typeStr: 0 — "школа". 1 — "гимназия". 2 —"лицей". 3 — "школа-интернат". 4 — "школа вечерняя". 5 — "школа музыкальная". 6 — "школа спортивная". 7 — "школа художественная". 8 — "колледж". 9 — "профессиональный лицей". 10 — "техникум". 11 — "ПТУ". 12 — "училище". 13 — "школа искусств".
         public enum TypeStr: String, Codable {
-            case skola_vecernaa = "4"
             case gimnazia = "1"
-            case skola_hudozestvennaa = "7"
-            case ucilise = "12"
             case kolledz = "8"
-            case ptu = "11"
-            case skola_iskusstv = "13"
-            case skolainternat = "3"
-            case skola_sportivnaa = "6"
-            case professionalnyj_licej = "9"
-            case skola = "0"
             case licej = "2"
-            case tehnikum = "10"
+            case professionalnyj_licej = "9"
+            case ptu = "11"
+            case skola = "0"
+            case skola_hudozestvennaa = "7"
+            case skola_iskusstv = "13"
             case skola_muzykalnaa = "5"
+            case skola_sportivnaa = "6"
+            case skola_vecernaa = "4"
+            case skolainternat = "3"
+            case tehnikum = "10"
+            case ucilise = "12"
         }
         
         public let typeStr: TypeStr?
@@ -701,8 +701,8 @@ public final class User: Codable {
     /// Пол.
     public enum Sex: Int64, Codable {
         case muzskoj = 2
-        case zenskij = 1
         case pol_ne_ukazan = 0
+        case zenskij = 1
     }
     
     public let sex: Sex?

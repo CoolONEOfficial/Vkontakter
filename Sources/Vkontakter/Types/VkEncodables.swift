@@ -6,12 +6,17 @@
 //
 
 import Foundation
+import VkontakterMultipart
 import struct NIO.ByteBufferAllocator
 
-/// Represent Telegram type, which will be encoded as Json on sending to server
+/// Represent VK type, which will be encoded as Json on sending to server
 protocol JSONEncodable: Encodable {}
 
 extension JSONEncodable {
+    func encodeBody() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
     var dictionary: [String: String]? {
         guard let data = try? JSONEncoder.snakeCased.encode(self) else { return nil }
         let test = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { dict in
@@ -23,5 +28,17 @@ extension JSONEncodable {
                 : String(describing: val)
         }
         return mapped
+    }
+}
+
+/// Represent VK type, which will be encoded as multipart/form-data on sending to server
+protocol MultipartEncodable: Encodable {}
+
+extension MultipartEncodable {
+    func encodeBody(boundary: String) throws -> ByteBuffer {
+        let encoder = FormDataEncoder()
+        var buffer = ByteBufferAllocator().buffer(capacity: 0)
+        try encoder.encode(self, boundary: boundary, into: &buffer)
+        return buffer
     }
 }

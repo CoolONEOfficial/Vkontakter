@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//import TelegrammerMultipart
+//import VkontakterMultipart
 //
 //public extension MultipartPartConvertible where Self: Codable {
 //    init?(multipart: MultipartPart) {

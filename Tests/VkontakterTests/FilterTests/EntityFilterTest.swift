@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Telegrammer
+@testable import Vkontakter
 
 class EntityFilterTest: XCTestCase {
 

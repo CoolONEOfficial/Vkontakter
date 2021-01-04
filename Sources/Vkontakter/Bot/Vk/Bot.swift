@@ -109,6 +109,22 @@ public final class Bot: BotProtocol {
         return result
     }
 
+    func httpBody(for object: Encodable?) throws -> HTTPClient.Body? {
+        guard let object = object else {
+            return nil
+        }
+
+        if let object = object as? JSONEncodable {
+            return .data(try object.encodeBody())
+        }
+
+        if let object = object as? MultipartEncodable {
+            return .byteBuffer(try object.encodeBody(boundary: boundary))
+        }
+
+        return nil
+    }
+
     func httpHeaders(for object: Encodable?) -> HTTPHeaders {
         guard let object = object else { return HTTPHeaders() }
 
@@ -116,8 +132,8 @@ public final class Bot: BotProtocol {
             return .contentJson
         }
 
-        if object is Encodable { // MultipartEncodable
-            fatalError("you forgot JSONEncodable?")
+        if object is MultipartEncodable {
+            return .typeFormData(boundary: boundary)
         }
 
         return .empty

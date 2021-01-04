@@ -13,8 +13,8 @@ public struct CommandFilter: Filter {
     public var name: String = "command"
 
     public func filter(message: Message) -> Bool {
-        guard let payload = message.payload else { return false }
-        return payload.command != nil
+        guard let payload = message.payload, case let .input(command) = payload else { return false }
+        return command != nil
     }
 }
 

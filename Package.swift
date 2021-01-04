@@ -10,7 +10,9 @@ let package = Package(
     ],
     products: [
         .library(name: "Vkontakter", targets: ["Vkontakter"]),
-        .executable(name: "API generate", targets: ["API"])
+        .library(name: "VkontakterMultipart", targets: ["VkontakterMultipart"]),
+        .library(name: "VkontakterCMultipartParser", targets: ["VkontakterCMultipartParser"]),
+        .executable(name: "API generate", targets: ["API"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.2.0"),
@@ -26,6 +28,16 @@ let package = Package(
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "AnyCodable", package: "AnyCodable"),
+                .target(name: "VkontakterMultipart"),
+            ]
+        ),
+        .target(name: "VkontakterCMultipartParser"),
+        .target(
+            name: "VkontakterMultipart",
+            dependencies: [
+                .product(name: "NIO", package: "swift-nio"),
+                .product(name: "NIOHTTP1", package: "swift-nio"),
+                .target(name: "VkontakterCMultipartParser"),
             ]
         ),
         .target(name: "API", dependencies: ["SwiftSoup"]),

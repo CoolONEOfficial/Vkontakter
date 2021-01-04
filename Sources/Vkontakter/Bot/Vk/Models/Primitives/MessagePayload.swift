@@ -6,33 +6,42 @@
 //
 
 import Foundation
+import AnyCodable
 
 public extension Message {
-    struct Payload: Codable {
-        
+    enum Payload: Codable {
         /// Command
         public enum Command: String {
             case start
         }
         
-        public let command: Command?
+        case input(Command?)
+        case output(AnyCodable?, encoder: JSONEncoder = .snakeCased)
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let str = try container.decode(String.self)
 
-            let json = try JSONSerialization.jsonObject(with: .init(str.utf8), options: []) as! [String: Any]
-            if let command = json["command"] as? String {
-                self.command = Command(rawValue: command)
+            let json = try JSONSerialization.jsonObject(with:  .init(str.utf8), options: []) as! [String: Any]
+            let command: Command?
+            if let commandValue = json["command"] as? String {
+                command = Command(rawValue: commandValue)
             } else {
                 command = nil
             }
+            
+            self = .input(command)
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
-            try container.encode(JSONEncoder.snakeCased.encode(self))
+            switch self {
+            case let .input(command):
+                try container.encode(command?.rawValue)
+            case let .output(object, encoder):
+                try container.encode(encoder.encode(object))
+            }
         }
-
     }
+
 }

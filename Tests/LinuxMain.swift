@@ -1,6 +1,6 @@
 import XCTest
 
-import TelegrammerTests
+import VkontakterTests
 
 var tests = [XCTestCaseEntry]()
 tests += TelegrammerTests.__allTests()

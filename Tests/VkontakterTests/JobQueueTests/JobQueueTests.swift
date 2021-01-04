@@ -7,7 +7,7 @@
 
 import XCTest
 
-@testable import Telegrammer
+@testable import Vkontakter
 
 class MockBot: BotProtocol {}
 

@@ -36,10 +36,10 @@ public final class App: Codable {
     
     /// Тип приложения.
     public enum `Type`: String, Codable {
-        case site
-        case standalone
-        case app
         case game
+        case standalone
+        case site
+        case app
     }
     
     public let `type`: Type
@@ -71,8 +71,8 @@ public final class App: Codable {
     /// Тип турнирной таблицы.
     public enum LeaderboardType: Int64, Codable {
         case ne_podderzivaetsa = 0
-        case po_urovnu = 1
         case po_ockam = 2
+        case po_urovnu = 1
     }
     
     public let leaderboardType: LeaderboardType
@@ -100,8 +100,8 @@ public final class App: Codable {
     
     /// Поддерживаемая ориентация экрана.
     public enum ScreenOrientation: Int64, Codable {
-        case tolko_albomnaa = 1
         case albomnaa_i_portretnaa = 0
+        case tolko_albomnaa = 1
         case tolko_portretnaa = 2
     }
     
