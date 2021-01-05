@@ -114,26 +114,27 @@ private final class UpdatesHandler: ChannelInboundHandler {
 
             buffer.clear()
         case .body(let bytes):
-            let update = dispatcher.enqueue(bytebuffer: bytes)
+            buffer.writeData(bytes.getBytes(at: 0, length: bytes.writerIndex)!)
+        case .end:
+            let update = dispatcher.enqueue(bytebuffer: buffer)
             
-            let content: String
+            let result: String
             if update?.type == .confirmation, let code = bot.confirmationCode {
                 bot.confirmationCode = nil
-                content = code
+                result = code
             } else {
-                content = "ok"
+                result = "ok"
             }
-            debugPrint("Returning \(content) ...")
-            buffer.writeString(content)
+            debugPrint("Returning \(result) ...")
+            let outBuffer = ByteBuffer(string: result)
 
-            responseHead.headers.add(name: "content-length", value: "\(self.buffer!.readableBytes)")
+            responseHead.headers.add(name: "content-length", value: "\(outBuffer.readableBytes)")
             let response = HTTPServerResponsePart.head(responseHead)
             responseHead = nil
-
             context.write(self.wrapOutboundOut(response), promise: nil)
-        case .end:
+            
             self.state.requestComplete()
-            let content = HTTPServerResponsePart.body(.byteBuffer(buffer!.slice()))
+            let content = HTTPServerResponsePart.body(.byteBuffer(outBuffer.slice()))
             context.write(self.wrapOutboundOut(content), promise: nil)
             self.completeResponse(context, trailers: nil, promise: nil)
         }

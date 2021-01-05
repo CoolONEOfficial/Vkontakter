@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = false
+let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -22,10 +22,12 @@ func loadHtml(_ url: URL) -> String? {
 struct Method {
     let apiName: String
     let codeName: String
+    let resultWrapped: Bool
     
-    init(_ apiName: String, _ codeName: String? = nil) {
+    init(_ apiName: String, _ codeName: String? = nil, resultWrapped: Bool = true) {
         self.apiName = apiName
         self.codeName = codeName ?? apiName
+        self.resultWrapped = resultWrapped
     }
 }
 
@@ -56,8 +58,12 @@ if parseMethods {
             .init("getCallbackConfirmationCode")
         ],
         "photos": [
-            .init("getMessagesUploadServer"),
+            .init("getMessagesUploadServer", "getMessagePhotosUploadServer"),
             .init("saveMessagesPhoto")
+        ],
+        "docs": [
+            .init("save", "saveDoc"),
+            .init("getMessagesUploadServer", "getMessageDocsUploadServer", resultWrapped: false)
         ]
     ]
 
@@ -83,7 +89,8 @@ if parseMethods {
             let resultElText = try resultEl.text()
             desc += "\n ".i(1) + (resultElText.firstSentence ?? resultElText)
             
-            let respParams: [RespParameter]
+            var respParams: [RespParameter]? = nil
+            var respType: RespParameter!
             if let inlineEls = try? resultEl.select("li"), !inlineEls.isEmpty() {
                 let params = try inlineEls.compactMap { inlineEl -> [RespParameter]? in
                     try RespParameter.from(inlineEl: inlineEl)
@@ -95,7 +102,9 @@ if parseMethods {
                     required: true
                 ) ]
             } else if resultElText.contains("После успешного выполнения возвращает 1.") {
-                respParams = []
+                respType = .init(name: "VkFlag", description: nil, type: .Flag, required: true)
+            } else if resultElText.contains("После успешного выполнения возвращает массив объектов, описывающих загруженные документы.") {
+                respType = .init(name: "Type", description: nil, type: .SavedDoc, required: true)
             } else {
                 let name: String
                 debugPrint("resultEl.text() \( try resultEl.text() )")
@@ -103,7 +112,7 @@ if parseMethods {
                     name = String(entryName[entryName.startIndex ..< entryName.firstIndex(of: " ")!]).camelized
                 } else {
                     let apiName = method.apiName
-                    name = apiName[apiName.lastIndex { $0.isUppercase }! ..< apiName.endIndex].lowercased()
+                    name = apiName[(apiName.lastIndex { $0.isUppercase } ?? apiName.startIndex) ..< apiName.endIndex].lowercased()
                 }
                 
                 let type = try RespParameter.ParamType.allCases.findType(el: resultEl, name: name, type: "", desc: try resultEl.text())
@@ -122,9 +131,24 @@ if parseMethods {
                         let type = try RespParameter.ParamType.allCases.findType(el: nil, name: "", type: "", desc: String(text))
                         return .init(name: name, description: nil, type: type, required: true)
                     }
-                } else {
+                } else if method.resultWrapped {
                     respParams = [ .init(name: name, description: nil, type: type, required: true) ]
+                } else {
+                    guard case let .Object(inner) = type, let innerParams = inner?.params else { fatalError() }
+                    respParams = innerParams
                 }
+            }
+            
+            if resultElText.contains("После успешного выполнения возвращает массив с загруженной фотографией") {
+                respType = respParams?.first
+            } else if let respParams = respParams {
+                let name = method.codeCapitalized.capitalizingFirstLetter() + "Resp"
+                respType = .init(
+                    name: name,
+                    description: nil,
+                    type: .Object(.init(name: name, params: respParams)),
+                    required: true
+                )
             }
             
             debugPrint("--- Write file ---")
@@ -135,7 +159,7 @@ if parseMethods {
                 .appendingPathComponent("Methods")
                 .appendingPathComponent(filename)
             
-            let swiftFile = MethodExtensionFile(description: desc, params: params, methodGroup: methodGroup, method: method, respParams: respParams)
+            let swiftFile = MethodExtensionFile(description: desc, params: params, methodGroup: methodGroup, method: method, resp: respType)
             
             do {
                 try swiftFile.wrappedString.write(to: fileURL, atomically: false, encoding: .utf8)
@@ -159,11 +183,13 @@ if parseTypes {
     let htmlStr = loadHtml(url)
     let html = try SwiftSoup.parse(htmlStr!)
 
-    let typeUrls = try html.select("tr").compactMap { rowEl in
+    var typeUrls = try html.select("tr").compactMap { rowEl in
         try rowEl.select("a").first()?.attr("href")
-    }.map { URL(string: baseUrl + $0)! }
+    }
+
+    typeUrls.append("/dev/objects/graffiti")
     
-    for url in typeUrls {
+    for url in typeUrls.compactMap({ URL(string: baseUrl + $0) }) {
         debugPrint("---   Url \(url.absoluteURL)   ---")
         debugPrint("--- Parse html ---")
         

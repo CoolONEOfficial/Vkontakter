@@ -40,11 +40,18 @@ public extension Bot {
             /// Секретный ключ.
             public let secretKey: String?
             
-            /// Статус сервера. Возможные значения: unconfigured — адрес не задан. failed — подтвердить адрес не удалось. wait — адрес ожидает подтверждения. ok — сервер подключен.
+            /// Статус сервера. Возможные значения: 
             public enum Status: String, Codable {
+                /// unconfigured — адрес не задан;
                 case unconfigured
+            
+                /// wait — адрес ожидает подтверждения;
                 case wait
+            
+                /// failed — подтвердить адрес не удалось;
                 case failed
+            
+                /// ok — сервер подключен.
                 case ok
             }
             

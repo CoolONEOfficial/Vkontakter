@@ -23,7 +23,7 @@ public enum FileInfo: Encodable {
 
     case fileId(String)
     case url(String)
-    //case file(InputFile)
+    case file(InputFile)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -32,8 +32,8 @@ public enum FileInfo: Encodable {
             try container.encode(string)
         case .url(let string):
             try container.encode(string)
-//        case .file(let file):
-//            try container.encode(file)
+        case .file(let file):
+            try container.encode(file)
         }
     }
 }

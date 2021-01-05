@@ -15,7 +15,7 @@ struct RespObject {
 
 struct RespEnum {
     let name: String
-    let cases: [String: String]
+    let cases: [String: (String, String)]
     let casesType: RespParameter.ParamType
 }
 
@@ -39,14 +39,16 @@ struct RespParameter {
         case Flag
         case Attachments
         case Message
-        case PhotoSize
+        case PhotoType
+        case PhotoSizes
         case EventData
         case MessagePayload
+        case SavedDoc
         
         static let allCases: [Self] = {
             var cases = [Self]()
-            cases.append(.Array(nil))
             cases.append(contentsOf: hardcodedCases)
+            cases.append(.Array(nil))
             cases.append(.Enum(nil))
             cases.append(.Typealias(nil))
             cases.append(.Object(nil))
@@ -58,7 +60,7 @@ struct RespParameter {
         
         static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
-        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSize, .EventData, .MessagePayload]
+        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSizes, .PhotoType, .EventData, .MessagePayload, .SavedDoc]
         
         static let typedCases = primitiveCases + hardcodedCases
         
@@ -72,9 +74,10 @@ struct RespParameter {
                 return [ "int32" ]
             case .String:
                 return [
-                    "строк", "полезная нагрузка", "string",
+                    "строк", "string",
                     "внешние сервисы", "langs", "сообщение об ошибке",
-                    "список положительных чисел, разделенных запятыми", "url", "src", "created"
+                    "список положительных чисел, разделенных запятыми",
+                    "url", "src", "created"
                 ]
             case .Double:
                 return [ "дробное число", "дробных чисел", "float" ]
@@ -96,8 +99,10 @@ struct RespParameter {
                 return [ "флаг", "integer, [0,1]", "известен ли", "есть ли", "возвращает 1." ]
             case .Photo:
                 return [ "объект photo" ]
-            case .PhotoSize:
+            case .PhotoSizes:
                 return [ "изображения в разных размерах" ]
+            case .PhotoType:
+                return [ "обозначение размера и пропорций копии" ]
             case .Enum:
                 return [ "{case}", "возможные значения" ]
             case .Typealias:
@@ -110,6 +115,8 @@ struct RespParameter {
                 return [ "произойти после нажатия на кнопку" ]
             case .MessagePayload:
                 return [ "полезная нагрузка" ]
+            case .SavedDoc:
+                return [ "type (string) с возможными значениями graffiti" ]
             }
         }
 
@@ -148,19 +155,23 @@ struct RespParameter {
             case .Flag:
                 return "VkFlag"
             case .Photo:
-                return "VkPhoto"
-            case .PhotoSize:
-                return "VkPhoto.Size"
+                return "Photo"
+            case .PhotoSizes:
+                return "[PhotoSize]"
+            case .PhotoType:
+                return "PhotoType"
             case .Typealias:
                 return nil
             case .Attachments:
                 return "Attachments"
             case .Message:
-                return "Message"
+                return "[Message]"
             case .EventData:
                 return "EventData"
             case .MessagePayload:
                 return "Message.Payload"
+            case .SavedDoc:
+                return "ArrayOrValue<SavedDoc>"
             }
         }
         
@@ -204,12 +215,21 @@ struct RespParameter {
     static func from(inlineEl: Element) throws -> [Self]? {
         guard let nameEl = try? inlineEl.select("b").first() else { return nil }
         let ownDesc = try inlineEl.select("span").first()?.ownText() ?? ""
-        let fullDesc = try inlineEl.select("span").first()?.text() ?? ""
+        var fullDesc = try inlineEl.select("span").first()?.text() ?? ""
+        
+        
+        if let subListText = try inlineEl.children().first { $0.tagName() == "span" }?.children().filter({ $0.tagName() == "ul" }).map({ try $0.text() }).reduce("", +),
+           !subListText.isEmpty {
+            fullDesc = String(fullDesc.dropLast(subListText.count))
+        }
+        
         let type = try inlineEl.select(".wk_gray").first()?.ownText() ?? ""
         
         var arr = [Self?]()
         
-        for name in nameEl.ownText().components(separatedBy: ", ").map(\.camelized) {
+        let names = nameEl.ownText().components(separatedBy: ", ").filter({ !$0.contains(" ") }).map(\.camelized)
+        if names.isEmpty { return nil }
+        for name in names {
             var desc = fullDesc.replacingOccurrences(of: ";", with: ".")
             if let ind = ["–", "—"].compactMap({ desc.firstIndex(of: $0) }).first {
                 let startIndex = desc.index(ind, offsetBy: 2)
@@ -272,6 +292,7 @@ extension RespParameter: Equatable {
 
 extension Array where Element == RespParameter.ParamType {
     func findType(el: SwiftSoup.Element?, name: String, type: String, desc: String, fullDesc: String? = nil) throws -> RespParameter.ParamType {
+        var el = el
         for _case in self {
             for matchWord in _case.matchWords where
                 desc.lowercased().contains(matchWord)
@@ -295,15 +316,17 @@ extension Array where Element == RespParameter.ParamType {
                     
                     fatalError()
                 case .Object:
-                    var params = try el?.children()
-                        .filter { $0.tagName() == "li" }
+                    if let child = el?.child(0), child.tagName() == "li",
+                       let spanChild = Optional(child.child(0)), spanChild.tagName() == "span",
+                       let ulChild = Optional(spanChild.child(0)), ulChild.tagName() == "ul" {
+                        el = ulChild
+                    }
+                    
+                    let params = try el?.children()
+                        .filter { $0.tagName() == "li" || $0.tagName() == "b" }
                         .compactMap { inlineEl -> [RespParameter]? in
                         try RespParameter.from(inlineEl: inlineEl)
                     }.flatMap { $0 } ?? []
-                    
-                    if params.isEmpty, let el = el {
-                        params = try RespParameter.from(inlineEl: el) ?? []
-                    }
                     
                     return .Object(.init(name: name.capitalizingFirstLetter(), params: params))
                 case .Array:
@@ -336,10 +359,10 @@ extension Array where Element == RespParameter.ParamType {
                             let comps = next.components(separatedBy: "—")
                                 .map { $0.trimmingCharacters(in: [" ", ";", "."]) }
                             if comps.count == 1 && Int(comps[0]) != nil {
-                                dict[comps[0]] = comps[0]
+                                dict[comps[0]] = (comps[0], next)
                             } else {
                                 let key = comps.count == 1 ? comps[0] : comps[1]
-                                dict[key.transliterate] = comps[0]
+                                dict[key.transliterate] = (comps[0], next)
                             }
                             return dict
                         },

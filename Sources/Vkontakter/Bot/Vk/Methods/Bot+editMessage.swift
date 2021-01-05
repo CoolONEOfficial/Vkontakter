@@ -12,7 +12,7 @@ public extension Bot {
         public let peerId: Int64
         
         /// Текст сообщения. Обязательный параметр, если не задан параметр attachment.
-        public let message: String
+        public let message: String?
         
         /// Географическая широта (от -90 до 90).
         public let lat: Double?
@@ -54,7 +54,7 @@ public extension Bot {
         /// Объект, описывающий клавиатуру бота.
         public let keyboard: Keyboard?
         
-        public init(peerId: Int64, message: String, lat: Double? = nil, long: Double? = nil, attachment: Attachments? = nil, keepForwardMessages: VkFlag? = nil, keepSnippets: VkFlag? = nil, groupId: UInt64? = nil, dontParseLinks: VkFlag? = nil, messageId: UInt64? = nil, conversationMessageId: UInt64? = nil, template: Template? = nil, keyboard: Keyboard? = nil) {
+        public init(peerId: Int64, message: String? = nil, lat: Double? = nil, long: Double? = nil, attachment: Attachments? = nil, keepForwardMessages: VkFlag? = nil, keepSnippets: VkFlag? = nil, groupId: UInt64? = nil, dontParseLinks: VkFlag? = nil, messageId: UInt64? = nil, conversationMessageId: UInt64? = nil, template: Template? = nil, keyboard: Keyboard? = nil) {
             self.peerId = peerId
             self.message = message
             self.lat = lat

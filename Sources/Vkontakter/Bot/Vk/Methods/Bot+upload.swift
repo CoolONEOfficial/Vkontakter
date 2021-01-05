@@ -12,22 +12,39 @@ public extension Bot {
         case message
     }
     
+    enum UploadType {
+        case photo
+        case doc(peerId: Int64)
+    }
+
     enum UploadError: Error {
         case invalidUploadServerUrl
     }
     
     @discardableResult
-    func upload(_ file: InputFile, for destination: Destination) throws -> Future<[Photo]> {
+    func upload(_ file: InputFile, as type: UploadType, for destination: Destination) throws -> Future<[SavedDoc]> {
         switch destination {
         case .message:
-            let test = try getMessagesUploadServer(params: .init(peerId: 0))
-            return test.flatMap { serverResp in
-                guard let uploadUrl = URL(string: serverResp.uploadUrl) else {
-                    return test.eventLoop.makeFailedFuture(UploadError.invalidUploadServerUrl)
+            switch type {
+            case .photo:
+                let future = try getMessagePhotosUploadServer(params: .init(peerId: 0))
+                return future.flatMap { serverResp in
+                    guard let uploadUrl = URL(string: serverResp.uploadUrl) else {
+                        return future.eventLoop.makeFailedFuture(UploadError.invalidUploadServerUrl)
+                    }
+                    return try! self.uploadPhoto(to: uploadUrl, params: .init(file)).flatMap { uploadResp in
+                        try! self.saveMessagesPhoto(params: uploadResp.saveParams).map { $0.map { photo in SavedDoc.photo(photo) } }
+                    }
                 }
-                
-                return try! self.uploadPhoto(to: uploadUrl, params: .init(file)).flatMap { uploadResp in
-                    try! self.saveMessagesPhoto(params: uploadResp.saveParams)
+            case let .doc(peerId):
+                let future = try getMessageDocsUploadServer(params: .init(peerId: peerId))
+                return future.flatMap { serverResp in
+                    guard let uploadUrlStr = serverResp.uploadUrl, let uploadUrl = URL(string: uploadUrlStr) else {
+                        return future.eventLoop.makeFailedFuture(UploadError.invalidUploadServerUrl)
+                    }
+                    return try! self.uploadFile(to: uploadUrl, params: .init(file)).flatMap { uploadResp in
+                        try! self.saveDoc(params: .init(file: uploadResp.file, title: file.filename)).map { $0.array }
+                    }
                 }
             }
         }

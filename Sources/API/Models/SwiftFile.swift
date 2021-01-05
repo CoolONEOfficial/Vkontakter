@@ -52,31 +52,36 @@ struct TypeFile: SwiftFile {
     }
 }
 
+extension Method {
+    var codeCapitalized: String {
+        codeName.capitalizingFirstLetter()
+    }
+}
+
 struct MethodExtensionFile: SwiftFile {
     let description: String
     let params: [RespParameter]
     let methodGroup: String
     let method: Method
-    let respParams: [RespParameter] // if empty then Flag
-
-    var methodCodeCapitalized: String {
-        method.codeName.capitalizingFirstLetter()
-    }
+    let resp: RespParameter
     
     var methodApi: String {
         methodGroup + "." + method.apiName
     }
     
-    var respType: String {
-        respParams.isEmpty ? "VkFlag" : methodCodeCapitalized.capitalizingFirstLetter() + "Resp"
+    var respTypeContent: String {
+        if case let .Object(object) = resp.type.innerObject, let respParams = object?.params, !respParams.isEmpty {
+            return "\nfinal class \(resp.type.innerObject.string!): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
+        }
+        return ""
     }
     
-    var respTypeContent: String {
-        respParams.isEmpty ? "" : "\nfinal class \(respType): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
+    var respType: String {
+        resp.type.string!
     }
     
     var paramsType: String {
-        methodCodeCapitalized.capitalizingFirstLetter() + "Params"
+        method.codeCapitalized.capitalizingFirstLetter() + "Params"
     }
 
     var string: String {
@@ -94,7 +99,7 @@ struct MethodExtensionFile: SwiftFile {
              \(description)
 
              See also VK API Reference:
-             [\(methodCodeCapitalized)](https://vk.com/dev/\(methodApi))
+             [\(method.codeCapitalized)](https://vk.com/dev/\(methodApi))
              
              - Parameters:
                  - params: Parameters container, see `\(paramsType)` struct
@@ -149,24 +154,24 @@ extension RespParameter {
         case let .Enum(data):
             guard let data = data else { fatalError() }
             let casesContent: String = data.cases.sorted( by: { $0.0 < $1.0 }).map {
-                var str = "\ncase "
+                var str = "\n/// " + $0.value.1 + "\ncase "
                 switch data.casesType {
                 case .String:
-                    let val = $0.value
+                    let val = $0.value.0
                     guard !(val.first?.isNumber ?? false) else { fallthrough }
                     str += val.safeNamed
                 default:
                     let val: String
                     switch data.casesType {
                     case .String:
-                        val = "\"\($0.value)\""
+                        val = "\"\($0.value.0)\""
                     default:
-                        val = $0.value
+                        val = $0.value.0
                     }
                     str += $0.key.safeNamed + " = " + val
                 }
                 return str.i(1)
-            }.joined()
+            }.joined(separator: "\n")
             let name = data.name.safeNamed
             str.append("public enum \(name): \(data.casesType.string!), Codable {\(casesContent)\n}\n\n")
         case let .Typealias(data):

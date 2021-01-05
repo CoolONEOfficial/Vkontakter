@@ -25,8 +25,8 @@ public extension Bot {
     
     }
     
-    public final class Photo: Codable {
-        
+    final class Photo: Codable {
+    
         public let id: Int64?
         
         public let pid: Int64?
@@ -43,7 +43,11 @@ public extension Bot {
         
         public let created: String?
         
-        public init(id: Int64? = nil, pid: Int64? = nil, aid: Int64? = nil, ownerId: Int64? = nil, src: String? = nil, srcBig: String? = nil, srcSmall: String? = nil, created: String? = nil) {
+        public let srcXbig: String?
+        
+        public let srcXxbig: String?
+        
+        public init(id: Int64? = nil, pid: Int64? = nil, aid: Int64? = nil, ownerId: Int64? = nil, src: String? = nil, srcBig: String? = nil, srcSmall: String? = nil, created: String? = nil, srcXbig: String? = nil, srcXxbig: String? = nil) {
             self.id = id
             self.pid = pid
             self.aid = aid
@@ -52,7 +56,10 @@ public extension Bot {
             self.srcBig = srcBig
             self.srcSmall = srcSmall
             self.created = created
+            self.srcXbig = srcXbig
+            self.srcXxbig = srcXxbig
         }
+    
     }
     
     /**
@@ -65,7 +72,7 @@ public extension Bot {
      - Parameters:
          - params: Parameters container, see `SaveMessagesPhotoParams` struct
      - Throws: Throws on errors
-     - Returns: Future of `SaveMessagesPhotoResp` type
+     - Returns: Future of `[Photo]` type
      */
     @discardableResult
     func saveMessagesPhoto(params: SaveMessagesPhotoParams) throws -> Future<[Photo]> {
