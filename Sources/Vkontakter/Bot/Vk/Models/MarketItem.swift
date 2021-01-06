@@ -145,7 +145,10 @@ public final class MarketItem: Codable {
     /// Артикул товара,
     public let sku: String?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, description: String? = nil, price: Price? = nil, dimensions: Dimensions? = nil, weight: Int64? = nil, category: Category? = nil, thumbPhoto: String? = nil, date: UInt64? = nil, availability: Availability? = nil, isFavorite: IsFavorite? = nil, sku: String? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, description: String? = nil, price: Price? = nil, dimensions: Dimensions? = nil, weight: Int64? = nil, category: Category? = nil, thumbPhoto: String? = nil, date: UInt64? = nil, availability: Availability? = nil, isFavorite: IsFavorite? = nil, sku: String? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.title = title
@@ -159,6 +162,7 @@ public final class MarketItem: Codable {
         self.availability = availability
         self.isFavorite = isFavorite
         self.sku = sku
+        self.accessKey = accessKey
     }
 
 }

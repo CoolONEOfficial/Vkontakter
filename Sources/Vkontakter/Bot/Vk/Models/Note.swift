@@ -34,7 +34,10 @@ public final class Note: Codable {
     /// URL страницы для отображения заметки.
     public let viewUrl: String?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, text: String? = nil, date: UInt64? = nil, comments: Int64? = nil, readComments: Int64? = nil, viewUrl: String? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, text: String? = nil, date: UInt64? = nil, comments: Int64? = nil, readComments: Int64? = nil, viewUrl: String? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.title = title
@@ -43,6 +46,7 @@ public final class Note: Codable {
         self.comments = comments
         self.readComments = readComments
         self.viewUrl = viewUrl
+        self.accessKey = accessKey
     }
 
 }

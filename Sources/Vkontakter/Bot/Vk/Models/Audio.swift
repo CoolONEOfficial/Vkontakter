@@ -46,7 +46,10 @@ public final class Audio: Codable {
     /// 1, если аудио в высоком качестве.
     public let isHq: Int64?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, artist: String? = nil, title: String? = nil, duration: Int64? = nil, url: String? = nil, lyricsId: Int64? = nil, albumId: Int64? = nil, genreId: Int64? = nil, date: Int64? = nil, noSearch: Int64? = nil, isHq: Int64? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, artist: String? = nil, title: String? = nil, duration: Int64? = nil, url: String? = nil, lyricsId: Int64? = nil, albumId: Int64? = nil, genreId: Int64? = nil, date: Int64? = nil, noSearch: Int64? = nil, isHq: Int64? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.artist = artist
@@ -59,6 +62,7 @@ public final class Audio: Codable {
         self.date = date
         self.noSearch = noSearch
         self.isHq = isHq
+        self.accessKey = accessKey
     }
 
 }

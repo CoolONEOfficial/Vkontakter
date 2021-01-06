@@ -275,7 +275,10 @@ public final class Post: Codable {
     /// Идентификатор отложенной записи. Это поле возвращается тогда, когда запись стояла на таймере.
     public let postponedId: Int64?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, fromId: Int64? = nil, createdBy: String? = nil, date: UInt64? = nil, text: String? = nil, replyOwnerId: Int64? = nil, replyPostId: Int64? = nil, friendsOnly: Int64? = nil, comments: Comments? = nil, copyright: Copyright? = nil, likes: Likes? = nil, reposts: Reposts? = nil, views: Views? = nil, postType: String? = nil, postSource: PostSource? = nil, attachments: Attachments? = nil, geo: Geo? = nil, signerId: Int64? = nil, copyHistory: [CopyHistory]? = nil, canPin: VkFlag? = nil, canDelete: VkFlag? = nil, canEdit: VkFlag? = nil, isPinned: Int64? = nil, markedAsAds: VkFlag? = nil, isFavorite: IsFavorite? = nil, donut: Donut? = nil, postponedId: Int64? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, fromId: Int64? = nil, createdBy: String? = nil, date: UInt64? = nil, text: String? = nil, replyOwnerId: Int64? = nil, replyPostId: Int64? = nil, friendsOnly: Int64? = nil, comments: Comments? = nil, copyright: Copyright? = nil, likes: Likes? = nil, reposts: Reposts? = nil, views: Views? = nil, postType: String? = nil, postSource: PostSource? = nil, attachments: Attachments? = nil, geo: Geo? = nil, signerId: Int64? = nil, copyHistory: [CopyHistory]? = nil, canPin: VkFlag? = nil, canDelete: VkFlag? = nil, canEdit: VkFlag? = nil, isPinned: Int64? = nil, markedAsAds: VkFlag? = nil, isFavorite: IsFavorite? = nil, donut: Donut? = nil, postponedId: Int64? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.fromId = fromId
@@ -304,6 +307,7 @@ public final class Post: Codable {
         self.isFavorite = isFavorite
         self.donut = donut
         self.postponedId = postponedId
+        self.accessKey = accessKey
     }
 
 }

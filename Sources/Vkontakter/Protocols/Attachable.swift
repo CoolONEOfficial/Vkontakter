@@ -17,13 +17,20 @@ public protocol Attachable: Codable {
     /// идентификатор медиавложения.
     var mediaId: Int64? { get }
     
+    /// Ключ доступа к данным access_key
+    var accessKey: String? { get }
+    
     init?(from attachableId: String)
-    init(ownerId: Int64, mediaId: Int64?)
+    init(ownerId: Int64, mediaId: Int64?, accessKey: String?)
 }
 
 public extension Attachable {
     var attachmentId: String {
-        "\(Self.attachmentType)\(ownerId ?? 0)_\(mediaId ?? 0)"
+        "\(Self.attachmentType)\(ownerId ?? 0)_\(mediaId ?? 0)\(accessKey != nil ? "_" + accessKey! : "")"
+    }
+    
+    var accessKey: String? {
+        nil
     }
     
     init?(from attachableId: String) {
@@ -34,17 +41,17 @@ public extension Attachable {
         attachableId = .init(attachableId.dropFirst(type.count))
 
         let comps = attachableId.components(separatedBy: "_")
-        guard comps.count == 2,
+        guard comps.count == 2 || comps.count == 3,
               let ownerId = Int64(comps[0]),
               let mediaId = Int64(comps[1]) else { return nil }
 
-        self.init(ownerId: ownerId, mediaId: mediaId)
+        self.init(ownerId: ownerId, mediaId: mediaId, accessKey: comps.count == 3 ? comps[2] : nil)
     }
 }
 
 extension Doc: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?) {
-        self.init(id: mediaId, ownerId: ownerId)
+    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+        self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
     static public var attachmentType: Attachment.`Type` {
@@ -57,8 +64,8 @@ extension Doc: Attachable {
 }
 
 extension Photo: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?) {
-        self.init(id: mediaId, ownerId: ownerId)
+    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+        self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
     static public var attachmentType: Attachment.`Type` {
@@ -71,7 +78,7 @@ extension Photo: Attachable {
 }
 
 extension Bot.Photo: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?) {
+    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId)
     }
     
@@ -85,8 +92,8 @@ extension Bot.Photo: Attachable {
 }
 
 extension Graffiti: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?) {
-        self.init(id: mediaId, ownerId: ownerId)
+    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+        self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
     static public var attachmentType: Attachment.`Type` {
@@ -99,8 +106,8 @@ extension Graffiti: Attachable {
 }
 
 extension Audio: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?) {
-        self.init(id: mediaId, ownerId: ownerId)
+    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+        self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
     static public var attachmentType: Attachment.`Type` {

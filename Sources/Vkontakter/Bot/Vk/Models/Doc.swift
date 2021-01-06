@@ -131,7 +131,10 @@ public final class Doc: Codable {
     
     public let preview: Preview?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, size: Int64? = nil, ext: String? = nil, url: String? = nil, date: UInt64? = nil, type: Type? = nil, preview: Preview? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, title: String? = nil, size: Int64? = nil, ext: String? = nil, url: String? = nil, date: UInt64? = nil, type: Type? = nil, preview: Preview? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.title = title
@@ -141,6 +144,7 @@ public final class Doc: Codable {
         self.date = date
         self.type = `type`
         self.preview = preview
+        self.accessKey = accessKey
     }
 
 }

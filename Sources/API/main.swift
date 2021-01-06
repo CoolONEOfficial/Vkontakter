@@ -3,7 +3,7 @@ import Foundation
 
 let baseUrl = "https://vk.com"
 
-let parseMethods = true
+let parseMethods = false
 let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
@@ -230,6 +230,10 @@ if parseTypes {
             }
         }
         
+        if params.map(\.codeName).contains("ownerId") {
+            params.append(.init(name: "accessKey", description: "При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. ", type: .String, required: false))
+        }
+        
         params = params.unique
         
         if params.isEmpty {
@@ -242,8 +246,9 @@ if parseTypes {
             
             let fileURL = vkDir
                 .appendingPathComponent("Models")
-                .appendingPathComponent("Objects")
                 .appendingPathComponent(filename)
+            
+            debugPrint("Writing file \(fileURL.relativePath)")
             
             let desc = singleBlock ? blockEls.first!.ownText().beforeLastDotOrComma : try blockEls.first!.text()
             

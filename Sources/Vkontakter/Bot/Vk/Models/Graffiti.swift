@@ -25,12 +25,16 @@ public final class Graffiti: Codable {
     /// Высота изображения в px.
     public let height: Int64?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, url: String? = nil, width: Int64? = nil, height: Int64? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, url: String? = nil, width: Int64? = nil, height: Int64? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.url = url
         self.width = width
         self.height = height
+        self.accessKey = accessKey
     }
 
 }

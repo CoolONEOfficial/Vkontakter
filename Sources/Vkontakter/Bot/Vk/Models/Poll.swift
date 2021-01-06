@@ -159,7 +159,10 @@ public final class Poll: Codable {
     /// Идентификаторы 3 друзей, которые проголосовали в опросе.
     public let friends: [Int64]?
     
-    public init(id: Int64? = nil, ownerId: Int64? = nil, created: String? = nil, question: String? = nil, votes: Int64? = nil, answers: [Answers]? = nil, anonymous: Bool? = nil, multiple: Bool? = nil, answerIds: [Int64]? = nil, endDate: UInt64? = nil, closed: Bool? = nil, isBoard: Bool? = nil, canEdit: Bool? = nil, canVote: Bool? = nil, canReport: Bool? = nil, canShare: Bool? = nil, authorId: Int64? = nil, photo: Photo? = nil, background: Background? = nil, friends: [Int64]? = nil) {
+    /// При получении объектов, прямого доступа к которым может не быть, например, фотографий или видео в новостях, вместе с объектами приходит поле access_key, которое необходимо передавать при получении этих объектов напрямую или при совершении с ними действий. 
+    public let accessKey: String?
+    
+    public init(id: Int64? = nil, ownerId: Int64? = nil, created: String? = nil, question: String? = nil, votes: Int64? = nil, answers: [Answers]? = nil, anonymous: Bool? = nil, multiple: Bool? = nil, answerIds: [Int64]? = nil, endDate: UInt64? = nil, closed: Bool? = nil, isBoard: Bool? = nil, canEdit: Bool? = nil, canVote: Bool? = nil, canReport: Bool? = nil, canShare: Bool? = nil, authorId: Int64? = nil, photo: Photo? = nil, background: Background? = nil, friends: [Int64]? = nil, accessKey: String? = nil) {
         self.id = id
         self.ownerId = ownerId
         self.created = created
@@ -180,6 +183,7 @@ public final class Poll: Codable {
         self.photo = photo
         self.background = background
         self.friends = friends
+        self.accessKey = accessKey
     }
 
 }
