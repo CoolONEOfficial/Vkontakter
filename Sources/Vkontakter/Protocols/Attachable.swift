@@ -50,7 +50,7 @@ public extension Attachable {
 }
 
 extension Doc: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+    public init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
@@ -64,7 +64,7 @@ extension Doc: Attachable {
 }
 
 extension Photo: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+    public init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
@@ -78,7 +78,7 @@ extension Photo: Attachable {
 }
 
 extension Bot.Photo: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+    public init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId)
     }
     
@@ -92,7 +92,7 @@ extension Bot.Photo: Attachable {
 }
 
 extension Graffiti: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+    public init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     
@@ -106,7 +106,7 @@ extension Graffiti: Attachable {
 }
 
 extension Audio: Attachable {
-    public convenience init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
+    public init(ownerId: Int64, mediaId: Int64?, accessKey: String?) {
         self.init(id: mediaId, ownerId: ownerId, accessKey: accessKey)
     }
     

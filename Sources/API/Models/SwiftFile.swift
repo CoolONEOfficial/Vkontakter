@@ -71,7 +71,7 @@ struct MethodExtensionFile: SwiftFile {
     
     var respTypeContent: String {
         if case let .Object(object) = resp.type.innerObject, let respParams = object?.params, !respParams.isEmpty {
-            return "\nfinal struct \(resp.type.innerObject.string!): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
+            return "\nstruct \(resp.type.innerObject.string!): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
         }
         return ""
     }
@@ -147,7 +147,7 @@ extension RespParameter {
             str.append("/// \(desc)\n")
         }
         
-        let varPart = "public let \(name.safeNamed): \(typeString)"
+        let varPart = "public \(name.letOrVar) \(name.safeNamed): \(typeString)"
 
         switch type {
         case let .Array(.Object(data)), let .Object(data):

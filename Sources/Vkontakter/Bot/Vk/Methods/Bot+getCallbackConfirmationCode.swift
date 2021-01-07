@@ -17,7 +17,7 @@ public extension Bot {
     
     }
     
-    final struct GetCallbackConfirmationCodeResp: Codable {
+    struct GetCallbackConfirmationCodeResp: Codable {
     
         public let code: String
         

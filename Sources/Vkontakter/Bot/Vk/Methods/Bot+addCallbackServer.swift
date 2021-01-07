@@ -29,7 +29,7 @@ public extension Bot {
     
     }
     
-    final struct AddCallbackServerResp: Codable {
+    struct AddCallbackServerResp: Codable {
     
         public let serverId: UInt64
         

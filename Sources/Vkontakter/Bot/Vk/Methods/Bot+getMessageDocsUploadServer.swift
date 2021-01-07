@@ -23,7 +23,7 @@ public extension Bot {
         public let `type`: Type?
         
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества.
-        public let peerId: Int64?
+        public var peerId: Int64?
         
         public init(type: Type? = nil, peerId: Int64? = nil) {
             self.type = `type`
@@ -32,7 +32,7 @@ public extension Bot {
     
     }
     
-    final struct GetMessageDocsUploadServerResp: Codable {
+    struct GetMessageDocsUploadServerResp: Codable {
     
         public let uploadUrl: String?
         

@@ -9,7 +9,7 @@ public extension Bot {
     struct EditMessageParams: JSONEncodable {
 
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества.
-        public let peerId: Int64
+        public var peerId: Int64
         
         /// Текст сообщения. Обязательный параметр, если не задан параметр attachment.
         public let message: String?

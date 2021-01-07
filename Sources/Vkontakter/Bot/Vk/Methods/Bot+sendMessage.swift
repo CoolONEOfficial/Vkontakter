@@ -15,7 +15,7 @@ public extension Bot {
         public let randomId: Int32?
         
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества. целое число, доступен начиная с версии 5.
-        public let peerId: Int64?
+        public var peerId: Int64?
         
         /// Идентификаторы получателей сообщения (при необходимости отправить сообщение сразу нескольким пользователям). Доступно только для ключа доступа сообщества. Максимальное количество идентификаторов: 100. список целых чисел, разделенных запятыми, доступен начиная с версии 5.
         public let peerIds: [Int64]?
@@ -112,12 +112,12 @@ public extension Bot {
     
     }
     
-    final struct SendMessageResp: Codable {
+    struct SendMessageResp: Codable {
     
         public struct Item: Codable {
             
             /// Идентификатор назначения.
-            public let peerId: Int64?
+            public var peerId: Int64?
             
             /// Идентификатор сообщения.
             public let messageId: Int64?

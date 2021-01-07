@@ -17,7 +17,7 @@ public struct Message: Codable {
     public let date: UInt64?
     
     /// Идентификатор назначения.
-    public let peerId: Int64?
+    public var peerId: Int64?
     
     /// Идентификатор отправителя.
     public let fromId: Int64?

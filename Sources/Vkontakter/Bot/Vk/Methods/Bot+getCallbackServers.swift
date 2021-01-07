@@ -21,7 +21,7 @@ public extension Bot {
     
     }
     
-    final struct GetCallbackServersResp: Codable {
+    struct GetCallbackServersResp: Codable {
     
         public struct Item: Codable {
             

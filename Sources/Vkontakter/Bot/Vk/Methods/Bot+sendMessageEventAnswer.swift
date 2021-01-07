@@ -15,7 +15,7 @@ public extension Bot {
         public let userId: Int64
         
         /// Идентификатор диалога со стороны сообщества.
-        public let peerId: Int64
+        public var peerId: Int64
         
         /// Объект действия, которое должно произойти после нажатия на кнопку.
         public let eventData: EventData?

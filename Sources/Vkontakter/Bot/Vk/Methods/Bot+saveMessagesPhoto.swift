@@ -25,7 +25,7 @@ public extension Bot {
     
     }
     
-    final struct Photo: Codable {
+    struct Photo: Codable {
     
         public let id: Int64?
         

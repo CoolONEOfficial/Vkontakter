@@ -9,7 +9,7 @@ public extension Bot {
     struct GetMessagePhotosUploadServerParams: JSONEncodable {
 
         /// Идентификатор назначения (для загрузки фотографии в сообщениях сообществ). Для ботов/массовых рассылок с токеном сообщества можно указать peer_id=0. Изображение будет загружено в скрытый альбом группы.
-        public let peerId: Int64?
+        public var peerId: Int64?
         
         public init(peerId: Int64? = nil) {
             self.peerId = peerId
@@ -17,7 +17,7 @@ public extension Bot {
     
     }
     
-    final struct GetMessagePhotosUploadServerResp: Codable {
+    struct GetMessagePhotosUploadServerResp: Codable {
     
         public let uploadUrl: String
         
