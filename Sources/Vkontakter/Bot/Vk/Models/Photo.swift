@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Photo](https://vk.com/dev/objects/photo
  */
-public final class Photo: Codable {
+public struct Photo: Codable {
     /// Идентификатор фотографии.
     public let id: Int64?
     

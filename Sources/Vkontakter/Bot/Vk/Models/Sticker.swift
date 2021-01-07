@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Sticker](https://vk.com/dev/objects/sticker
  */
-public final class Sticker: Codable {
+public struct Sticker: Codable {
     /// Идентификатор набора.
     public let productId: Int64?
     
@@ -17,7 +17,7 @@ public final class Sticker: Codable {
     public let stickerId: Int64?
     
     /// Изображения для стикера (с прозрачным фоном).
-    public final class Images: Codable {
+    public struct Images: Codable {
         
         /// URL копии изображения.
         public let url: String?
@@ -38,7 +38,7 @@ public final class Sticker: Codable {
     public let images: [Images]?
     
     /// Изображения для стикера (с непрозрачным фоном).
-    public final class ImagesWithBackground: Codable {
+    public struct ImagesWithBackground: Codable {
         
         /// URL копии изображения.
         public let url: String?

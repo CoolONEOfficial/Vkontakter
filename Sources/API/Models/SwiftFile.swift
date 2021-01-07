@@ -44,7 +44,7 @@ struct TypeFile: SwiftFile {
          SeeAlso VK API Reference:
          [\(codeName)](https://vk.com/dev/objects/\(apiName)
          */
-        public final class \(codeName): Codable {
+        public struct \(codeName): Codable {
             \(params.generate.i(1))
             \(params.generateInit)
         }
@@ -71,7 +71,7 @@ struct MethodExtensionFile: SwiftFile {
     
     var respTypeContent: String {
         if case let .Object(object) = resp.type.innerObject, let respParams = object?.params, !respParams.isEmpty {
-            return "\nfinal class \(resp.type.innerObject.string!): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
+            return "\nfinal struct \(resp.type.innerObject.string!): Codable {\n\("\n".i(1))\((respParams.generate + "\n").i(1))\(respParams.generateInit)\n}\n".i(1)
         }
         return ""
     }
@@ -89,7 +89,7 @@ struct MethodExtensionFile: SwiftFile {
         public extension Bot {
 
             /// Parameters container struct for `\(method.codeName)` method
-            final class \(paramsType): JSONEncodable {
+            struct \(paramsType): JSONEncodable {
 
                 \(params.generate.i(2))
                 \(params.generateInit.i(1))
@@ -121,6 +121,10 @@ struct MethodExtensionFile: SwiftFile {
 }
 
 extension String {
+    var letOrVar: String {
+        [ "peerId" ].contains(self) ? "var" : "let"
+    }
+    
     var safeNamed: String {
          containsSwiftKeywords ? "`\(self)`" : self
     }
@@ -149,7 +153,7 @@ extension RespParameter {
         case let .Array(.Object(data)), let .Object(data):
             guard let data = data else { fatalError() }
             let initStr = data.params.generateInit
-            str.append("public final class \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
+            str.append("public struct \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
         case _ where ParamType.typedCases.contains(type), .Array: break
         case let .Enum(data):
             guard let data = data else { fatalError() }

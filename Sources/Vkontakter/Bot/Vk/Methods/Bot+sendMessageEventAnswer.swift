@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `sendMessageEventAnswer` method
-    final class SendMessageEventAnswerParams: JSONEncodable {
+    struct SendMessageEventAnswerParams: JSONEncodable {
 
         /// случайная строка, которая возвращается в событии
         public let eventId: String

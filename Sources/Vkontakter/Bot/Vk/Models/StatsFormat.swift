@@ -9,9 +9,9 @@ import AnyCodable
  SeeAlso VK API Reference:
  [StatsFormat](https://vk.com/dev/objects/stats_format
  */
-public final class StatsFormat: Codable {
+public struct StatsFormat: Codable {
     /// Данные об активности.
-    public final class Activity: Codable {
+    public struct Activity: Codable {
         
         /// Количество комментариев.
         public let comments: Int64?
@@ -50,7 +50,7 @@ public final class StatsFormat: Codable {
     public let periodTo: UInt64?
     
     /// Данные о посетителях и просмотрах.
-    public final class Visitors: Codable {
+    public struct Visitors: Codable {
         
         /// Число просмотров.
         public let views: Int64?
@@ -67,7 +67,7 @@ public final class StatsFormat: Codable {
     public let visitors: Visitors?
     
     /// Данные об охвате.
-    public final class Reach: Codable {
+    public struct Reach: Codable {
         
         /// Полный охват.
         public let reach: Int64?
@@ -79,7 +79,7 @@ public final class StatsFormat: Codable {
         public let mobileReach: Int64?
         
         /// Статистика по полу. Массив объектов, каждый из которых содержит поля: 
-        public final class Sex: Codable {
+        public struct Sex: Codable {
             
             /// Пол ("m" — мужской, "f" — женский).
             public let value: String?
@@ -96,7 +96,7 @@ public final class StatsFormat: Codable {
         public let sex: [Sex]?
         
         /// Статистика по возрасту. Массив объектов, каждый из которых содержит поля: 
-        public final class Age: Codable {
+        public struct Age: Codable {
             
             /// Возрастной интервал (например, "12-18"). Возможные значения: 12-18, 18-21, 21-24, 24-27, 27-30, 30-35, 35-45, 45-100.
             public enum Value: String, Codable {
@@ -139,7 +139,7 @@ public final class StatsFormat: Codable {
         public let age: [Age]?
         
         /// Статистика по полу и возрасту. Массив объектов, каждый из которых содержит поля: 
-        public final class SexAge: Codable {
+        public struct SexAge: Codable {
             
             /// Пол и возрастной интервал (например, "f.12-18").
             public let value: String?
@@ -156,7 +156,7 @@ public final class StatsFormat: Codable {
         public let sexAge: [SexAge]?
         
         /// Статистика по городам. Массив объектов, каждый из которых содержит поля: 
-        public final class Cities: Codable {
+        public struct Cities: Codable {
             
             /// Название города.
             public let name: String?
@@ -177,7 +177,7 @@ public final class StatsFormat: Codable {
         public let cities: [Cities]?
         
         /// Статистика по странам. Массив объектов, каждый из которых содержит поля: 
-        public final class Countries: Codable {
+        public struct Countries: Codable {
             
             /// Название страны.
             public let name: String?

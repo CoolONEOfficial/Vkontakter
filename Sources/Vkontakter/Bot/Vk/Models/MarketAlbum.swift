@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [MarketAlbum](https://vk.com/dev/objects/market_album
  */
-public final class MarketAlbum: Codable {
+public struct MarketAlbum: Codable {
     /// Идентификатор подборки.
     public let id: Int64?
     
@@ -20,7 +20,7 @@ public final class MarketAlbum: Codable {
     public let title: String?
     
     /// Обложка подборки, объект, описывающий фотографию.
-    public final class Photo: Codable {
+    public struct Photo: Codable {
         
         
         public init() {

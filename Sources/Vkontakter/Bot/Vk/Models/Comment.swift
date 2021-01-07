@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Comment](https://vk.com/dev/objects/comment
  */
-public final class Comment: Codable {
+public struct Comment: Codable {
     /// Идентификатор комментария.
     public let id: Int64?
     
@@ -23,7 +23,7 @@ public final class Comment: Codable {
     public let text: String?
     
     /// Информация о VK Donut.
-    public final class Donut: Codable {
+    public struct Donut: Codable {
         
         /// Является ли комментатор подписчиком VK Donut.
         public let isDon: Bool?
@@ -52,13 +52,13 @@ public final class Comment: Codable {
     public let parentsStack: [Int64]?
     
     /// Информация о вложенной ветке комментариев,
-    public final class Thread: Codable {
+    public struct Thread: Codable {
         
         /// Количество комментариев в ветке.
         public let count: Int64?
         
         /// Массив объектов комментариев к записи (только для метода wall.getComments).
-        public final class Items: Codable {
+        public struct Items: Codable {
             
             
             public init() {

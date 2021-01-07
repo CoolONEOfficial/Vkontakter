@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Doc](https://vk.com/dev/objects/doc
  */
-public final class Doc: Codable {
+public struct Doc: Codable {
     /// Идентификатор документа.
     public let id: Int64?
     
@@ -61,10 +61,10 @@ public final class Doc: Codable {
     public let `type`: Type?
     
     /// Информация для предварительного просмотра документа.
-    public final class Preview: Codable {
+    public struct Preview: Codable {
         
         /// Изображения для предпросмотра. Содержит единственное поле: 
-        public final class Photo: Codable {
+        public struct Photo: Codable {
             
             /// Массив копий изображения в разных размерах. Подробное описание структуры Вы найдете на этой странице.
             public let sizes: [PhotoSize]?
@@ -77,7 +77,7 @@ public final class Doc: Codable {
         public let photo: Photo?
         
         /// Данные о граффити. Содержит следующие поля: 
-        public final class Graffiti: Codable {
+        public struct Graffiti: Codable {
             
             /// URL документа с граффити.
             public let src: String?
@@ -98,7 +98,7 @@ public final class Doc: Codable {
         public let graffiti: Graffiti?
         
         /// Данные об аудиосообщении. Объект, который содержит следующие поля: 
-        public final class AudioMessage: Codable {
+        public struct AudioMessage: Codable {
             
             /// Длительность аудиосообщения в секундах.
             public let duration: Int64?

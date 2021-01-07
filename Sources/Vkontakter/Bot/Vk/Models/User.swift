@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [User](https://vk.com/dev/objects/user
  */
-public final class User: Codable {
+public struct User: Codable {
     /// Идентификатор пользователя.
     public let id: Int64
     
@@ -62,7 +62,7 @@ public final class User: Codable {
     public let canWritePrivateMessage: VkFlag?
     
     /// Информация о карьере пользователя.
-    public final class Career: Codable {
+    public struct Career: Codable {
         
         /// Идентификатор сообщества (если доступно, иначе company).
         public let groupId: UInt64?
@@ -103,7 +103,7 @@ public final class User: Codable {
     public let career: Career?
     
     /// Информация о городе, указанном на странице пользователя в разделе «Контакты».
-    public final class City: Codable {
+    public struct City: Codable {
         
         /// Идентификатор города, который можно использовать для получения его названия с помощью метода database.getCitiesById.
         public let id: Int64?
@@ -126,7 +126,7 @@ public final class User: Codable {
     public let connections: [String: String]?
     
     /// Информация о телефонных номерах пользователя.
-    public final class Contacts: Codable {
+    public struct Contacts: Codable {
         
         /// Номер мобильного телефона пользователя (только для Standalone-приложений).
         public let mobilePhone: String?
@@ -143,7 +143,7 @@ public final class User: Codable {
     public let contacts: Contacts?
     
     /// Количество различных объектов у пользователя. Поле возвращается только в методе при запросе информации об одном пользователе, с передачей пользовательского .
-    public final class Counters: Codable {
+    public struct Counters: Codable {
         
         /// Количество фотоальбомов.
         public let albums: Int64?
@@ -179,7 +179,7 @@ public final class User: Codable {
         public let followers: Int64?
         
         /// Количество объектов в блоке «Интересные страницы».
-        public final class Pages: Codable {
+        public struct Pages: Codable {
             
             
             public init() {
@@ -207,7 +207,7 @@ public final class User: Codable {
     public let counters: Counters?
     
     /// Информация о стране, указанной на странице пользователя в разделе «Контакты».
-    public final class Country: Codable {
+    public struct Country: Codable {
         
         /// Идентификатор страны, который можно использовать для получения ее названия с помощью метода database.getCountriesById.
         public let id: Int64?
@@ -224,13 +224,13 @@ public final class User: Codable {
     public let country: Country?
     
     /// Возвращает данные о точках, по которым вырезаны профильная и миниатюрная фотографии пользователя, при наличии.
-    public final class CropPhoto: Codable {
+    public struct CropPhoto: Codable {
         
         /// Объект photo фотографии пользователя, из которой вырезается главное фото профиля.
         public let photo: Photo?
         
         /// Вырезанная фотография пользователя. Содержит следующие поля: 
-        public final class Crop: Codable {
+        public struct Crop: Codable {
             
             /// Координата X левого верхнего угла в процентах.
             public let x: Int64?
@@ -272,7 +272,7 @@ public final class User: Codable {
     public let domain: String?
     
     /// Информация о высшем учебном заведении пользователя.
-    public final class Education: Codable {
+    public struct Education: Codable {
         
         /// Идентификатор университета.
         public let university: Int64?
@@ -394,7 +394,7 @@ public final class User: Codable {
     public let lastNameCase: LastName?
     
     /// Время последнего посещения.
-    public final class LastSeen: Codable {
+    public struct LastSeen: Codable {
         
         /// Время последнего посещения в формате Unixtime.
         public let time: UInt64?
@@ -440,7 +440,7 @@ public final class User: Codable {
     public let maidenName: String?
     
     /// Информация о военной службе пользователя.
-    public final class Military: Codable {
+    public struct Military: Codable {
         
         /// Номер части.
         public let unit: String?
@@ -478,7 +478,7 @@ public final class User: Codable {
     public let nickname: String?
     
     /// Информация о текущем роде занятия пользователя.
-    public final class Occupation: Codable {
+    public struct Occupation: Codable {
         
         /// Тип. Возможные значения: 
         public enum `Type`: String, Codable {
@@ -513,7 +513,7 @@ public final class User: Codable {
     public let online: VkFlag?
     
     /// Информация о полях из раздела «Жизненная позиция».
-    public final class Personal: Codable {
+    public struct Personal: Codable {
         
         /// Политические предпочтения. Возможные значения: 
         public enum Political: Int64, Codable {
@@ -690,7 +690,7 @@ public final class User: Codable {
     public let quotes: String?
     
     /// Список родственников.
-    public final class Relatives: Codable {
+    public struct Relatives: Codable {
         
         /// Идентификатор пользователя.
         public let id: Int64?
@@ -760,7 +760,7 @@ public final class User: Codable {
     public let relation: Relation?
     
     /// Список школ, в которых учился пользователь. Массив объектов, описывающих школы.
-    public final class Schools: Codable {
+    public struct Schools: Codable {
         
         /// Идентификатор школы.
         public let id: Int64?
@@ -889,7 +889,7 @@ public final class User: Codable {
     public let tv: String?
     
     /// Список вузов, в которых учился пользователь. Массив объектов, описывающих университеты.
-    public final class Universities: Codable {
+    public struct Universities: Codable {
         
         /// Идентификатор университета.
         public let id: Int64?

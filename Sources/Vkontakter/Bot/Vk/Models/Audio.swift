@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Audio](https://vk.com/dev/objects/audio
  */
-public final class Audio: Codable {
+public struct Audio: Codable {
     /// Идентификатор аудиозаписи.
     public let id: Int64?
     

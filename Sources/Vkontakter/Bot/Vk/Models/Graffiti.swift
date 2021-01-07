@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Graffiti](https://vk.com/dev/objects/graffiti
  */
-public final class Graffiti: Codable {
+public struct Graffiti: Codable {
     /// Идентификатор граффити.
     public let id: Int64?
     

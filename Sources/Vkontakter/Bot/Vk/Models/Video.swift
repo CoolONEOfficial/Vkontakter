@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Video](https://vk.com/dev/objects/video
  */
-public final class Video: Codable {
+public struct Video: Codable {
     /// Идентификатор видеозаписи.
     public let id: Int64?
     
@@ -26,7 +26,7 @@ public final class Video: Codable {
     public let duration: Int64?
     
     /// Изображение обложки.
-    public final class Image: Codable {
+    public struct Image: Codable {
         
         /// Высота изображения.
         public let Height: Int64?
@@ -51,7 +51,7 @@ public final class Video: Codable {
     public let image: [Image]?
     
     /// Изображение первого кадра.
-    public final class FirstFrame: Codable {
+    public struct FirstFrame: Codable {
         
         /// Высота изображения.
         public let Height: Int64?
@@ -102,7 +102,7 @@ public final class Video: Codable {
     public let isPrivate: Int64?
     
     /// Ключ доступа к объекту. Подробнее см. Ключ доступа к данным access_key.
-    public final class AccessKey: Codable {
+    public struct AccessKey: Codable {
         
         
         public init() {
@@ -115,7 +115,7 @@ public final class Video: Codable {
     public let processing: Int64?
     
     /// True, если объект добавлен в закладки у текущего пользователя.
-    public final class IsFavorite: Codable {
+    public struct IsFavorite: Codable {
         
         
         public init() {
@@ -182,7 +182,7 @@ public final class Video: Codable {
     public let spectators: Int64?
     
     /// Содержит объект отметки <<Мне нравится>>.
-    public final class Likes: Codable {
+    public struct Likes: Codable {
         
         /// Количество лайков.
         public let Count: Int64?
@@ -199,7 +199,7 @@ public final class Video: Codable {
     public let likes: Likes?
     
     /// Содержит объект репоста.
-    public final class Reposts: Codable {
+    public struct Reposts: Codable {
         
         /// Счетчик общего количества репостов. Содержит сумму репостов на стену и в личные сообщения.
         public let Count: Int64?

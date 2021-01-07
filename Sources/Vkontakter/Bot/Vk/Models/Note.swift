@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Note](https://vk.com/dev/objects/note
  */
-public final class Note: Codable {
+public struct Note: Codable {
     /// Идентификатор заметки.
     public let id: Int64?
     

@@ -9,9 +9,9 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Conversation](https://vk.com/dev/objects/conversation
  */
-public final class Conversation: Codable {
+public struct Conversation: Codable {
     /// Информация о собеседнике.
-    public final class Peer: Codable {
+    public struct Peer: Codable {
         
         /// Идентификатор назначения.
         public let id: Int64?
@@ -61,7 +61,7 @@ public final class Conversation: Codable {
     public let unanswered: Bool?
     
     /// Настройки Push-уведомлений.
-    public final class PushSettings: Codable {
+    public struct PushSettings: Codable {
         
         /// Timestamp, до которого оповещения отключены.
         public let disabledUntil: Int64?
@@ -82,7 +82,7 @@ public final class Conversation: Codable {
     public let pushSettings: PushSettings?
     
     /// Информация о том, может ли пользователь писать в диалог.
-    public final class CanWrite: Codable {
+    public struct CanWrite: Codable {
         
         /// True, если пользователь может писать в диалог.
         public let allowed: Bool?
@@ -128,7 +128,7 @@ public final class Conversation: Codable {
     public let canWrite: CanWrite?
     
     /// Настройки чата.
-    public final class ChatSettings: Codable {
+    public struct ChatSettings: Codable {
         
         /// Число участников.
         public let membersCount: Int64?
@@ -137,7 +137,7 @@ public final class Conversation: Codable {
         public let title: String?
         
         /// Объект закреплённого сообщения, если есть.
-        public final class PinnedMessage: Codable {
+        public struct PinnedMessage: Codable {
             
             
             public init() {
@@ -161,7 +161,7 @@ public final class Conversation: Codable {
         public let state: State?
         
         /// Изображение-обложка чата. Объект, который содержит поля: 
-        public final class Photo: Codable {
+        public struct Photo: Codable {
             
             /// URL изображения 50x50px.
             public let photo50: String?

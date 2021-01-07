@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Link](https://vk.com/dev/objects/link
  */
-public final class Link: Codable {
+public struct Link: Codable {
     /// URL ссылки.
     public let url: String?
     
@@ -23,7 +23,7 @@ public final class Link: Codable {
     public let description: String?
     
     /// Изображение превью, объект фотографии (если имеется).
-    public final class Photo: Codable {
+    public struct Photo: Codable {
         
         
         public init() {
@@ -33,7 +33,7 @@ public final class Link: Codable {
     public let photo: Photo?
     
     /// Информация о продукте (если имеется). Поле возвращается для ссылок на магазины, например, Aliexpress. Объект с единственным полем price (object), которое описано на отдельной странице.
-    public final class Product: Codable {
+    public struct Product: Codable {
         
         
         public init() {
@@ -43,7 +43,7 @@ public final class Link: Codable {
     public let product: Product?
     
     /// Информация о кнопке для перехода (если имеется). Объект описан на отдельной странице.
-    public final class Button: Codable {
+    public struct Button: Codable {
         
         
         public init() {

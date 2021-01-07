@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Message](https://vk.com/dev/objects/message
  */
-public final class Message: Codable {
+public struct Message: Codable {
     /// Идентификатор сообщения.
     public let id: Int64?
     
@@ -41,13 +41,13 @@ public final class Message: Codable {
     public let important: Bool?
     
     /// Информация о местоположении ,
-    public final class Geo: Codable {
+    public struct Geo: Codable {
         
         /// Тип места.
         public let `type`: String?
         
         /// Координаты места, Объект, который содержит поля: 
-        public final class Coordinates: Codable {
+        public struct Coordinates: Codable {
             
             /// Географическая широта.
             public let latitude: Double?
@@ -64,7 +64,7 @@ public final class Message: Codable {
         public let coordinates: [Coordinates]?
         
         /// Описание места (если оно добавлено), объект с полями: 
-        public final class Place: Codable {
+        public struct Place: Codable {
             
             /// Идентификатор места (если назначено).
             public let id: Int64?
@@ -130,7 +130,7 @@ public final class Message: Codable {
     public let replyMessage: [Message]?
     
     /// Информация о сервисном действии с чатом.
-    public final class Action: Codable {
+    public struct Action: Codable {
         
         /// Тип действия. Возможные значения: 
         public enum `Type`: String, Codable {
@@ -174,7 +174,7 @@ public final class Message: Codable {
         public let email: String?
         
         /// Изображение-обложка чата. Объект, который содержит поля: 
-        public final class Photo: Codable {
+        public struct Photo: Codable {
             
             /// URL изображения 50x50px.
             public let photo50: String?

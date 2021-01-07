@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [MarketItem](https://vk.com/dev/objects/market_item
  */
-public final class MarketItem: Codable {
+public struct MarketItem: Codable {
     /// Идентификатор товара.
     public let id: Int64?
     
@@ -23,13 +23,13 @@ public final class MarketItem: Codable {
     public let description: String?
     
     /// Цена.
-    public final class Price: Codable {
+    public struct Price: Codable {
         
         /// Цена товара в сотых долях единицы валюты.
         public let amount: String?
         
         /// Валюта. Объект, содержащий поля: 
-        public final class Currency: Codable {
+        public struct Currency: Codable {
             
             /// Идентификатор валюты.
             public let id: Int64?
@@ -54,7 +54,7 @@ public final class MarketItem: Codable {
     public let price: Price?
     
     /// Габариты товара.
-    public final class Dimensions: Codable {
+    public struct Dimensions: Codable {
         
         /// Ширина в миллиметрах.
         public let width: Int64?
@@ -78,7 +78,7 @@ public final class MarketItem: Codable {
     public let weight: Int64?
     
     /// Категория товара.
-    public final class Category: Codable {
+    public struct Category: Codable {
         
         /// Идентификатор категории.
         public let id: Int64?
@@ -87,7 +87,7 @@ public final class MarketItem: Codable {
         public let name: String?
         
         /// Секция. Объект, содержащий поля: 
-        public final class Section: Codable {
+        public struct Section: Codable {
             
             /// Идентификатор секции.
             public let id: Int64?
@@ -133,7 +133,7 @@ public final class MarketItem: Codable {
     public let availability: Availability?
     
     /// True, если объект добавлен в закладки у текущего пользователя.
-    public final class IsFavorite: Codable {
+    public struct IsFavorite: Codable {
         
         
         public init() {

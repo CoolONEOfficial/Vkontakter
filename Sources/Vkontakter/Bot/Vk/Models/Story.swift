@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Story](https://vk.com/dev/objects/story
  */
-public final class Story: Codable {
+public struct Story: Codable {
     /// Идентификатор истории.
     public let id: Int64?
     
@@ -23,7 +23,7 @@ public final class Story: Codable {
     public let expiresAt: UInt64?
     
     /// True, если срок хранения истории истёк. В этом случае объект истории содержит только поля id, owner_id, date, expires_at, is_expired.
-    public final class IsExpired: Codable {
+    public struct IsExpired: Codable {
         
         
         public init() {
@@ -33,7 +33,7 @@ public final class Story: Codable {
     public let isExpired: IsExpired?
     
     /// True, если история удалена или не существует. В этом случае объект истории содержит только поля id, owner_id, is_deleted.
-    public final class IsDeleted: Codable {
+    public struct IsDeleted: Codable {
         
         
         public init() {
@@ -60,7 +60,7 @@ public final class Story: Codable {
     public let `type`: Type?
     
     /// (для type = photo). Фотография из истории. Поля объекта описаны на отдельной странице.
-    public final class Photo: Codable {
+    public struct Photo: Codable {
         
         
         public init() {
@@ -73,7 +73,7 @@ public final class Story: Codable {
     public let video: VkFlag?
     
     /// Ссылка для перехода из истории.
-    public final class Link: Codable {
+    public struct Link: Codable {
         
         /// Текст ссылки.
         public let text: String?
@@ -96,7 +96,7 @@ public final class Story: Codable {
     public let parentStoryId: Int64?
     
     /// Объект родительской истории.
-    public final class ParentStory: Codable {
+    public struct ParentStory: Codable {
         
         
         public init() {
@@ -106,7 +106,7 @@ public final class Story: Codable {
     public let parentStory: ParentStory?
     
     /// Информация об ответах на текущую историю. Объект, который содержит поля: Получить истории-ответы можно методом .
-    public final class Replies: Codable {
+    public struct Replies: Codable {
         
         /// Число ответов.
         public let count: Int64?
@@ -132,7 +132,7 @@ public final class Story: Codable {
     public let canComment: VkFlag?
     
     /// Объект кликабельного стикера.
-    public final class ClickableStickers: Codable {
+    public struct ClickableStickers: Codable {
         
         
         public init() {
@@ -145,7 +145,7 @@ public final class Story: Codable {
     public let views: Int64?
     
     /// Ключ доступа для приватного объекта.
-    public final class AccessKey: Codable {
+    public struct AccessKey: Codable {
         
         
         public init() {

@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `getMessagePhotosUploadServer` method
-    final class GetMessagePhotosUploadServerParams: JSONEncodable {
+    struct GetMessagePhotosUploadServerParams: JSONEncodable {
 
         /// Идентификатор назначения (для загрузки фотографии в сообщениях сообществ). Для ботов/массовых рассылок с токеном сообщества можно указать peer_id=0. Изображение будет загружено в скрытый альбом группы.
         public let peerId: Int64?
@@ -17,7 +17,7 @@ public extension Bot {
     
     }
     
-    final class GetMessagePhotosUploadServerResp: Codable {
+    final struct GetMessagePhotosUploadServerResp: Codable {
     
         public let uploadUrl: String
         

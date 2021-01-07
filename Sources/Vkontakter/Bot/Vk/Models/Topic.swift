@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Topic](https://vk.com/dev/objects/topic
  */
-public final class Topic: Codable {
+public struct Topic: Codable {
     /// Идентификатор обсуждения.
     public let id: Int64?
     

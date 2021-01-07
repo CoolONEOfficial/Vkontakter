@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Page](https://vk.com/dev/objects/page
  */
-public final class Page: Codable {
+public struct Page: Codable {
     /// Идентификатор вики-страницы.
     public let id: Int64?
     

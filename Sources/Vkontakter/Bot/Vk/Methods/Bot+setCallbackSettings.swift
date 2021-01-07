@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `setCallbackSettings` method
-    final class SetCallbackSettingsParams: JSONEncodable {
+    struct SetCallbackSettingsParams: JSONEncodable {
 
         /// Идентификатор сообщества.
         public let groupId: UInt64

@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [App](https://vk.com/dev/objects/app
  */
-public final class App: Codable {
+public struct App: Codable {
     /// Идентификатор приложения.
     public let id: Int64
     
@@ -140,7 +140,7 @@ public final class App: Codable {
     public let icon16: String?
     
     /// Массив объектов фотографий, описывающих скриншоты приложения.
-    public final class Screenshots: Codable {
+    public struct Screenshots: Codable {
         
         
         public init() {

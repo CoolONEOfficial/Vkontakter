@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [CommentBoard](https://vk.com/dev/objects/comment_board
  */
-public final class CommentBoard: Codable {
+public struct CommentBoard: Codable {
     /// Идентификатор комментария.
     public let id: Int64?
     
@@ -26,7 +26,7 @@ public final class CommentBoard: Codable {
     public let attachments: Attachments?
     
     /// Информация об отметках текущего комментария (если был задан параметр ),
-    public final class Likes: Codable {
+    public struct Likes: Codable {
         
         /// Число пользователей, которым понравился комментарий,
         public let count: Int64?

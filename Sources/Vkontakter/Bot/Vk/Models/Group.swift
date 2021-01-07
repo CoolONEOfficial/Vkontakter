@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Group](https://vk.com/dev/objects/group
  */
-public final class Group: Codable {
+public struct Group: Codable {
     /// Идентификатор сообщества.
     public let id: UInt64
     
@@ -99,7 +99,7 @@ public final class Group: Codable {
     public let activity: String?
     
     /// Информация об адресах сообщества.
-    public final class Addresses: Codable {
+    public struct Addresses: Codable {
         
         /// Включен ли блок адресов в сообществе.
         public let isEnabled: Bool?
@@ -119,7 +119,7 @@ public final class Group: Codable {
     public let ageLimits: Int64?
     
     /// Информация из блока ссылок сообщества.
-    public final class Links: Codable {
+    public struct Links: Codable {
         
         /// Идентификатор ссылки.
         public let id: Int64?
@@ -178,7 +178,7 @@ public final class Group: Codable {
     public let mainSection: MainSection?
     
     /// Информация о магазине.
-    public final class Market: Codable {
+    public struct Market: Codable {
         
         /// Информация о том, включен ли блок товаров в сообществе. Возможные значения: 
         public enum Enabled: Int64, Codable {
@@ -215,7 +215,7 @@ public final class Group: Codable {
         public let contactId: Int64?
         
         /// Информация о валюте. Объект, содержащий поля: 
-        public final class Currency: Codable {
+        public struct Currency: Codable {
             
             /// Идентификатор валюты.
             public let id: Int64?
@@ -275,7 +275,7 @@ public final class Group: Codable {
     public let membersCount: Int64?
     
     /// Место, указанное в информации о сообществе.
-    public final class Place: Codable {
+    public struct Place: Codable {
         
         /// Идентификатор места.
         public let id: Int64?

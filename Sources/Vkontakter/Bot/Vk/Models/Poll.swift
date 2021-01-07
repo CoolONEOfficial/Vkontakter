@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Poll](https://vk.com/dev/objects/poll
  */
-public final class Poll: Codable {
+public struct Poll: Codable {
     /// Идентификатор опроса для получения информации о нем через метод polls.getById.
     public let id: Int64?
     
@@ -26,7 +26,7 @@ public final class Poll: Codable {
     public let votes: Int64?
     
     /// Массив объектов, которые содержат информацию о вариантах ответа.
-    public final class Answers: Codable {
+    public struct Answers: Codable {
         
         /// Идентификатор ответа.
         public let id: Int64?
@@ -84,7 +84,7 @@ public final class Poll: Codable {
     public let authorId: Int64?
     
     /// Фотография — фон сниппета опроса. Объект фотографии.
-    public final class Photo: Codable {
+    public struct Photo: Codable {
         
         
         public init() {
@@ -94,7 +94,7 @@ public final class Poll: Codable {
     public let photo: Photo?
     
     /// Фон сниппета опроса.
-    public final class Background: Codable {
+    public struct Background: Codable {
         
         /// Идентификатор фона.
         public let id: Int64?
@@ -123,7 +123,7 @@ public final class Poll: Codable {
         public let height: Int64?
         
         /// (для type = tile) изображение плитки паттерна. Массив объектов изображений.
-        public final class Images: Codable {
+        public struct Images: Codable {
             
             
             public init() {
@@ -133,7 +133,7 @@ public final class Poll: Codable {
         public let images: [Images]?
         
         /// (для type = gradient) точки градиента. Массив объектов, каждый из которых содержит поля position (number) — положение точки — и color (string) — HEX-код цвета точки.
-        public final class Points: Codable {
+        public struct Points: Codable {
             
             
             public init() {

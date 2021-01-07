@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `sendMessage` method
-    final class SendMessageParams: JSONEncodable {
+    struct SendMessageParams: JSONEncodable {
 
         /// Идентификатор пользователя, которому отправляется сообщение.
         public let userId: Int64?
@@ -45,7 +45,7 @@ public extension Bot {
         public let forwardMessages: [Int64]?
         
         /// JSON-объект со следующими полями: owner_id — владелец сообщений. Стоит передавать, если вы хотите переслать сообщения из сообщества в диалог; peer_id — идентификатор места, из которого необходимо переслать сообщения; conversation_message_ids — массив conversation_message_id сообщений, которые необходимо переслать. В массив conversation_message_ids можно передать сообщения: находящиеся в личном диалоге с ботом; являющиеся исходящими сообщениями бота; написанными после того, как бот вступил в беседу и появился доступ к сообщениям. message_ids — массив id сообщений; is_reply — ответ на сообщения. Стоит передавать, если вы хотите ответить на сообщения в том чате, в котором находятся сообщения. При этом в conversation_message_ids/message_ids должен находиться только один элемент.
-        public final class Forward: Codable {
+        public struct Forward: Codable {
             
             
             public init() {
@@ -112,9 +112,9 @@ public extension Bot {
     
     }
     
-    final class SendMessageResp: Codable {
+    final struct SendMessageResp: Codable {
     
-        public final class Item: Codable {
+        public struct Item: Codable {
             
             /// Идентификатор назначения.
             public let peerId: Int64?

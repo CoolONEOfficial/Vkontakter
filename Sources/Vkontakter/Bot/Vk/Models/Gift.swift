@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Gift](https://vk.com/dev/objects/gift
  */
-public final class Gift: Codable {
+public struct Gift: Codable {
     /// Идентификатор подарка.
     public let id: Int64?
     

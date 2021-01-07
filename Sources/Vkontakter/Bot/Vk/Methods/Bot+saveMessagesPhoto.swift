@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `saveMessagesPhoto` method
-    final class SaveMessagesPhotoParams: JSONEncodable {
+    struct SaveMessagesPhotoParams: JSONEncodable {
 
         /// Параметр, возвращаемый в результате загрузки фотографии на сервер.
         public let photo: String
@@ -25,7 +25,7 @@ public extension Bot {
     
     }
     
-    final class Photo: Codable {
+    final struct Photo: Codable {
     
         public let id: Int64?
         

@@ -25,31 +25,4 @@ public struct MessageEvent: Codable {
     /// идентификатор сообщения в беседе
     public let conversationMessageId: Int64
 
-//    private enum CodingKeys: CodingKey {
-//        case userId, peerId, eventId, payload, conversationMessageId
-//    }
-//
-////    public init(from decoder: Decoder) throws {
-////        let container = try decoder.container(keyedBy: CodingKeys.self)
-////        userId = try container.decode(Int64.self, forKey: .userId)
-////        peerId = try container.decode(Int64.self, forKey: .peerId)
-////        eventId = try container.decode(String.self, forKey: .eventId)
-////        let str = try container.decode(String.self, forKey: .payload)
-////        payload = .init(nil)
-////        conversationMessageId = try container.decode(Int64.self, forKey: .conversationMessageId)
-////    }
-////
-////    public func encode(to encoder: Encoder) throws {
-////        var container = encoder.container(keyedBy: CodingKeys.self)
-////        try container.encode(userId, forKey: .userId)
-////        try container.encode(peerId, forKey: .peerId)
-////        try container.encode(eventId, forKey: .eventId)
-////        if let payload = payload {
-////            let str = "[\"\(payload.description)\"]"
-////            try container.encode(str, forKey: .payload)
-////        } else {
-////            try container.encodeNil(forKey: .payload)
-////        }
-////        try container.encode(conversationMessageId, forKey: .conversationMessageId)
-////    }
 }

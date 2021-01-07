@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [PostSource](https://vk.com/dev/objects/post_source
  */
-public final class PostSource: Codable {
+public struct PostSource: Codable {
     /// Тип источника.
     public enum `Type`: String, Codable {
         /// vk — запись создана через основной интерфейс сайта (http://vk.

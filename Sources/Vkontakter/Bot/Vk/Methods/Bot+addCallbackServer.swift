@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `addCallbackServer` method
-    final class AddCallbackServerParams: JSONEncodable {
+    struct AddCallbackServerParams: JSONEncodable {
 
         /// Идентификатор сообщества.
         public let groupId: UInt64
@@ -29,7 +29,7 @@ public extension Bot {
     
     }
     
-    final class AddCallbackServerResp: Codable {
+    final struct AddCallbackServerResp: Codable {
     
         public let serverId: UInt64
         

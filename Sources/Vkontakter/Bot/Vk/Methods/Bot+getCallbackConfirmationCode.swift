@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `getCallbackConfirmationCode` method
-    final class GetCallbackConfirmationCodeParams: JSONEncodable {
+    struct GetCallbackConfirmationCodeParams: JSONEncodable {
 
         /// Идентификатор сообщества.
         public let groupId: UInt64
@@ -17,7 +17,7 @@ public extension Bot {
     
     }
     
-    final class GetCallbackConfirmationCodeResp: Codable {
+    final struct GetCallbackConfirmationCodeResp: Codable {
     
         public let code: String
         

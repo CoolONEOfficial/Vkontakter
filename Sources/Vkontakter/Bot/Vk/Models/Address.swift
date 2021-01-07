@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Address](https://vk.com/dev/objects/address
  */
-public final class Address: Codable {
+public struct Address: Codable {
     /// Идентификатор адреса.
     public let id: Int64?
     
@@ -67,7 +67,7 @@ public final class Address: Codable {
     public let workInfoStatus: WorkInfoStatus?
     
     /// Для типа расписания timetable можно передать расписание в формате json. Время передается в минутах от 0 часов. Ключ по дню означает, что день рабочий. open_time, close_time — начало и конец рабочего дня. break_open_time, break_close_time - время перерыва.
-    public final class Timetable: Codable {
+    public struct Timetable: Codable {
         
         
         public init() {

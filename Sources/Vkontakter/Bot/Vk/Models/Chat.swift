@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Chat](https://vk.com/dev/objects/chat
  */
-public final class Chat: Codable {
+public struct Chat: Codable {
     /// Идентификатор беседы.
     public let id: Int64?
     
@@ -26,7 +26,7 @@ public final class Chat: Codable {
     public let users: [Int64]?
     
     /// Настройки оповещений для диалога.
-    public final class PushSettings: Codable {
+    public struct PushSettings: Codable {
         
         /// Указывает, включен ли звук оповещений (1 — включен, 0 — отключен).
         public let sound: VkFlag?

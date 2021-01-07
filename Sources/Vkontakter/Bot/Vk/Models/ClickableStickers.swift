@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [ClickableStickers](https://vk.com/dev/objects/clickable_stickers
  */
-public final class ClickableStickers: Codable {
+public struct ClickableStickers: Codable {
     /// Содержит строку в формате упоминания ВКонтакте, например: [id1|name] или [club1|name].
     public let mention: String?
     

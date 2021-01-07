@@ -9,12 +9,12 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Geo](https://vk.com/dev/objects/geo
  */
-public final class Geo: Codable {
+public struct Geo: Codable {
     /// Тип места.
     public let `type`: String?
     
     /// Координаты места.
-    public final class Coordinates: Codable {
+    public struct Coordinates: Codable {
         
         /// Географическая широта.
         public let latitude: Int64?
@@ -31,7 +31,7 @@ public final class Geo: Codable {
     public let coordinates: Coordinates?
     
     /// Описание места (если оно добавлено), объект с полями: Если место добавлено как чекин в сообщество,
-    public final class Place: Codable {
+    public struct Place: Codable {
         
         /// Идентификатор места (если назначено).
         public let id: Int64?

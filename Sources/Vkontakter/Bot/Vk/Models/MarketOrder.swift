@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [MarketOrder](https://vk.com/dev/objects/market_order
  */
-public final class MarketOrder: Codable {
+public struct MarketOrder: Codable {
     /// Идентификатор заказа.
     public let id: Int64?
     
@@ -29,7 +29,7 @@ public final class MarketOrder: Codable {
     public let isMainVariant: Bool?
     
     /// Массив объектов,
-    public final class PropertyValues: Codable {
+    public struct PropertyValues: Codable {
         
         /// Идентификатор варианта.
         public let variantId: Int64?
@@ -59,13 +59,13 @@ public final class MarketOrder: Codable {
     public let itemsCount: Int64?
     
     /// Общая стоимость заказа.
-    public final class TotalPrice: Codable {
+    public struct TotalPrice: Codable {
         
         /// Стоимость в сотых долях единицы валюты.
         public let amount: String?
         
         /// Валюта. Объект, содержащий поля: 
-        public final class Currency: Codable {
+        public struct Currency: Codable {
             
             /// Идентификатор валюты.
             public let id: Int64?
@@ -100,7 +100,7 @@ public final class MarketOrder: Codable {
     public let comment: String?
     
     /// Массив объектов, описывающих товары. Возвращается не больше 5 случайных товаров заказа.
-    public final class PreviewOrderItems: Codable {
+    public struct PreviewOrderItems: Codable {
         
         
         public init() {
@@ -110,7 +110,7 @@ public final class MarketOrder: Codable {
     public let previewOrderItems: [PreviewOrderItems]?
     
     /// Информация о доставке.
-    public final class Delivery: Codable {
+    public struct Delivery: Codable {
         
         /// Адрес доставки.
         public let address: String?
@@ -125,7 +125,7 @@ public final class MarketOrder: Codable {
         public let trackLink: String?
         
         /// Информация о пункте выдачи.
-        public final class DeliveryPoint: Codable {
+        public struct DeliveryPoint: Codable {
             
             
             public init() {
@@ -146,7 +146,7 @@ public final class MarketOrder: Codable {
     public let delivery: Delivery?
     
     /// Информация о покупателе.
-    public final class Recipient: Codable {
+    public struct Recipient: Codable {
         
         /// Имя покупателя.
         public let name: String?

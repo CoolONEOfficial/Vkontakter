@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [PhotoSizes](https://vk.com/dev/objects/photo_sizes
  */
-public final class PhotoSizes: Codable {
+public struct PhotoSizes: Codable {
     /// URL копии изображения.
     public let src: String?
     

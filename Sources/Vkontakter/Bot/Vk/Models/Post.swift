@@ -9,7 +9,7 @@ import AnyCodable
  SeeAlso VK API Reference:
  [Post](https://vk.com/dev/objects/post
  */
-public final class Post: Codable {
+public struct Post: Codable {
     /// Идентификатор записи.
     public let id: Int64?
     
@@ -38,7 +38,7 @@ public final class Post: Codable {
     public let friendsOnly: Int64?
     
     /// Информация о комментариях к записи,
-    public final class Comments: Codable {
+    public struct Comments: Codable {
         
         /// Количество комментариев.
         public let count: Int64?
@@ -67,7 +67,7 @@ public final class Post: Codable {
     public let comments: Comments?
     
     /// Источник материала,
-    public final class Copyright: Codable {
+    public struct Copyright: Codable {
         
         /// id (integer).
         public let id: Int64?
@@ -92,7 +92,7 @@ public final class Post: Codable {
     public let copyright: Copyright?
     
     /// Информация о лайках к записи,
-    public final class Likes: Codable {
+    public struct Likes: Codable {
         
         /// Число пользователей, которым понравилась запись.
         public let count: Int64?
@@ -117,7 +117,7 @@ public final class Post: Codable {
     public let likes: Likes?
     
     /// Информация о репостах записи (),
-    public final class Reposts: Codable {
+    public struct Reposts: Codable {
         
         /// Число пользователей, скопировавших запись.
         public let count: Int64?
@@ -134,7 +134,7 @@ public final class Post: Codable {
     public let reposts: Reposts?
     
     /// Информация о просмотрах записи.
-    public final class Views: Codable {
+    public struct Views: Codable {
         
         /// Число просмотров записи.
         public let count: Int64?
@@ -150,7 +150,7 @@ public final class Post: Codable {
     public let postType: String?
     
     /// Информация о способе размещения записи. Описание объекта находится на отдельной странице.
-    public final class PostSource: Codable {
+    public struct PostSource: Codable {
         
         
         public init() {
@@ -163,7 +163,7 @@ public final class Post: Codable {
     public let attachments: Attachments?
     
     /// Информация о местоположении ,
-    public final class Geo: Codable {
+    public struct Geo: Codable {
         
         /// Тип места.
         public let `type`: String?
@@ -172,7 +172,7 @@ public final class Post: Codable {
         public let coordinates: String?
         
         /// Описание места (если оно добавлено). Объект места.
-        public final class Place: Codable {
+        public struct Place: Codable {
             
             
             public init() {
@@ -194,7 +194,7 @@ public final class Post: Codable {
     public let signerId: Int64?
     
     /// Массив, содержащий историю репостов для записи. Возвращается только в том случае, если запись является репостом. Каждый из объектов массива, в свою очередь, является объектом-записью стандартного формата.
-    public final class CopyHistory: Codable {
+    public struct CopyHistory: Codable {
         
         
         public init() {
@@ -219,7 +219,7 @@ public final class Post: Codable {
     public let markedAsAds: VkFlag?
     
     /// True, если объект добавлен в закладки у текущего пользователя.
-    public final class IsFavorite: Codable {
+    public struct IsFavorite: Codable {
         
         
         public init() {
@@ -229,7 +229,7 @@ public final class Post: Codable {
     public let isFavorite: IsFavorite?
     
     /// Информация о записи VK Donut:
-    public final class Donut: Codable {
+    public struct Donut: Codable {
         
         /// Запись доступна только платным подписчикам VK Donut.
         public let isDonut: Bool?
@@ -238,7 +238,7 @@ public final class Post: Codable {
         public let paidDuration: Int64?
         
         /// Заглушка для пользователей, которые не оформили подписку VK Donut. Отображается вместо содержимого записи.
-        public final class Placeholder: Codable {
+        public struct Placeholder: Codable {
             
             
             public init() {
