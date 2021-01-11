@@ -44,7 +44,7 @@ public class RegexpHandler: Handler {
     }
 
     public func check(update: Update) -> Bool {
-        guard case let .message(message) = update.object, let text = message.message.text else { return false }
+        guard case let .messageWrapper(message) = update.object, let text = message.message.text else { return false }
         let range = NSRange(location: 0, length: text.count)
         return regexp.numberOfMatches(in: text, options: [], range: range) > 0
     }

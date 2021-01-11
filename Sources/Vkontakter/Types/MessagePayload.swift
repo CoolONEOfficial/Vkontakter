@@ -10,22 +10,18 @@ import AnyCodable
 
 public extension Message {
     enum Payload: Codable {
-        /// Command
-        public enum Command: String {
-            case start
-        }
         
-        case input(Command?)
+        case input(String?)
         case output(AnyCodable?, encoder: JSONEncoder = .snakeCased)
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let str = try container.decode(String.self)
 
-            let json = try JSONSerialization.jsonObject(with:  .init(str.utf8), options: []) as! [String: Any]
-            let command: Command?
+            let json = try JSONSerialization.jsonObject(with: .init(str.utf8), options: []) as! [String: Any]
+            let command: String?
             if let commandValue = json["command"] as? String {
-                command = Command(rawValue: commandValue)
+                command = commandValue
             } else {
                 command = nil
             }
@@ -37,7 +33,7 @@ public extension Message {
             var container = encoder.singleValueContainer()
             switch self {
             case let .input(command):
-                try container.encode(command?.rawValue)
+                try container.encode(command)
             case let .output(object, encoder):
                 try container.encode(encoder.encode(object))
             }

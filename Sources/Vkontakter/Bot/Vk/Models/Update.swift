@@ -13,6 +13,8 @@ public final class Update: Codable {
 
     public enum `Type`: String, Codable {
         case message_new
+        case message_edit
+        case message_reply
         case message_event
         case confirmation
     }
@@ -21,8 +23,9 @@ public final class Update: Codable {
 
     public let secret: String?
     
-    public enum Object: Codable {
-        case message(_ wrapper: MessageWrapper)
+    public enum Object {
+        case messageWrapper(_ wrapper: MessageWrapper)
+        case message(_ message: Message)
         case event(_ event: MessageEvent)
         
         public struct MessageWrapper: Codable {
@@ -32,25 +35,15 @@ public final class Update: Codable {
                 self.message = message
             }
         }
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            
-            if let messageWrapper = try? MessageWrapper(from: decoder) {
-                self = .message(messageWrapper)
-            } else if let messageEvent = try? MessageEvent(from: decoder) {
-                self = .event(messageEvent)
-            } else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Data doesn't match"))
-            }
-        }
-
-        public func encode(to encoder: Encoder) throws {
+        
+        var message: Message? {
             switch self {
-            case let .message(messageWrapper):
-                try messageWrapper.encode(to: encoder)
-            case let .event(event):
-                try event.encode(to: encoder)
+            case let .message(message):
+                return message
+            case let .messageWrapper(wrapper):
+                return wrapper.message
+            default:
+                return nil
             }
         }
     }
@@ -74,7 +67,9 @@ public final class Update: Codable {
         
         switch type {
         case .message_new:
-            object = .message(try container.decode(Object.MessageWrapper.self, forKey: .object))
+            object = .messageWrapper(try container.decode(Object.MessageWrapper.self, forKey: .object))
+        case .message_edit, .message_reply:
+            object = .message(try container.decode(Message.self, forKey: .object))
         case .message_event:
             object = .event(try container.decode(MessageEvent.self, forKey: .object))
         case .confirmation:
@@ -95,6 +90,8 @@ public final class Update: Codable {
             try container.encode(message, forKey: .object)
         case let .event(event):
             try container.encode(event, forKey: .object)
+        case let .messageWrapper(messageWrapper):
+            try container.encode(messageWrapper, forKey: .object)
         case .none:
             try container.encodeNil(forKey: .object)
         }

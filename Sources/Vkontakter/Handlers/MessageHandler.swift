@@ -58,8 +58,8 @@ public class MessageHandler: Handler {
 //        }
 
         if options.contains(.messageUpdates),
-           case let .message(messageWrapper) = update.object,
-           filters.check(messageWrapper.message) {
+           case let .messageWrapper(wrapper) = update.object,
+           filters.check(wrapper.message) {
             return true
         }
 
