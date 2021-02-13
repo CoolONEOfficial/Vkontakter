@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `getMessageDocsUploadServer` method
-    struct GetMessageDocsUploadServerParams: JSONEncodable {
+    class GetMessageDocsUploadServerParams: JSONEncodable {
 
         /// Тип документа. Возможные значения: doc — обычный документ; audio_message — голосовое сообщение; graffiti — граффити.
         public enum `Type`: String, Codable {

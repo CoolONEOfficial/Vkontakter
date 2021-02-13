@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `sendMessage` method
-    struct SendMessageParams: JSONEncodable {
+    class SendMessageParams: JSONEncodable {
 
         /// Идентификатор пользователя, которому отправляется сообщение.
         public let userId: Int64?

@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `editMessage` method
-    struct EditMessageParams: JSONEncodable {
+    class EditMessageParams: JSONEncodable {
 
         /// Идентификатор назначения. Для пользователя: id пользователя. Для групповой беседы: 2000000000 + id беседы. Для сообщества: -id сообщества.
         public var peerId: Int64

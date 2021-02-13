@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = true
+let parseTypes = false
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -64,6 +64,9 @@ if parseMethods {
         "docs": [
             .init("save", "saveDoc"),
             .init("getMessagesUploadServer", "getMessageDocsUploadServer", resultWrapped: false)
+        ],
+        "users": [
+            .init("get", "getUser")
         ]
     ]
 
@@ -139,7 +142,7 @@ if parseMethods {
                 }
             }
             
-            if resultElText.contains("После успешного выполнения возвращает массив с загруженной фотографией") {
+            if resultElText.contains("После успешного выполнения возвращает массив") {
                 respType = respParams?.first
             } else if let respParams = respParams {
                 let name = method.codeCapitalized.capitalizingFirstLetter() + "Resp"

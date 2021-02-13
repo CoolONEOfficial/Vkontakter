@@ -226,7 +226,10 @@ public struct Message: Codable {
     /// Дата, когда сообщение было закреплено в Unixtime.
     public let pinnedAt: UInt64?
     
-    public init(id: Int64? = nil, date: UInt64? = nil, peerId: Int64? = nil, fromId: Int64? = nil, text: String? = nil, randomId: Int64? = nil, ref: String? = nil, refSource: String? = nil, attachments: Attachments? = nil, important: Bool? = nil, geo: Geo? = nil, payload: Message.Payload? = nil, keyboard: Keyboard? = nil, fwdMessages: [Message]? = nil, replyMessage: [Message]? = nil, action: Action? = nil, adminAuthorId: Int64? = nil, conversationMessageId: Int64? = nil, isCropped: Bool? = nil, membersCount: Int64? = nil, updateTime: UInt64? = nil, wasListened: Bool? = nil, pinnedAt: UInt64? = nil) {
+    /// Строка для сопоставления пользователя Notify и ВКонтакте. Данные копирует в момент ответа пользователем на сообщение из Notify, отправленное с параметром session_id. Подробнее про Notify: https://notify.mail.
+    public let messageTag: String?
+    
+    public init(id: Int64? = nil, date: UInt64? = nil, peerId: Int64? = nil, fromId: Int64? = nil, text: String? = nil, randomId: Int64? = nil, ref: String? = nil, refSource: String? = nil, attachments: Attachments? = nil, important: Bool? = nil, geo: Geo? = nil, payload: Message.Payload? = nil, keyboard: Keyboard? = nil, fwdMessages: [Message]? = nil, replyMessage: [Message]? = nil, action: Action? = nil, adminAuthorId: Int64? = nil, conversationMessageId: Int64? = nil, isCropped: Bool? = nil, membersCount: Int64? = nil, updateTime: UInt64? = nil, wasListened: Bool? = nil, pinnedAt: UInt64? = nil, messageTag: String? = nil) {
         self.id = id
         self.date = date
         self.peerId = peerId
@@ -250,6 +253,7 @@ public struct Message: Codable {
         self.updateTime = updateTime
         self.wasListened = wasListened
         self.pinnedAt = pinnedAt
+        self.messageTag = messageTag
     }
 
 }

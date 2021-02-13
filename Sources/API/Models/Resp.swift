@@ -44,6 +44,8 @@ struct RespParameter {
         case EventData
         case MessagePayload
         case SavedDoc
+        case UserFields
+        case UserArr
         
         static let allCases: [Self] = {
             var cases = [Self]()
@@ -60,7 +62,7 @@ struct RespParameter {
         
         static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
         
-        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSizes, .PhotoType, .EventData, .MessagePayload, .SavedDoc]
+        static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSizes, .PhotoType, .EventData, .MessagePayload, .SavedDoc, .UserFields, .UserArr]
         
         static let typedCases = primitiveCases + hardcodedCases
         
@@ -117,6 +119,10 @@ struct RespParameter {
                 return [ "полезная нагрузка" ]
             case .SavedDoc:
                 return [ "type (string) с возможными значениями graffiti" ]
+            case .UserFields:
+                return [ "список дополнительных полей профилей" ]
+            case .UserArr:
+                return [ "массив объектов пользователей" ]
             }
         }
 
@@ -172,6 +178,10 @@ struct RespParameter {
                 return "Message.Payload"
             case .SavedDoc:
                 return "ArrayOrValue<SavedDoc>"
+            case .UserFields:
+                return "[UserField]"
+            case .UserArr:
+                return "[User]"
             }
         }
         
@@ -228,7 +238,7 @@ struct RespParameter {
         var arr = [Self?]()
         
         let names = nameEl.ownText().components(separatedBy: ", ").filter({ !$0.contains(" ") }).map(\.camelized)
-        if names.isEmpty { return nil }
+        if names.filter({ !$0.isEmpty }).isEmpty { return nil }
         for name in names {
             var desc = fullDesc.replacingOccurrences(of: ";", with: ".")
             if let ind = ["–", "—"].compactMap({ desc.firstIndex(of: $0) }).first {

@@ -89,7 +89,7 @@ struct MethodExtensionFile: SwiftFile {
         public extension Bot {
 
             /// Parameters container struct for `\(method.codeName)` method
-            struct \(paramsType): JSONEncodable {
+            class \(paramsType): JSONEncodable {
 
                 \(params.generate.i(2))
                 \(params.generateInit.i(1))

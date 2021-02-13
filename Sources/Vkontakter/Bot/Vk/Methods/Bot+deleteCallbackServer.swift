@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `deleteCallbackServer` method
-    struct DeleteCallbackServerParams: JSONEncodable {
+    class DeleteCallbackServerParams: JSONEncodable {
 
         /// Идентификатор сообщества.
         public let groupId: UInt64

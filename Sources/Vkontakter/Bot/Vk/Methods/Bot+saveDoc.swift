@@ -6,7 +6,7 @@ import AnyCodable
 public extension Bot {
 
     /// Parameters container struct for `saveDoc` method
-    struct SaveDocParams: JSONEncodable {
+    class SaveDocParams: JSONEncodable {
 
         /// Параметр, возвращаемый в результате загрузки файла на сервер.
         public let file: String
