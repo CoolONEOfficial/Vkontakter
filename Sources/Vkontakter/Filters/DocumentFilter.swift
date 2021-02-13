@@ -13,7 +13,7 @@ public struct DocumentFilter: Filter {
     public var name: String = "document"
 
     public func filter(message: Message) -> Bool {
-        guard let attachments = message.attachments?.attachments else { return false }
+        guard let attachments = message.attachments?.array else { return false }
         return attachments.contains { if case .doc = $0 { return true } else { return false } }
     }
 }

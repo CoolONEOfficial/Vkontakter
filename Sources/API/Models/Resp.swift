@@ -20,6 +20,13 @@ struct RespEnum {
 }
 
 struct RespParameter {
+    internal init(name: String, description: String?, type: RespParameter.ParamType, required: Bool) {
+        self.name = name
+        self.description = description
+        self.type = type
+        self.required = required && !(description?.contains("если") ?? false)
+    }
+    
     public enum ParamType: CaseIterable, Equatable {
         case Int
         case UInt
@@ -31,6 +38,7 @@ struct RespParameter {
         indirect case Dict(ParamType, ParamType)
         indirect case Enum(RespEnum?)
         indirect case Typealias(String? = nil)
+        indirect case ArrayByComma(ParamType?)
         case Object(RespObject?)
         case Keyboard
         case Template
@@ -50,6 +58,7 @@ struct RespParameter {
         static let allCases: [Self] = {
             var cases = [Self]()
             cases.append(contentsOf: hardcodedCases)
+            cases.append(.ArrayByComma(nil))
             cases.append(.Array(nil))
             cases.append(.Enum(nil))
             cases.append(.Typealias(nil))
@@ -89,6 +98,8 @@ struct RespParameter {
                 return [ "данные об указанных в профиле сервисах пользователя" ]
             case .Array:
                 return [ "список", "array", "массив" ]
+            case .ArrayByComma:
+                return [ "через запятую" ]
             case .Object(_):
                 return [ "объект", "object", "информация о высшем учебном заведении" ]
             case .Keyboard:
@@ -146,6 +157,9 @@ struct RespParameter {
             case let .Array(type):
                 guard let type = type, let innerString = type.string else { return nil }
                 return "[\(innerString)]"
+            case let .ArrayByComma(type):
+                guard let type = type, let innerString = type.string else { return nil }
+                return "ArrayByComma<\(innerString)>"
             case let .Enum(params):
                 guard let params = params else { return nil }
                 return params.name
@@ -169,7 +183,7 @@ struct RespParameter {
             case .Typealias:
                 return nil
             case .Attachments:
-                return "Attachments"
+                return "ArrayByComma<Attachment>"
             case .Message:
                 return "[Message]"
             case .EventData:
@@ -179,7 +193,7 @@ struct RespParameter {
             case .SavedDoc:
                 return "ArrayOrValue<SavedDoc>"
             case .UserFields:
-                return "[UserField]"
+                return "ArrayByComma<UserField>"
             case .UserArr:
                 return "[User]"
             }
@@ -192,6 +206,8 @@ struct RespParameter {
         var innerObject: Self {
             switch self {
             case let .Array(type):
+                return type?.innerObject ?? self
+            case let .ArrayByComma(type):
                 return type?.innerObject ?? self
             default:
                 return self
@@ -208,8 +224,11 @@ struct RespParameter {
     var required: Bool
     
     static func checkRequired(_ str: String) -> Bool {
-        str.lowercased().contains("обязательный параметр")
-            && !str.lowercased().contains("обязательный параметр, если")
+        debugPrint("STR: " + str, str.lowercased().contains("обязательный параметр")
+                    && !str.lowercased().contains("если"))
+        return str.lowercased().contains("обязательный параметр")
+            && !str.lowercased().contains("если")
+            //&& !str.lowercased().contains("поле возвращается, если")
     }
     
     var typeString: String {
@@ -343,6 +362,10 @@ extension Array where Element == RespParameter.ParamType {
                     let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name.isEmpty ? "Item" : name, type: type, desc: desc, fullDesc: fullDesc)
                     
                     return .Array(arrayType)
+                case .ArrayByComma:
+                    let arrayType = try RespParameter.ParamType.arrayCases.findType(el: el, name: name.isEmpty ? "Item" : name, type: type, desc: desc, fullDesc: fullDesc)
+                    
+                    return .ArrayByComma(arrayType)
                 case .Enum:
                     let primitiveType = try RespParameter.ParamType.primitiveCases.findType(el: el, name: name, type: type, desc: desc, fullDesc: fullDesc)
 

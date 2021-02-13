@@ -3,7 +3,7 @@ import Foundation
 
 let baseUrl = "https://vk.com"
 
-let parseMethods = true
+let parseMethods = false
 let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {

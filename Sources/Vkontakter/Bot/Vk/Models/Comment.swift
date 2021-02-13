@@ -46,7 +46,7 @@ public struct Comment: Codable {
     public let replyToComment: Int64?
     
     /// Медиавложения комментария (фотографии, ссылки и т.п.). Описание массива attachments находится на отдельной странице.
-    public let attachments: Attachments?
+    public let attachments: ArrayByComma<Attachment>?
     
     /// Массив идентификаторов родительских комментариев.
     public let parentsStack: [Int64]?
@@ -87,7 +87,7 @@ public struct Comment: Codable {
     
     public let thread: Thread?
     
-    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, donut: Donut? = nil, replyToUser: Int64? = nil, replyToComment: Int64? = nil, attachments: Attachments? = nil, parentsStack: [Int64]? = nil, thread: Thread? = nil) {
+    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, donut: Donut? = nil, replyToUser: Int64? = nil, replyToComment: Int64? = nil, attachments: ArrayByComma<Attachment>? = nil, parentsStack: [Int64]? = nil, thread: Thread? = nil) {
         self.id = id
         self.fromId = fromId
         self.date = date

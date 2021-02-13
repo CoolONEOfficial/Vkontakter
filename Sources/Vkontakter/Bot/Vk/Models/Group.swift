@@ -42,7 +42,7 @@ public struct Group: Codable {
         case banned
     }
     
-    public let deactivated: Deactivated
+    public let deactivated: Deactivated?
     
     /// Информация о том, является ли текущий пользователь руководителем.
     public enum IsAdmin: Int64, Codable {
@@ -56,7 +56,7 @@ public struct Group: Codable {
     public let isAdmin: IsAdmin
     
     /// Уровень полномочий текущего пользователя (если = ):
-    public let adminLevel: Int64
+    public let adminLevel: Int64?
     
     /// Информация о том, является ли текущий пользователь участником.
     public enum IsMember: Int64, Codable {
@@ -315,7 +315,7 @@ public struct Group: Codable {
     
     public let place: Place?
     
-    public init(id: UInt64, name: String, screenName: String, isClosed: IsClosed, deactivated: Deactivated, isAdmin: IsAdmin, adminLevel: Int64, isMember: IsMember, isAdvertiser: IsAdvertiser, invitedBy: Int64, type: String, photo50: String, photo100: String, photo200: String, activity: String? = nil, addresses: Addresses? = nil, ageLimits: Int64? = nil, links: [Links]? = nil, mainAlbumId: Int64? = nil, mainSection: MainSection? = nil, market: Market? = nil, memberStatus: MemberStatus? = nil, membersCount: Int64? = nil, place: Place? = nil) {
+    public init(id: UInt64, name: String, screenName: String, isClosed: IsClosed, deactivated: Deactivated? = nil, isAdmin: IsAdmin, adminLevel: Int64? = nil, isMember: IsMember, isAdvertiser: IsAdvertiser, invitedBy: Int64, type: String, photo50: String, photo100: String, photo200: String, activity: String? = nil, addresses: Addresses? = nil, ageLimits: Int64? = nil, links: [Links]? = nil, mainAlbumId: Int64? = nil, mainSection: MainSection? = nil, market: Market? = nil, memberStatus: MemberStatus? = nil, membersCount: Int64? = nil, place: Place? = nil) {
         self.id = id
         self.name = name
         self.screenName = screenName

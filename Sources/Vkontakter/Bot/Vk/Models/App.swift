@@ -102,13 +102,13 @@ public struct App: Codable {
     public let isInCatalog: VkFlag
     
     /// Список идентификаторов друзей текущего пользователя, которые установили приложение (если был передан параметр return_friends = 1.
-    public let friends: [Int64]
+    public let friends: [Int64]?
     
     /// 1, если приложение установлено у текущего пользователя.
-    public let installed: VkFlag
+    public let installed: VkFlag?
     
     /// 1, если приложение — html5 игра.
-    public let isHtml5App: Int64
+    public let isHtml5App: Int64?
     
     /// Поддерживаемая ориентация экрана.
     public enum ScreenOrientation: Int64, Codable {
@@ -152,7 +152,7 @@ public struct App: Codable {
     /// 1, если у пользователя включены уведомления из этого приложения.
     public let pushEnabled: VkFlag?
     
-    public init(id: Int64, title: String, icon278: String, icon139: String, icon150: String, icon75: String, banner560: String, banner1120: String, type: Type, section: String, authorUrl: String, authorId: Int64, authorGroup: Int64, membersCount: Int64, publishedDate: UInt64, catalogPosition: Int64, international: VkFlag, leaderboardType: LeaderboardType, genreId: Int64, genre: String, platformId: String, isInCatalog: VkFlag, friends: [Int64], installed: VkFlag, isHtml5App: Int64, screenOrientation: ScreenOrientation, mobileControlsType: VkFlag, mobileViewSupportType: VkFlag, description: String? = nil, screenName: String? = nil, icon16: String? = nil, screenshots: [Screenshots]? = nil, pushEnabled: VkFlag? = nil) {
+    public init(id: Int64, title: String, icon278: String, icon139: String, icon150: String, icon75: String, banner560: String, banner1120: String, type: Type, section: String, authorUrl: String, authorId: Int64, authorGroup: Int64, membersCount: Int64, publishedDate: UInt64, catalogPosition: Int64, international: VkFlag, leaderboardType: LeaderboardType, genreId: Int64, genre: String, platformId: String, isInCatalog: VkFlag, friends: [Int64]? = nil, installed: VkFlag? = nil, isHtml5App: Int64? = nil, screenOrientation: ScreenOrientation, mobileControlsType: VkFlag, mobileViewSupportType: VkFlag, description: String? = nil, screenName: String? = nil, icon16: String? = nil, screenshots: [Screenshots]? = nil, pushEnabled: VkFlag? = nil) {
         self.id = id
         self.title = title
         self.icon278 = icon278

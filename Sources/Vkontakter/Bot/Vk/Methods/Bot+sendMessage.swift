@@ -36,13 +36,13 @@ public extension Bot {
         public let long: Double?
         
         /// Медиавложения к личному сообщению, перечисленные через запятую. Каждое прикрепление представлено в формате: <type><owner_id>_<media_id> <type> — тип медиавложения: photo — фотография; video — видеозапись; audio — аудиозапись; doc — документ; wall — запись на стене; market — товар. poll — опрос. <owner_id> — идентификатор владельца медиавложения (обратите внимание, если объект находится в сообществе, этот параметр должен быть отрицательным). <media_id> — идентификатор медиавложения. Например: photo100172_166443618 Параметр является обязательным, если не задан параметр message.
-        public let attachment: Attachments?
+        public let attachment: ArrayByComma<Attachment>?
         
         /// Идентификатор сообщения, на которое требуется ответить. целое число, доступен начиная с версии 5.
         public let replyTo: Int64?
         
         /// Идентификаторы пересылаемых сообщений, перечисленные через запятую. Перечисленные сообщения отправителя будут отображаться в теле письма у получателя.
-        public let forwardMessages: [Int64]?
+        public let forwardMessages: ArrayByComma<Int64>?
         
         /// JSON-объект со следующими полями: owner_id — владелец сообщений. Стоит передавать, если вы хотите переслать сообщения из сообщества в диалог; peer_id — идентификатор места, из которого необходимо переслать сообщения; conversation_message_ids — массив conversation_message_id сообщений, которые необходимо переслать. В массив conversation_message_ids можно передать сообщения: находящиеся в личном диалоге с ботом; являющиеся исходящими сообщениями бота; написанными после того, как бот вступил в беседу и появился доступ к сообщениям. message_ids — массив id сообщений; is_reply — ответ на сообщения. Стоит передавать, если вы хотите ответить на сообщения в том чате, в котором находятся сообщения. При этом в conversation_message_ids/message_ids должен находиться только один элемент.
         public struct Forward: Codable {
@@ -84,7 +84,7 @@ public extension Bot {
         /// Число, которое в будущем будет предназначено для работы с интентами.
         public let subscribeId: UInt64?
         
-        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String? = nil, lat: Double? = nil, long: Double? = nil, attachment: Attachments? = nil, replyTo: Int64? = nil, forwardMessages: [Int64]? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: Keyboard? = nil, template: Template? = nil, payload: Message.Payload? = nil, contentSource: ContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
+        public init(userId: Int64? = nil, randomId: Int32? = nil, peerId: Int64? = nil, peerIds: [Int64]? = nil, domain: String? = nil, chatId: UInt64? = nil, message: String? = nil, lat: Double? = nil, long: Double? = nil, attachment: ArrayByComma<Attachment>? = nil, replyTo: Int64? = nil, forwardMessages: ArrayByComma<Int64>? = nil, forward: [Forward]? = nil, stickerId: UInt64? = nil, groupId: UInt64? = nil, keyboard: Keyboard? = nil, template: Template? = nil, payload: Message.Payload? = nil, contentSource: ContentSource? = nil, dontParseLinks: VkFlag? = nil, disableMentions: VkFlag? = nil, intent: String? = nil, subscribeId: UInt64? = nil) {
             self.userId = userId
             self.randomId = randomId
             self.peerId = peerId

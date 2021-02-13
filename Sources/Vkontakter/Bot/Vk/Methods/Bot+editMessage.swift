@@ -21,7 +21,7 @@ public extension Bot {
         public let long: Double?
         
         /// Медиавложения к личному сообщению, перечисленные через запятую. Каждое прикрепление представлено в формате: <type><owner_id>_<media_id> <type> — тип медиавложения: photo — фотография; video — видеозапись; audio — аудиозапись; doc — документ; wall — запись на стене; market — товар. <owner_id> — идентификатор владельца медиавложения (обратите внимание, если объект находится в сообществе, этот параметр должен быть отрицательным). <media_id> — идентификатор медиавложения. Например: photo100172_166443618 Параметр является обязательным, если не задан параметр message.
-        public let attachment: Attachments?
+        public let attachment: ArrayByComma<Attachment>?
         
         /// 1, чтобы сохранить прикреплённые пересланные сообщения.
         public let keepForwardMessages: VkFlag?
@@ -54,7 +54,7 @@ public extension Bot {
         /// Объект, описывающий клавиатуру бота.
         public let keyboard: Keyboard?
         
-        public init(peerId: Int64, message: String? = nil, lat: Double? = nil, long: Double? = nil, attachment: Attachments? = nil, keepForwardMessages: VkFlag? = nil, keepSnippets: VkFlag? = nil, groupId: UInt64? = nil, dontParseLinks: VkFlag? = nil, messageId: UInt64? = nil, conversationMessageId: UInt64? = nil, template: Template? = nil, keyboard: Keyboard? = nil) {
+        public init(peerId: Int64, message: String? = nil, lat: Double? = nil, long: Double? = nil, attachment: ArrayByComma<Attachment>? = nil, keepForwardMessages: VkFlag? = nil, keepSnippets: VkFlag? = nil, groupId: UInt64? = nil, dontParseLinks: VkFlag? = nil, messageId: UInt64? = nil, conversationMessageId: UInt64? = nil, template: Template? = nil, keyboard: Keyboard? = nil) {
             self.peerId = peerId
             self.message = message
             self.lat = lat

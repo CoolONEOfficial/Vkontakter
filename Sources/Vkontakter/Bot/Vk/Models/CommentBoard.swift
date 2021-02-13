@@ -23,7 +23,7 @@ public struct CommentBoard: Codable {
     public let text: String?
     
     /// Медиавложения комментария (фотографии, ссылки и т.п.). Описание массива attachments находится на отдельной странице.
-    public let attachments: Attachments?
+    public let attachments: ArrayByComma<Attachment>?
     
     /// Информация об отметках текущего комментария (если был задан параметр ),
     public struct Likes: Codable {
@@ -46,7 +46,7 @@ public struct CommentBoard: Codable {
     
     public let likes: Likes?
     
-    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, attachments: Attachments? = nil, likes: Likes? = nil) {
+    public init(id: Int64? = nil, fromId: Int64? = nil, date: UInt64? = nil, text: String? = nil, attachments: ArrayByComma<Attachment>? = nil, likes: Likes? = nil) {
         self.id = id
         self.fromId = fromId
         self.date = date

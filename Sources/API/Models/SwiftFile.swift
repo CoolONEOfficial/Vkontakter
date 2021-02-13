@@ -150,11 +150,11 @@ extension RespParameter {
         let varPart = "public \(name.letOrVar) \(name.safeNamed): \(typeString)"
 
         switch type {
-        case let .Array(.Object(data)), let .Object(data):
+        case let .Array(.Object(data)), let .ArrayByComma(.Object(data)), let .Object(data):
             guard let data = data else { fatalError() }
             let initStr = data.params.generateInit
             str.append("public struct \(data.name): Codable {\n\n\(data.params.generate)".i(1) + "\n".i(1) + "\(initStr)}\n\n")
-        case _ where ParamType.typedCases.contains(type), .Array: break
+        case _ where ParamType.typedCases.contains(type), .Array, .ArrayByComma: break
         case let .Enum(data):
             guard let data = data else { fatalError() }
             let casesContent: String = data.cases.sorted( by: { $0.0 < $1.0 }).map {
