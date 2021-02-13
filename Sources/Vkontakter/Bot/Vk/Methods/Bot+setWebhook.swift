@@ -35,7 +35,7 @@ public extension Bot {
     private func setServerSettings(_ groupId: UInt64, _ serverUrl: String, _ serverId: UInt64) throws -> EventLoopFuture<VkFlag> {
         try setCallbackSettings(params: .init(
             groupId: groupId, serverId: serverId,
-            apiVersion: "5.126",
+            apiVersion: "5.130",
             messageNew: .on,
             messageEvent: .on
         ))

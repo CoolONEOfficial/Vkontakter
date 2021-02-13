@@ -4,7 +4,7 @@ import Foundation
 let baseUrl = "https://vk.com"
 
 let parseMethods = true
-let parseTypes = false
+let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
     for _ in 0..<10 {
@@ -142,8 +142,9 @@ if parseMethods {
                 }
             }
             
-            if resultElText.contains("После успешного выполнения возвращает массив") {
-                respType = respParams?.first
+            if resultElText.contains("После успешного выполнения возвращает массив"),
+               let firstParam = respParams?.first {
+                respType = firstParam
             } else if let respParams = respParams {
                 let name = method.codeCapitalized.capitalizingFirstLetter() + "Resp"
                 respType = .init(

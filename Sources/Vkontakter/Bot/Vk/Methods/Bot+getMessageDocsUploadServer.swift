@@ -8,16 +8,13 @@ public extension Bot {
     /// Parameters container struct for `getMessageDocsUploadServer` method
     class GetMessageDocsUploadServerParams: JSONEncodable {
 
-        /// Тип документа. Возможные значения: doc — обычный документ; audio_message — голосовое сообщение; graffiti — граффити.
+        /// Тип документа.
         public enum `Type`: String, Codable {
             /// audio_message
             case audio_message
         
             /// doc
             case doc
-        
-            /// graffiti
-            case graffiti
         }
         
         public let `type`: Type?
