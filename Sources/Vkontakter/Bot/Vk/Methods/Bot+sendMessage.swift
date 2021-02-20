@@ -36,7 +36,7 @@ public extension Bot {
         public let long: Double?
         
         /// Медиавложения к личному сообщению, перечисленные через запятую. Каждое прикрепление представлено в формате: <type><owner_id>_<media_id> <type> — тип медиавложения: photo — фотография; video — видеозапись; audio — аудиозапись; doc — документ; wall — запись на стене; market — товар. poll — опрос. <owner_id> — идентификатор владельца медиавложения (обратите внимание, если объект находится в сообществе, этот параметр должен быть отрицательным). <media_id> — идентификатор медиавложения. Например: photo100172_166443618 Параметр является обязательным, если не задан параметр message.
-        public let attachment: ArrayByComma<Attachment>?
+        public var attachment: ArrayByComma<Attachment>?
         
         /// Идентификатор сообщения, на которое требуется ответить. целое число, доступен начиная с версии 5.
         public let replyTo: Int64?
@@ -108,38 +108,6 @@ public extension Bot {
             self.disableMentions = disableMentions
             self.intent = intent
             self.subscribeId = subscribeId
-        }
-    
-    }
-    
-    struct SendMessageResp: Codable {
-    
-        public struct Item: Codable {
-            
-            /// Идентификатор назначения.
-            public var peerId: Int64?
-            
-            /// Идентификатор сообщения.
-            public let messageId: Int64?
-            
-            /// Идентификатор сообщения в диалоге.
-            public let conversationMessageId: Int64?
-            
-            /// Сообщение об ошибке, если сообщение не было доставлено получателю.
-            public let error: String?
-            
-            public init(peerId: Int64? = nil, messageId: Int64? = nil, conversationMessageId: Int64? = nil, error: String? = nil) {
-                self.peerId = peerId
-                self.messageId = messageId
-                self.conversationMessageId = conversationMessageId
-                self.error = error
-            }
-        }
-        
-        public let items: [Item]
-        
-        public init(items: [Item]) {
-            self.items = items
         }
     
     }

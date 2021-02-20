@@ -74,11 +74,11 @@ public final class Bot: BotProtocol {
     }
 
     func processContainer<T: Codable>(_ container: VkContainer<T>) throws -> T {
-        guard container.ok else {
+        if let error = container.error {
             let desc = """
             Response marked as `not Ok`, it seems something wrong with request
-            Code: \(container.error?.errorCode ?? -1)
-            \(container.error?.errorMsg ?? "Empty")
+            Code: \(error.errorCode)
+            \(error.errorMsg ?? "Empty")
             """
             let error = CoreError(
                 type: .server,
@@ -101,7 +101,6 @@ public final class Bot: BotProtocol {
 
         Response:
         Code: \(container.error?.errorCode ?? 0)
-        Status OK: \(container.ok)
         Description: \(container.error?.errorMsg ?? "Empty")
 
         """

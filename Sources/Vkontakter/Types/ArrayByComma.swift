@@ -9,7 +9,7 @@ import Foundation
 
 public struct ArrayByComma<Element: Codable>: Codable, ExpressibleByArrayLiteral {
 
-    public let array: [Element]
+    public var array: [Element]
     
     public init(_ array: [Element]) {
         self.array = array

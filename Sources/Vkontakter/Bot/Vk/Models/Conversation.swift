@@ -160,41 +160,11 @@ public struct Conversation: Codable {
         
         public let state: State?
         
-        /// Изображение-обложка чата. Объект, который содержит поля: 
-        public struct Photo: Codable {
-            
-            /// URL изображения 50x50px.
-            public let photo50: String?
-            
-            /// URL изображения 100x100px.
-            public let photo100: String?
-            
-            /// URL изображения 200x200px.
-            public let photo200: String?
-            
-            public init(photo50: String? = nil, photo100: String? = nil, photo200: String? = nil) {
-                self.photo50 = photo50
-                self.photo100 = photo100
-                self.photo200 = photo200
-            }
-        }
-        
-        public let photo: Photo?
-        
-        /// Идентификаторы последних пользователей, писавших в чат.
-        public let activeIds: [Int64]?
-        
-        /// Информация о том, является ли беседа каналом сообщества.
-        public let isGroupChannel: Bool?
-        
-        public init(membersCount: Int64? = nil, title: String? = nil, pinnedMessage: PinnedMessage? = nil, state: State? = nil, photo: Photo? = nil, activeIds: [Int64]? = nil, isGroupChannel: Bool? = nil) {
+        public init(membersCount: Int64? = nil, title: String? = nil, pinnedMessage: PinnedMessage? = nil, state: State? = nil) {
             self.membersCount = membersCount
             self.title = title
             self.pinnedMessage = pinnedMessage
             self.state = state
-            self.photo = photo
-            self.activeIds = activeIds
-            self.isGroupChannel = isGroupChannel
         }
     }
     

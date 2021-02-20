@@ -3,7 +3,7 @@ import Foundation
 
 let baseUrl = "https://vk.com"
 
-let parseMethods = false
+let parseMethods = true
 let parseTypes = true
 
 func loadHtml(_ url: URL) -> String? {
@@ -94,7 +94,9 @@ if parseMethods {
             
             var respParams: [RespParameter]? = nil
             var respType: RespParameter!
-            if let inlineEls = try? resultEl.select("li"), !inlineEls.isEmpty() {
+            if resultElText.contains("После успешного выполнения возвращает идентификатор отправленного сообщения.") {
+                respType = .init(name: "", description: nil, type: .Object(.init(name: "SendMessageResp", params: [])), required: true)
+            } else if let inlineEls = try? resultEl.select("li"), !inlineEls.isEmpty() {
                 let params = try inlineEls.compactMap { inlineEl -> [RespParameter]? in
                     try RespParameter.from(inlineEl: inlineEl)
                 }.flatMap { $0 }

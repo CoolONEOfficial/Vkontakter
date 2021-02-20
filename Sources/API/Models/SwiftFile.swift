@@ -122,7 +122,7 @@ struct MethodExtensionFile: SwiftFile {
 
 extension String {
     var letOrVar: String {
-        [ "peerId" ].contains(self) ? "var" : "let"
+        [ "peerId", "attachment" ].contains(self) ? "var" : "let"
     }
     
     var safeNamed: String {

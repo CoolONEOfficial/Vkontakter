@@ -21,7 +21,7 @@ public extension Bot {
         public let long: Double?
         
         /// Медиавложения к личному сообщению, перечисленные через запятую. Каждое прикрепление представлено в формате: <type><owner_id>_<media_id> <type> — тип медиавложения: photo — фотография; video — видеозапись; audio — аудиозапись; doc — документ; wall — запись на стене; market — товар. <owner_id> — идентификатор владельца медиавложения (обратите внимание, если объект находится в сообществе, этот параметр должен быть отрицательным). <media_id> — идентификатор медиавложения. Например: photo100172_166443618 Параметр является обязательным, если не задан параметр message.
-        public let attachment: ArrayByComma<Attachment>?
+        public var attachment: ArrayByComma<Attachment>?
         
         /// 1, чтобы сохранить прикреплённые пересланные сообщения.
         public let keepForwardMessages: VkFlag?

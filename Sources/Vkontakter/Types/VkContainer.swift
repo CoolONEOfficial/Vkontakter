@@ -18,7 +18,10 @@ public struct VkContainer<T: Codable>: Codable {
 
     public var response: T?
     
-    public var ok: Bool {
-        error == nil
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.response = try? container.decode(T.self, forKey: .response)
+        self.error = try? container.decode(Error.self, forKey: .error)
     }
 }
