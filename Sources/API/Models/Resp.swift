@@ -54,6 +54,7 @@ struct RespParameter {
         case SavedDoc
         case UserFields
         case UserArr
+        case IdOrName
         
         static let allCases: [Self] = {
             var cases = [Self]()
@@ -69,7 +70,7 @@ struct RespParameter {
         
         static var arrayCases: [Self] =  [ .Object(nil) ] + primitiveCases + hardcodedCases
         
-        static let primitiveCases: [Self] = [.String, .Int32, .UInt, .Int, .Double, .Bool]
+        static let primitiveCases: [Self] = [.IdOrName, .String, .Int32, .UInt, .Int, .Double, .Bool]
         
         static let hardcodedCases: [Self] = [.Keyboard, .Template, .ContentSource, .Photo, .Flag, .Dict(.String, .String), .Attachments, .Message, .PhotoSizes, .PhotoType, .EventData, .MessagePayload, .SavedDoc, .UserFields, .UserArr]
         
@@ -134,6 +135,8 @@ struct RespParameter {
                 return [ "список дополнительных полей профилей" ]
             case .UserArr:
                 return [ "массив объектов пользователей" ]
+            case .IdOrName:
+                return [ "идентификаторы пользователей или их короткие имена" ]
             }
         }
 
@@ -196,6 +199,8 @@ struct RespParameter {
                 return "ArrayByComma<UserField>"
             case .UserArr:
                 return "[User]"
+            case .IdOrName:
+                return "IdOrUsername"
             }
         }
         
