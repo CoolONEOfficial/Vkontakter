@@ -2,21 +2,20 @@ import Foundation
 import Vkontakter
 
 ///Getting token from enviroment variable (most safe, recommended)
-guard let token = Enviroment.get("TELEGRAM_BOT_TOKEN") else {
-    print("TELEGRAM_BOT_TOKEN variable wasn't found in enviroment variables")
+guard let token = Enviroment.get("VK_BOT_TOKEN") else {
+    print("VK_BOT_TOKEN variable wasn't found in enviroment variables")
     exit(1)
 }
 
 /// Initializind Bot settings (token, debugmode)
 var settings = Bot.Settings(token: token)
 
-///Webhooks settings, uncomment if you are testing Webhooks
-//settings.webhooksConfig = Webhooks.Config(
-//    ip: Enviroment.get("TELEGRAM_BOT_IP")!,
-//    url: Enviroment.get("TELEGRAM_BOT_WEBHOOK_URL")!,
-//    port: Int(Enviroment.get("TELEGRAM_BOT_PORT")!)!,
-//    publicCert: .text(content: Enviroment.get("TELEGRAM_BOT_PUBLIC_KEY")!)
-//)
+///Webhooks settings, enter
+settings.webhooksConfig = Webhooks.Config(
+    ip: port, // Enviroment.get("VK_BOT_IP")!,
+    url: Enviroment.get("VK_BOT_WEBHOOK_URL")!,
+    groupId: UInt64(Enviroment.get("VK_GROUP_ID")!)!
+)
 
 let bot = try! Bot(settings: settings)
 
@@ -25,32 +24,33 @@ var userEchoModes: [Int64: Bool] = [:]
 
 ///Callback for Command handler, which send Echo mode status for user
 func echoModeSwitch(_ update: Update, _ context: BotContext?) throws {
-    guard let message = update.message,
-        let user = message.from else { return }
+    guard case let .message(message) = update.object,
+        let userId = message.fromId else { return }
 
     var onText = ""
-    if let on = userEchoModes[user.id] {
+    if let on = userEchoModes[userId] {
         onText = on ? "OFF" : "ON"
-        userEchoModes[user.id] = !on
+        userEchoModes[userId] = !on
     } else {
         onText = "ON"
-        userEchoModes[user.id] = true
+        userEchoModes[userId] = true
     }
 
     let params = Bot.SendMessageParams(
-        chatId: .chat(message.chat.id),
-        text: "Echo mode turned \(onText)"
+        userId: userId,
+        message: "Echo mode turned \(onText)"
     )
     try bot.sendMessage(params: params)
 }
 
-///Callback for Message handler, which send echo message to user
+///Callback for Message with text handler, which send echo message to user
 func echoResponse(_ update: Update, _ context: BotContext?) throws {
-    guard let message = update.message,
-        let user = message.from,
-        let on = userEchoModes[user.id],
+    guard case let .message(message) = update.object,
+          let text = message.text,
+          let userId = message.fromId,
+          let on = userEchoModes[userId],
         on == true else { return }
-    let params = Bot.SendMessageParams(chatId: .chat(message.chat.id), text: message.text!)
+    let params = Bot.SendMessageParams(userId: userId, message: text)
     try bot.sendMessage(params: params)
 }
 
@@ -67,7 +67,7 @@ do {
     dispatcher.add(handler: echoHandler)
 
     ///Longpolling updates
-    _ = try Updater(bot: bot, dispatcher: dispatcher).startLongpolling().wait()
+    _ = try Updater(bot: bot, dispatcher: dispatcher).startWebhooks(serverName: "test")
 
 } catch {
     print(error.localizedDescription)
