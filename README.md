@@ -3,8 +3,8 @@
 # Vkontakter
 VK Bot Framework written in Swift 5.3 with SwiftNIO network framework (forked from Telegrammer)
 
-#[![Build](https://circleci.com/gh/givip/Telegrammer/tree/master.svg?style=shield&circle-token=04a84114573c1c6b3039ef82b88e54f1f6b8c512)](https://circleci.com/gh/givip/Telegrammer)
-#[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/givip/Telegrammer/releases)
+(https://circleci.com/gh/givip/Telegrammer)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/givip/Telegrammer/releases)
 [![Language](https://img.shields.io/badge/language-Swift%205.1-orange.svg)](https://swift.org/download/)
 [![Platform](https://img.shields.io/badge/platform-Linux%20/%20macOS-ffc713.svg)](https://swift.org/download/)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/CoolONEOfficial/Vkontakter/blob/master/LICENSE)
@@ -45,21 +45,8 @@ Documentation
 
 - Read [An official documentation for developers](https://vk.com/dev/bots)
 
-#Usage without Vapor
-#---------------
-
-#- Use the template repository as a example [https://github.com/givip/telegrammer-bot-template.git](https://github.com/givip/telegrammer-bot-template.git)
-#- Current repository contains five examples of bot implementation:
-#https://github.com/givip/Telegrammer/tree/master/Sources/DemoEchoBot
-#https://github.com/givip/Telegrammer/tree/master/Sources/DemoHelloBot
-#https://github.com/givip/Telegrammer/tree/master/Sources/DemoSchedulerBot
-#https://github.com/givip/Telegrammer/tree/master/Sources/DemoSpellCheckerBot
-#https://github.com/givip/Telegrammer/tree/master/Sources/DemoWebhooksLocally
-
 Usage with Vapor
 ---------------
-
-#Use that template if you want to work with database, handle custom requests and so on.
 
 - Use the  [https://github.com/CoolONEOfficial/vkontakter-bot-vapor-template.git](https://github.com/CoolONEOfficial/vkontakter-bot-vapor-template.git)
 
