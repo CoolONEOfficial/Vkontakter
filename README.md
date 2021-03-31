@@ -59,7 +59,7 @@ Requirements
 - Ubuntu 16.04 or later with [Swift 5.1 or later](https://swift.org/getting-started/) / macOS with [Xcode 11 or later](https://swift.org/download/)
 - Vk account and a Vk App for mobile platform or online (desktop client does not support some chatbot features)
 - [Swift Package Manager (SPM)](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md) for dependencies 
-- [Vapor 4](https://vapor.codes) (optionally, for bots with database and other server side stuff)
+- [Vapor 4](https://vapor.codes)
 
 Contributing
 ---------------

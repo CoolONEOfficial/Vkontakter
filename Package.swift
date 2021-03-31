@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "VkontakterMultipart", targets: ["VkontakterMultipart"]),
         .library(name: "VkontakterCMultipartParser", targets: ["VkontakterCMultipartParser"]),
         .executable(name: "API generate", targets: ["API"]),
-        .executable(name: "EchoBot", targets: ["DemoEchoBot"]),
+        .executable(name: "Vkontakter EchoBot", targets: ["VkontakterDemoEchoBot"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.2.0"),
@@ -42,6 +42,6 @@ let package = Package(
             ]
         ),
         .target(name: "API", dependencies: ["SwiftSoup"]),
-        .target(name: "DemoEchoBot", dependencies: ["Vkontakter"]),
+        .target(name: "VkontakterDemoEchoBot", dependencies: ["Vkontakter"]),
     ]
 )
