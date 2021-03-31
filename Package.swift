@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.1.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.18.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.2"),
-        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.4.0"),
+        .package(url: "https://github.com/Flight-School/AnyCodable.git", from: "0.4.0"),
     ],
     targets: [
         .target(

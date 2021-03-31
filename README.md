@@ -34,7 +34,11 @@ settings.webhooksConfig = Webhooks.Config(
 let bot = try Bot(token: "BOT_TOKEN_HERE")
 
 let echoHandler = MessageHandler { (update, _) in
-    _ = try? update.message?.reply(text: "Hello \(update.message?.from?.firstName ?? "anonymous")", from: bot)
+    guard let message = update.message, let text = message.text else {
+      return
+    }
+		let params = Bot.SendMessageParams(userId: userId, message: "Hello User \(update.message.fromId)")
+    try bot.sendMessage(params: params)
 }
 
 let dispatcher = Dispatcher(bot: bot)
