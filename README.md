@@ -1,9 +1,9 @@
-<p align="center"><img src="logo.png" alt="Vkontakter logo"></p>
+
+
+<p align="center"><img width=200 src="logo.png" alt="Vkontakter logo"></p>
 
 # Vkontakter
-VK Bot Framework written in Swift 5.3 with SwiftNIO network framework (forked from Telegrammer)
-
-(https://circleci.com/gh/givip/Telegrammer)
+VK Bot Framework written in Swift 5.3 with SwiftNIO network framework
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/givip/Telegrammer/releases)
 [![Language](https://img.shields.io/badge/language-Swift%205.1-orange.svg)](https://swift.org/download/)
 [![Platform](https://img.shields.io/badge/platform-Linux%20/%20macOS-ffc713.svg)](https://swift.org/download/)
@@ -24,20 +24,23 @@ _main.swift_
 import Foundation
 import Vkontakter
 
-do {
-    let bot = try Bot(token: "BOT_TOKEN_HERE")
+settings.webhooksConfig = Webhooks.Config(
+    ip: Enviroment.get("VK_BOT_IP")!,
+    url: Enviroment.get("VK_BOT_WEBHOOK_URL")!,
+    groupId: UInt64(Enviroment.get("VK_GROUP_ID")!)!
+)
 
-    let echoHandler = MessageHandler { (update, _) in
-        _ = try? update.message?.reply(text: "Hello \(update.message?.from?.firstName ?? "anonymous")", from: bot)
-    }
+let bot = try Bot(token: "BOT_TOKEN_HERE")
 
-    let dispatcher = Dispatcher(bot: bot)
-    dispatcher.add(handler: echoHandler)
-
-    _ = try Updater(bot: bot, dispatcher: dispatcher).startLongpolling().wait()
-} catch {
-    exit(1)
+let echoHandler = MessageHandler { (update, _) in
+    _ = try? update.message?.reply(text: "Hello \(update.message?.from?.firstName ?? "anonymous")", from: bot)
 }
+
+let dispatcher = Dispatcher(bot: bot)
+dispatcher.add(handler: echoHandler)
+
+_ = try Updater(bot: bot, dispatcher: dispatcher).startWebhooks(serverName: "testserver")
+
 ```
 
 Documentation
