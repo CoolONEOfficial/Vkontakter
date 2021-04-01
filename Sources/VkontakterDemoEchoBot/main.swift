@@ -12,8 +12,8 @@ var settings = Bot.Settings(token: token)
 
 ///Webhooks settings, enter
 settings.webhooksConfig = Webhooks.Config(
-    ip: port, // Enviroment.get("VK_BOT_IP")!,
-    url: Enviroment.get("VK_BOT_WEBHOOK_URL")!,
+    ip: "0.0.0.0",
+    url: openUrl, //Enviroment.get("VK_BOT_WEBHOOK_URL")!,
     groupId: UInt64(Enviroment.get("VK_GROUP_ID")!)!
 )
 

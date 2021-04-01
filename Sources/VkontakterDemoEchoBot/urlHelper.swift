@@ -7,7 +7,7 @@
 
 import Foundation
 
-let port: String = {
+let openUrl: String = {
     
     let port: Int = 80
     
