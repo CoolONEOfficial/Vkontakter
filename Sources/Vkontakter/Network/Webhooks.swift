@@ -14,11 +14,11 @@ public class Webhooks: Connection {
 
     public struct Config {
         public var ip: String
-        public var port: Int
         public var url: String
+        public var port: Int
         public var groupId: UInt64?
 
-        public init(ip: String, port: Int, url: String, groupId: UInt64? = nil) {
+        public init(ip: String, url: String, port: Int, groupId: UInt64? = nil) {
             self.ip = ip
             self.port = port
             self.url = url
