@@ -14,11 +14,13 @@ public class Webhooks: Connection {
 
     public struct Config {
         public var ip: String
+        public var port: Int
         public var url: String
         public var groupId: UInt64?
 
-        public init(ip: String, url: String, groupId: UInt64? = nil) {
+        public init(ip: String, port: Int, url: String, groupId: UInt64? = nil) {
             self.ip = ip
+            self.port = port
             self.url = url
             self.groupId = groupId
         }
@@ -50,7 +52,7 @@ public class Webhooks: Connection {
             )
         }
 
-        return try listenWebhooks(on: config.ip, port: 80)
+        return try listenWebhooks(on: config.ip, port: config.port)
             .flatMapThrowing { _  -> Void in
                 return try self.bot.setWebhook(serverName: serverName).whenComplete { (result) -> Void in
                     switch result {
