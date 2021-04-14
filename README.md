@@ -5,7 +5,12 @@
 # Vkontakter
 VK Bot Framework written in Swift 5.3 with SwiftNIO network framework
 
-[![Build Status](https://travis-ci.com/CoolONEOfficial/Vkontakter.svg?branch=master)](https://travis-ci.com/CoolONEOfficial/Vkontakter)[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/givip/Telegrammer/releases)[![Language](https://img.shields.io/badge/language-Swift%205.1-orange.svg)](https://swift.org/download/)[![Platform](https://img.shields.io/badge/platform-Linux%20/%20macOS-ffc713.svg)](https://swift.org/download/)[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/CoolONEOfficial/Vkontakter/blob/master/LICENSE)
+[![MacOS](https://github.com/CoolONEOfficial/Vkontakter/actions/workflows/macos.yml/badge.svg)](https://github.com/CoolONEOfficial/Vkontakter/actions/workflows/macos.yml)
+[![Ubuntu](https://github.com/CoolONEOfficial/Vkontakter/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/CoolONEOfficial/Vkontakter/actions/workflows/ubuntu.yml)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/givip/Telegrammer/releases)
+[![Language](https://img.shields.io/badge/language-Swift%205.1-orange.svg)](https://swift.org/download/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20/%20macOS-ffc713.svg)](https://swift.org/download/)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/CoolONEOfficial/Vkontakter/blob/master/LICENSE)
 
 
 What does it do
@@ -48,6 +53,8 @@ _ = try Updater(bot: bot, dispatcher: dispatcher).startWebhooks(serverName: "tes
 Documentation
 ---------------
 
+
+- Read [our wiki](https://github.com/CoolONEOfficial/Vkontakter/wiki)
 - Read [An official documentation for developers](https://vk.com/dev/bots)
 
 Usage with Vapor
