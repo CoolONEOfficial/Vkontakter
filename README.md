@@ -27,9 +27,13 @@ _main.swift_
 import Foundation
 import Vkontakter
 
+let vkPort = Int(Enviroment.get("VK_PORT") ?? "1213")!
+
+var settings = Vkontakter.Bot.Settings(token: vkToken)
 settings.webhooksConfig = Webhooks.Config(
     ip: Enviroment.get("VK_BOT_IP")!,
     url: Enviroment.get("VK_BOT_WEBHOOK_URL")!,
+    port: vkPort,
     groupId: UInt64(Enviroment.get("VK_GROUP_ID")!)!
 )
 
