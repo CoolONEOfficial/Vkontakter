@@ -14,7 +14,7 @@ public class BotClient {
 
     let host: String
     let token: String
-    let apiVersion: String = "5.126"
+    let apiVersion: String = "5.130"
     var client: HTTPClient
 
     /// Default init for BotClient (HTTP client), all parameters except `proxy` are oblibatory
