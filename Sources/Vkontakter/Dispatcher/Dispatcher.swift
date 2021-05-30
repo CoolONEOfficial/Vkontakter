@@ -28,6 +28,8 @@ public class Dispatcher {
 
     /// Queue which keep all added handlers and gives appropriates
     public var handlersQueue: HandlersQueue
+    
+    private var prevData: Data?
 
     public init(bot: Bot, worker: Worker = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)) {
         self.bot = bot
@@ -68,15 +70,31 @@ public class Dispatcher {
      */
     @discardableResult
     public func enqueue(bytebuffer: ByteBuffer) -> Update? {
-        guard let data = bytebuffer.getBytes(at: 0, length: bytebuffer.writerIndex) else {
+        guard let dataArr = bytebuffer.getBytes(at: 0, length: bytebuffer.writerIndex) else {
             return nil
         }
-        do {
-            let update = try JSONDecoder.snakeCased.decode(Update.self, from: .init(data))
+        let data = Data(dataArr)
+
+        if let update = enqueue(from: data) {
+            return update
+        } else if let prevData = prevData, let update = enqueue(from: prevData + data) {
+            return update
+        } else {
+            if prevData != nil {
+                prevData?.append(data)
+            } else {
+                prevData = Data(data)
+            }
+            return nil
+        }
+    }
+
+    private func enqueue(from data: Data) -> Update? {
+        if let update = try? JSONDecoder.snakeCased.decode(Update.self, from: data) {
             guard update.type != .confirmation else { return update }
-            enqueue(updates: [update])
-        } catch {
-            log.error(error.logMessage)
+            enqueue(updates: [ update ])
+            prevData = nil
+            return update
         }
         return nil
     }
